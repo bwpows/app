@@ -1,0 +1,15 @@
+$basepx: 4px;
+
+
+.width_60 {
+    width: $basepx * 15;
+    max-width: $basepx * 15;
+}
+.width_80 {
+    width: $basepx * 20;
+    max-width: $basepx * 20;
+}
+.width_100 {
+    width: $basepx * 25;
+    max-width: $basepx * 25;
+}

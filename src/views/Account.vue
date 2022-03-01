@@ -1,5 +1,7 @@
 <template>
-    <div class="ma-3">
+<div>
+    <!-- <default-header /> -->
+    <!-- <v-main class="ma-6"> -->
         <v-card class="pa-4 d-flex justify-space-between">
             <div class="d-flex">
                 <v-avatar size="50" color="primary mr-4" >
@@ -21,14 +23,14 @@
                     <div class="d-flex justify-space-between align-center">
                         <span>手机号</span>
                         <div class="d-flex align-center">
-                            <span class="grey--text body-2">177******69</span>
+                            <span class="grey--text body-2">{{ formatPhoneNumber(userInfo.phone) }}</span>
                             <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
                         </div>
                     </div>
                 </div>
             </div>
-            <v-divider class="mt-2 ml-12 my-6 mr-2"></v-divider>
-            <div class="d-flex align-center">
+            <v-divider class="ml-12 my-3 mr-2"></v-divider>
+            <div class="d-flex align-center" @click="$router.push('/account/works')">
                 <v-img :src="worksSvg" height="35" width="35" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
                     <div class="d-flex justify-space-between align-center">
@@ -37,14 +39,7 @@
                     </div>
                 </div>
             </div>
-            <v-divider class="mt-2 ml-12 my-6 mr-2"></v-divider>
-            <!-- <div class="d-flex justify-space-between align-center">
-                <span>我的作品</span>
-                <div class="d-flex align-center">
-                    <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
-                </div>
-            </div>
-            <v-divider class="my-4 mr-3"></v-divider> -->
+            <v-divider class="ml-12 my-3 mr-2"></v-divider>
             <div class="d-flex align-center">
                 <v-img :src="likeSvg" height="32" width="32" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
@@ -54,14 +49,7 @@
                     </div>
                 </div>
             </div>
-            <v-divider class="mt-2 ml-12 my-6 mr-2"></v-divider>
-            <!-- <div class="d-flex justify-space-between align-center">
-                <span>我的点赞</span>
-                <div class="d-flex align-center">
-                    <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
-                </div>
-            </div>
-            <v-divider class="my-4 mr-3"></v-divider> -->
+            <v-divider class="ml-12 my-3 mr-2"></v-divider>
             <div class="d-flex align-center">
                 <v-img :src="collecteSvg" height="32" width="35" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
@@ -71,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <v-divider class="mt-2 ml-12 my-6 mr-2"></v-divider>
+            <v-divider class="ml-12 my-3 mr-2"></v-divider>
             <div class="d-flex align-center">
                 <v-img :src="settingSvg" height="32" width="35" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
@@ -83,24 +71,31 @@
             </div>
         </v-card>
 
-        <v-card class="pa-1 mt-8 mb-5 text-center">
-            <v-btn color="error" class="body-1" width="100%" text depressed>退出登录</v-btn>
+        <v-card class="pa-1 mt-8 text-center">
+            <v-btn color="error" class="body-1" width="100%" text>退出登录</v-btn>
         </v-card>
-    </div>
+    <!-- </v-main>
+    <default-footer /> -->
+</div>
 </template>
 <script>
-    import userSvg from '@/assets/user.svg'
-    import phoneSvg from '@/assets/icon/phone.svg'
-    import collecteSvg from '@/assets/icon/collecte.svg'
-    import likeSvg from '@/assets/icon/like.svg'
-    import settingSvg from '@/assets/icon/setting.svg'
-    import worksSvg from '@/assets/icon/works.svg'
-    export default {
-        data() {
-            return {
-                userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg,
-                userInfo: JSON.parse(localStorage.getItem('userInfo'))
-            }
-        },
-    }
+import userSvg from '@/assets/user.svg'
+import phoneSvg from '@/assets/icon/phone.svg'
+import collecteSvg from '@/assets/icon/collecte.svg'
+import likeSvg from '@/assets/icon/like.svg'
+import settingSvg from '@/assets/icon/setting.svg'
+import worksSvg from '@/assets/icon/works.svg'
+import { formatPhoneNumber } from '@/util/phone'
+export default {
+    data() {
+        return {
+            userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg,
+            userInfo: JSON.parse(localStorage.getItem('userInfo'))
+        }
+    },
+
+    methods: {
+        formatPhoneNumber,
+    },
+}
 </script>

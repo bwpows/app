@@ -5,10 +5,10 @@
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>
             </div>
             <div style="display: inline-block; width: 30%" class="ma-3">
-                <v-img :src="path=='/blog/add'?logoSvg:logoSvg" height="35" contain @click="goRouter('/blog/add')"></v-img>
+                <v-img :src="logoSvg" :class="path=='/publish'?'':'selected'" height="35" contain @click="goRouter('/publish')"></v-img>
             </div>
             <div style="display: inline-block; width: 30%">
-                <v-img :src="path=='/account/center'?userSelectedSvg:userSvg" height="30" contain @click="goRouter('/account/center')"></v-img>
+                <v-img :src="path=='/account'?userSelectedSvg:userSvg" height="30" contain @click="goRouter('/account')"></v-img>
             </div>
         </div>
     </v-footer>
@@ -21,7 +21,8 @@ import userSvg from '@/assets/icon/user.svg'
 import userSelectedSvg from '@/assets/icon/userSelected.svg'
 import logoSvg from '@/assets/logo.svg'
 export default {
-    name: 'Footer',
+
+    name: 'DefaultFooter',
 
     data() {
         return {
@@ -49,3 +50,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+    .selected {
+        filter: grayscale(50%);
+        filter: gray;
+    }
+</style>

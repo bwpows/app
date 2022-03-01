@@ -1,22 +1,30 @@
 <template>
-    <div>
-        <v-card class="px-6 py-3 ma-3 mb-5">
-            <input type="text" autofocus placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" />
+<div>
+    <!-- <default-header />
+    <v-main class="ma-6"> -->
+        <v-card class="px-6 py-3 mb-5">
+            <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" />
         </v-card>
-        <v-card class="px-6 py-6 ma-3 mb-5">
+        <v-card class="pa-6 mb-5">
             <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;"></textarea>
             <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img>
         </v-card>
-        <v-checkbox v-model="blogInfo.is_public" label="设置为隐私" class="mx-3"></v-checkbox>
-        <v-btn color="primary" depressed class="ml-3 mt-4" @click="submit()">发布</v-btn>
+        <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
+        <v-card class="mt-8 pa-1">
+            <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
+        </v-card>
 
         <input type="file" style="display: none;"  accept="image/*" ref="uploadInput" @change="uploadFile()" />
-    </div>
+    <!-- </v-main>
+    <default-footer /> -->
+</div>
 </template>
 
 <script>
+import DefaultFooter from '@/layouts/default/Footer'
+import DefaultHeader from '@/layouts/default/Header'
 import uploadIcon from '@/assets/common/upload.svg'
-import { publishVideo } from '@/api/Video'
+import { publishVideo } from '@/api/Works'
 export default {
     data() {
         return {
@@ -30,6 +38,11 @@ export default {
 
     mounted() {
         console.log(this.userInfo.userId)
+    },
+
+    components: {
+        DefaultFooter,
+        DefaultHeader
     },
 
     methods: {

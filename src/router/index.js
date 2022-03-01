@@ -9,12 +9,18 @@ const routes = [
   {
     path: '/signIn',
     name: 'SignIn',
-    component: () => import('../views/SignIn.vue')
+    component: () => import('../views/SignIn.vue'),
+    meta: {
+      level: 0
+    }
   },
   {
     path: '/signUp',
     name: 'SignUp',
-    component: () => import('../views/SignUp.vue')
+    component: () => import('../views/SignUp.vue'),
+    meta: {
+      level: 0
+    }
   },
   {
     path: '',
@@ -23,20 +29,41 @@ const routes = [
       {
         path: '/',
         name: 'Home',
-        component: Home
+        component: () => import('../views/Home.vue'),
+        meta: {
+          level: 1
+        }
       },{
-        path: '/blog/add',
-        name: 'AddBlog',
-        component: () => import('../views/blog/Add.vue')
+        path: '/publish',
+        name: 'Publish',
+        component: () => import('../views/Publish.vue'),
+        meta: {
+          level: 1
+        }
+      },{
+        path: '/account',
+        name: 'Account',
+        component: () => import('../views/Account.vue'),
+        meta: {
+          level: 1
+        }
       },{
         path: '/blog/info/:id',
         name: 'InfoBlog',
-        component: () => import('../views/blog/Info.vue')
+        component: () => import('../views/blog/Info.vue'),
+        meta: {
+          level: 2,
+          title: '博客详情'
+        }
       },{
-        path: '/account/center',
-        name: 'AccountCenter',
-        component: () => import('../views/account/Center.vue')
-      }
+        path: '/account/works',
+        name: 'AccountWorks',
+        component: () => import('../views/account/works.vue'),
+        meta: {
+          level: 2,
+          title: '我的作品'
+        }
+      },
     ]
   },
 ]

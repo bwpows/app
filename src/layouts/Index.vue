@@ -1,23 +1,26 @@
 <template>
     <v-app>
-        <Headers />
-
-        <v-main class="ma-3">
+        <default-header v-if="this.$route.meta.level == 1" />
+        <level-header v-else-if="this.$route.meta.level == 2" />
+        <v-main class="ma-6">
             <router-view :key="$route.path" />
         </v-main>
-
-
-        <Footer />
+        <default-footer v-if="this.$route.meta.level == 1" />
     </v-app>
 </template>
 
 <script>
+import LevelHeader from './level/Header.vue'
+import DefaultHeader from './default/Header.vue'
+import DefaultFooter from './default/Footer.vue'
 
 export default {
-    components:{
-        Footer: () => import('./Footer.vue'),
-        Headers: () => import('./Header.vue')
+    created() {
+        console.log(this.$route.meta.level)
     },
+    components: {
+        LevelHeader, DefaultHeader, DefaultFooter
+    }
 }
 
 </script>

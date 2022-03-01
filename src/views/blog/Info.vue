@@ -1,10 +1,14 @@
 <template>
-    <div class="pa-4">
+<div>
+    <!-- <other-header />
+    <v-main class="ma-4"> -->
         {{blogInfo}}
-    </div>
+    <!-- </v-main> -->
+    <!-- <other-feader /> -->
+</div>
 </template>
 <script>
-import { getBlogInfo } from '@/api/Video';
+import { getBlogInfo } from '@/api/Works';
 import { formatTime } from '@/util/formatTime'
 import { baseURL } from '@/api/Server';
 

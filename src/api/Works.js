@@ -17,3 +17,12 @@ export function getBlogInfo(id){
     })
 }
 
+// 获取某个用户的作品
+export function getBlogByUserId(id){
+    return Service({
+        url: `/publish/ByUserId/${id}`,
+        method: 'get'
+    })
+}
+
+

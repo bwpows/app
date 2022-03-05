@@ -3,6 +3,7 @@ function isLessThenTen(val){
     return val < 10?'0'+val:val
 }
 
+// 格式化时间
 export function formatTime(time, format){
 
     var dealTime = new Date(time)
@@ -21,3 +22,26 @@ export function formatTime(time, format){
         .replace('ss', isLessThenTen(dealTime.getSeconds()))
 
 }
+
+// 计算和今天过去了多久
+export function calCurrentTime(time){
+    let paramDate = formatTime(time, 'YYYY-MM-dd HH:mm:ss')
+    let paramTime = new Date(paramDate).getTime()
+    let currentTime = new Date().getTime()
+    console.log(paramTime, currentTime)
+    let calSecond = parseInt((currentTime-paramTime)/1000)
+    console.log(calSecond)
+    let oneHours = 60*60
+    if(calSecond > (60*60*24)){
+        return parseInt(calSecond/(60*60*24))+'天前发布'
+    }else if(calSecond > (60*60)){
+        return parseInt(calSecond/(60*60))+'小时前发布'
+    }else if(calSecond > 60){
+        return parseInt(calSecond/(60))+'分钟前发布'
+    }else {
+        return parseInt(calSecond)+'秒前发布'
+    }
+    console.log((currentTime-paramTime)/1000/60)
+}
+
+

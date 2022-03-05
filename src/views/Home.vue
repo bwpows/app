@@ -5,7 +5,7 @@
         :key="item._id"
         :title="item.title"
         :description="item.description"
-        :createdTime="formatTime(item.created_time, 'YYYY-MM-dd HH:mm:ss')"
+        :createdTime="calCurrentTime(item.created_time)"
         :url="baseURL+item.url"
         @click.native="goBlogInfo(item)"
     ></blog-list>
@@ -15,7 +15,7 @@
 import DefaultFooter from '@/layouts/default/Footer'
 import DefaultHeader from '@/layouts/default/Header'
 import { getBlog } from '@/api/Home';
-import { formatTime } from '@/util/formatTime'
+import { formatTime, calCurrentTime } from '@/util/formatTime'
 import { baseURL } from '@/api/Server';
 
 export default {
@@ -36,7 +36,7 @@ export default {
     },
 
     methods: {
-        formatTime,
+        formatTime, calCurrentTime,
         async fetch(){
             let res = await getBlog()
             if(res.code == 200){

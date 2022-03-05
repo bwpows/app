@@ -6,6 +6,7 @@
             <router-view :key="$route.path" />
         </v-main>
         <default-footer v-if="this.$route.meta.level == 1" />
+        <other-snackbar />
     </v-app>
 </template>
 
@@ -13,13 +14,14 @@
 import LevelHeader from './level/Header.vue'
 import DefaultHeader from './default/Header.vue'
 import DefaultFooter from './default/Footer.vue'
+import OtherSnackbar from './other/Snackbar.vue'
 
 export default {
     created() {
         console.log(this.$route.meta.level)
     },
     components: {
-        LevelHeader, DefaultHeader, DefaultFooter
+        LevelHeader, DefaultHeader, DefaultFooter, OtherSnackbar
     }
 }
 

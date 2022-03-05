@@ -3,7 +3,7 @@ import { Service } from "./Server";
 //  发布视频
 export function publishVideo(data){
     return Service({
-        url: '/publish/video',
+        url: '/publish/work',
         data
     })
 }

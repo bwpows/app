@@ -26,6 +26,7 @@ Service.interceptors.request.use(req => {
 Service.interceptors.response.use(res => {
     return res.data
 }, err=>{
+    console.log(err)
     if(err.response.status == 401){
         store.commit('app/updateSnackbar', { value: true, content: "身份验证错误" });
         router.replace('/signIn')

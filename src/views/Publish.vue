@@ -14,7 +14,7 @@
             <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
         </v-card>
 
-        <input type="file" style="display: none;"  accept="image/*" ref="uploadInput" @change="uploadFile()" />
+        <input type="file" style="display: none;" multiple  accept="image/*" ref="uploadInput" @change="uploadFile()" />
     <!-- </v-main>
     <default-footer /> -->
 </div>
@@ -52,7 +52,7 @@ export default {
 
         uploadFile(){
             // var formData = new FormData();
-            this.uploadFiles = this.$refs.uploadInput.files[0]
+            this.uploadFiles = this.$refs.uploadInput.files
         },
 
         // 提交
@@ -63,8 +63,11 @@ export default {
             formData.append('user_id',this.userInfo.userId);
             formData.append('title',this.blogInfo.title);
             formData.append('description',this.blogInfo.description);
-            formData.append('file',this.uploadFiles);
             formData.append('is_public', Boolean(!this.blogInfo.is_public));
+            for (let index = 0; index < this.uploadFiles.length; index++) {
+                // const element = this.uploadFiles[index];
+                formData.append('files',this.uploadFiles[index]);
+            }
             let res = await publishVideo(formData)
             if(res.code == 200){
                 this.$store.commit('app/snackbar', { value: true, content: '发布成功' })

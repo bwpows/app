@@ -1,22 +1,18 @@
 <template>
 <div>
-    <!-- <default-header />
-    <v-main class="ma-6"> -->
-        <v-card class="px-6 py-3 mb-5">
-            <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" />
-        </v-card>
-        <v-card class="pa-6 mb-5">
-            <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;"></textarea>
-            <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img>
-        </v-card>
-        <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
-        <v-card class="mt-8 pa-1">
-            <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
-        </v-card>
+    <v-card class="px-6 py-3 mb-5">
+        <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" />
+    </v-card>
+    <v-card class="pa-6 mb-5">
+        <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;"></textarea>
+        <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img>
+    </v-card>
+    <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
+    <v-card class="mt-8 pa-1">
+        <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
+    </v-card>
 
-        <input type="file" style="display: none;" multiple  accept="image/*" ref="uploadInput" @change="uploadFile()" />
-    <!-- </v-main>
-    <default-footer /> -->
+    <input type="file" style="display: none;" multiple  accept="image/*" ref="uploadInput" @change="uploadFile()" />
 </div>
 </template>
 
@@ -59,13 +55,18 @@ export default {
         async submit(){
             let obj = this.blogInfo
             obj.user_id = this.userInfo.userId
+
+            if(!this.blogInfo.title) return this.$snackbar('请输入标题')
+            if(!this.blogInfo.description) return this.$snackbar('请输入内容')
+            // if(!this.uploadFiles.length !== 0) return this.$snackbar('请上传图片')
+
+
             var formData = new FormData();
             formData.append('user_id',this.userInfo.userId);
             formData.append('title',this.blogInfo.title);
             formData.append('description',this.blogInfo.description);
             formData.append('is_public', Boolean(!this.blogInfo.is_public));
             for (let index = 0; index < this.uploadFiles.length; index++) {
-                // const element = this.uploadFiles[index];
                 formData.append('files',this.uploadFiles[index]);
             }
             let res = await publishVideo(formData)

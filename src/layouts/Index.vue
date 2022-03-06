@@ -6,7 +6,7 @@
             <router-view :key="$route.path" />
         </v-main>
         <default-footer v-if="this.$route.meta.level == 1" />
-        <other-snackbar />
+        <!-- <other-snackbar /> -->
     </v-app>
 </template>
 

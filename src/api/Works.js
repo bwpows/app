@@ -26,3 +26,13 @@ export function getBlogByUserId(id){
 }
 
 
+// 删除作品
+export function delWorkById(id){
+    return Service({
+        url: `/publish/${id}`,
+        method: 'DELETE'
+    })
+}
+
+
+

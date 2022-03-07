@@ -17,3 +17,11 @@ export function cancelPraise(params){
     })
 }
 
+// 查询用户的点赞
+export function getPraiseByUserId(userId){
+    return Service({
+        url: `like/praise/user/${userId}`,
+        method: 'GET'
+    })
+}
+

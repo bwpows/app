@@ -5,7 +5,8 @@
     </v-card>
     <v-card class="pa-6 mb-5">
         <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;"></textarea>
-        <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img>
+        <!-- <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img> -->
+        <file-upload @upload="getFiles(arguments)" />
     </v-card>
     <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
     <v-card class="mt-8 pa-1">
@@ -17,13 +18,14 @@
 </template>
 
 <script>
-import DefaultFooter from '@/layouts/default/Footer'
-import DefaultHeader from '@/layouts/default/Header'
 import uploadIcon from '@/assets/common/upload.svg'
 import { publishVideo } from '@/api/Works'
+
+var formData = new FormData()
 export default {
     data() {
         return {
+            formData,
             uploadIcon,
             content: '',
             blogInfo: {},
@@ -36,19 +38,22 @@ export default {
         console.log(this.userInfo.userId)
     },
 
-    components: {
-        DefaultFooter,
-        DefaultHeader
-    },
-
     methods: {
-        selectFile(){
-            this.$refs.uploadInput.click()
-        },
 
-        uploadFile(){
-            // var formData = new FormData();
-            this.uploadFiles = this.$refs.uploadInput.files
+        getFiles(files){
+            this.formData = new FormData()
+            if(files[1].length != 0){
+                for (let index = 0; index < files[0].length; index++) {
+                    if(files[1].indexOf(index) == -1){
+                        this.formData.append('files', files[0][index]);
+                    }
+                }
+            }else{
+                for (let j = 0; j < files[0].length; j++) {
+                    this.formData.append('files',files[0][j]);
+                }
+            }
+            this.formData
         },
 
         // 提交
@@ -58,23 +63,17 @@ export default {
 
             if(!this.blogInfo.title) return this.$snackbar('请输入标题')
             if(!this.blogInfo.description) return this.$snackbar('请输入内容')
-            // if(!this.uploadFiles.length !== 0) return this.$snackbar('请上传图片')
 
-
-            var formData = new FormData();
-            formData.append('user_id',this.userInfo.userId);
-            formData.append('title',this.blogInfo.title);
-            formData.append('description',this.blogInfo.description);
-            formData.append('is_public', Boolean(!this.blogInfo.is_public));
-            for (let index = 0; index < this.uploadFiles.length; index++) {
-                formData.append('files',this.uploadFiles[index]);
-            }
-            let res = await publishVideo(formData)
+            this.formData.append('user_id',this.userInfo.userId);
+            this.formData.append('title',this.blogInfo.title);
+            this.formData.append('description',this.blogInfo.description);
+            this.formData.append('is_public', Boolean(!this.blogInfo.is_public));
+            let res = await publishVideo(this.formData)
             if(res.code == 200){
-                this.$store.commit('app/snackbar', { value: true, content: '发布成功' })
+                this.$snackbar('发布成功' )
                 this.$router.replace('/')
             }else{
-                this.$store.commit('app/snackbar', { value: true, content: '发布失败' })
+                this.$snackbar('发布失败')
             }
         },
 

@@ -9,6 +9,7 @@
         <div class="body-2 my-3"> {{ description }} </div>
         <div class="d-flex justify-space-between align-center body-2 grey--text">
             <div class=""> {{ createdTime }} </div>
+            <!-- {{ love }} {{ userId }} -->
             <div class="d-flex">
                 <v-img @click.stop="likeEvent()" width="20" height="20" :src="isLove?lovedSvg:loveSvg"></v-img>
             </div>

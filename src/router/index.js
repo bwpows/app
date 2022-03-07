@@ -58,10 +58,18 @@ const routes = [
       },{
         path: '/account/works',
         name: 'AccountWorks',
-        component: () => import('../views/account/works.vue'),
+        component: () => import('../views/account/Works.vue'),
         meta: {
           level: 2,
           title: '我的作品'
+        }
+      },{
+        path: '/account/likes',
+        name: 'AccountLikes',
+        component: () => import('../views/account/Likes.vue'),
+        meta: {
+          level: 2,
+          title: '我的点赞'
         }
       },
     ]

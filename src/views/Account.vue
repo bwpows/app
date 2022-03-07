@@ -40,7 +40,7 @@
                 </div>
             </div>
             <v-divider class="ml-12 my-3 mr-2"></v-divider>
-            <div class="d-flex align-center">
+            <div class="d-flex align-center"  @click="$router.push('/account/likes')">
                 <v-img :src="likeSvg" height="32" width="32" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
                     <div class="d-flex justify-space-between align-center">

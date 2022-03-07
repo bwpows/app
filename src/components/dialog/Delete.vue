@@ -5,17 +5,17 @@
         max-width="500px"
         transition="dialog-transition"
     >
-    <v-card class="pa-4">
-        <div class="d-flex align-center justify-space-between">
-            <div class="text-h4 font-weight-bold text-truncate">{{ title }}</div>
-            <v-icon color="" size="24" @click="$emit('close')">mdi-close</v-icon>
-        </div>
-        <div v-html="content" class="mt-3"></div>
-        <div class="d-flex justify-end mt-5">
-            <v-btn color="error" depressed outlined class="mr-8" small @click="$emit('close')" :disabled="loading">取消</v-btn>
-            <v-btn color="error" depressed small @click="$emit('delEvent')" :loading="loading">删除</v-btn>
-        </div>
-    </v-card>
+        <v-card class="pa-6">
+            <div class="d-flex align-center justify-space-between">
+                <div class="text-h4 font-weight-bold text-truncate">{{ title }}</div>
+                <v-icon color="" size="24" @click="$emit('close')">mdi-close</v-icon>
+            </div>
+            <div v-html="content" class="mt-4"></div>
+            <div class="d-flex justify-end mt-5">
+                <v-btn color="error" depressed outlined class="mr-8" small @click="$emit('close')" :disabled="loading">取消</v-btn>
+                <v-btn color="error" depressed small @click="$emit('delEvent')" :loading="loading">删除</v-btn>
+            </div>
+        </v-card>
     </v-dialog>
 </template>
 <script>

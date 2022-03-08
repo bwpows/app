@@ -72,7 +72,7 @@
         </v-card>
 
         <v-card class="pa-1 mt-8 text-center">
-            <v-btn color="error" class="body-1" width="100%" text>退出登录</v-btn>
+            <v-btn color="error" class="body-1" width="100%" text @click="logout()">退出登录</v-btn>
         </v-card>
     <!-- </v-main>
     <default-footer /> -->
@@ -96,6 +96,12 @@ export default {
 
     methods: {
         formatPhoneNumber,
+
+        // 退出登录
+        logout(){
+            localStorage.clear()
+            this.$router.replace('/signin')
+        }
     },
 }
 </script>

@@ -1,10 +1,6 @@
 <template>
 <div>
-    <!-- <other-header />
-    <v-main class="ma-4"> -->
-        {{blogInfo}}
-    <!-- </v-main> -->
-    <!-- <other-feader /> -->
+    {{blogInfo}}
 </div>
 </template>
 <script>

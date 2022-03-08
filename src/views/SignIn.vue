@@ -8,7 +8,7 @@
             <v-text-field v-if="signInType != 'code'" type="password" placeholder="请输入密码" outlined class="mb-0" v-model="password" color="primary"></v-text-field>
             <div v-else style="position: relative;">
                 <v-text-field type="tel" placeholder="请输入验证码" outlined class="mb-0" v-model="code" color="primary"></v-text-field>
-                <v-btn text @click="getSMSCode()" x-small class="body-2 primary--text cursor_pointer" style="position: absolute; right: 5px; top:18px;" :disabled='seconds != 60' dark>
+                <v-btn text @click="getSMSCode()" x-small class="body-2 primary--text cursor_pointer" style="position: absolute; right: 5px; top:15px;" :disabled='seconds != 60'>
                     {{seconds == 60?'获取验证码':seconds+'s '+'后再次获取'}}
                 </v-btn>
             </div>
@@ -22,6 +22,7 @@
 </template>
 <script>
 import { passwordLogin, getUserInfo } from '@/api/Session'
+import { getSMSCode, SMSCodeLogin } from '../api/Session';
 export default {
     data(){
         return{
@@ -37,39 +38,58 @@ export default {
         }
     },
     methods:{
+
+        async dealLoginRequestResult(res){
+            localStorage.setItem('token', res.data.token)
+            let user = await getUserInfo()
+            localStorage.setItem('userInfo', JSON.stringify(user))
+            this.$router.replace('/')
+        },
+
+        // 登录接口
         async signIn(){
             if(this.signInType == 'code'){
                 if(this.code == ''){
-                    this.snackbar.content = '请输入验证码';
-                    this.$store.commit('app/updateSnackbar', this.snackbar);
+                    this.$snackbar("请输入验证码")
                 }
+                let res = await SMSCodeLogin({phone: this.phone, code: this.code})
+                if(res.code !== 200){
+                    this.$snackbar(res.message || '用户或密码错误')
+                    return false;
+                }
+                await this.dealLoginRequestResult(res)
             }else{
                 if(this.phone == ''){
-                    this.snackbar.content = '请输入密码';
-                    this.$store.commit('app/updateSnackbar', this.snackbar);
+                    this.$snackbar("请输入密码")
                 }
                 let res = await passwordLogin({ phone: this.phone, password: this.password })
                 if(res.code !== 200){
-                    this.snackbar.content = res.message || '用户或密码错误';
-                    this.$store.commit('app/updateSnackbar', this.snackbar);
+                    this.$snackbar(res.message || '用户或密码错误')
                     return false;
                 }
-                localStorage.setItem('token', res.data.token)
-                let user = await getUserInfo()
-                localStorage.setItem('userInfo', JSON.stringify(user))
-                this.$router.replace('/')
+                await this.dealLoginRequestResult(res)
             }
-            console.log(this.$store.state.app.snackbar)
         },
+
+        // 改变类型
         changeSignInType(){
             this.signInType = this.signInType=='password'?'code':'password'
         },
-        getSMSCode(){
+
+        // 获取验证码
+        async getSMSCode(){
             if(this.seconds != 60) return;
             this.seconds--;
+            let res = await getSMSCode({phone: this.phone})
+            if(res.code == 200){
+                this.$snackbar('发送验证码成功')
+            }else{
+                clearInterval(this.interval)
+                this.seconds = 60
+                this.$snackbar('发送验证码失败')
+            }
             this.interval = setInterval(() => {
                 this.seconds--;
-                console.log(333)
                 if(this.seconds < 1){
                     clearInterval(this.interval)
                     this.seconds = 60

@@ -1,13 +1,16 @@
 <template>
     <v-footer app fixed>
-        <div style="width: 100%;" class="d-flex align-center text-center">
-            <div style="display: inline-block; width: 30%">
+        <div style="width: 100%;" class="d-flex align-center text-center py-3">
+            <div style="display: inline-block; width: 25%">
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>
             </div>
-            <div style="display: inline-block; width: 30%" class="ma-3">
-                <v-img :src="logoSvg" :class="path=='/publish'?'':'selected'" height="35" contain @click="goRouter('/publish')"></v-img>
+            <div style="display: inline-block; width: 25%">
+                <v-img :src="logoSvg" :class="path=='/publish'?'':'selected'" height="30" contain @click="goRouter('/publish')"></v-img>
             </div>
-            <div style="display: inline-block; width: 30%">
+            <div style="display: inline-block; width: 25%">
+                <v-img :src="path=='/message'?messageSelectedSvg:messageSvg" height="30" contain @click="goRouter('/message')"></v-img>
+            </div>
+            <div style="display: inline-block; width: 25%">
                 <v-img :src="path=='/account'?userSelectedSvg:userSvg" height="30" contain @click="goRouter('/account')"></v-img>
             </div>
         </div>
@@ -20,13 +23,15 @@ import homeSelectedSvg from '@/assets/icon/homeSelected.svg'
 import userSvg from '@/assets/icon/user.svg'
 import userSelectedSvg from '@/assets/icon/userSelected.svg'
 import logoSvg from '@/assets/logo.svg'
+import messageSvg from '@/assets/icon/message.svg'
+import messageSelectedSvg from '@/assets/icon/messageSelected.svg'
 export default {
 
     name: 'DefaultFooter',
 
     data() {
         return {
-            homeSvg, homeSelectedSvg, userSvg, userSelectedSvg, logoSvg,
+            homeSvg, homeSelectedSvg, userSvg, userSelectedSvg, logoSvg, messageSvg, messageSelectedSvg,
             path: ''
         }
     },

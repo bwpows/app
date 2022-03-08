@@ -48,6 +48,13 @@ const routes = [
           level: 1
         }
       },{
+        path: '/message',
+        name: 'Message',
+        component: () => import('../views/Message.vue'),
+        meta: {
+          level: 1
+        }
+      },{
         path: '/blog/info/:id',
         name: 'InfoBlog',
         component: () => import('../views/blog/Info.vue'),

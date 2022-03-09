@@ -1,5 +1,5 @@
 <template>
-    <v-footer app fixed>
+    <v-footer app fixed class=" rounded-xl ma-4">
         <div style="width: 100%;" class="d-flex align-center text-center py-3">
             <div style="display: inline-block; width: 25%">
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>
@@ -43,7 +43,6 @@ export default {
     watch:{
         $route(to,from){
             this.path = to.path
-            console.log(to.path);
         }
     },
     methods: {

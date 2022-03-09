@@ -45,7 +45,7 @@ export default {
         },
 
         goBlogInfo(item){
-            this.$router.push({ path: `/blog/info/${item._id}` })
+            this.$router.push({ path: `/work/${item._id}` })
         },
 
         async praise(data,id){

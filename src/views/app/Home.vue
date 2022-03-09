@@ -5,7 +5,7 @@
         :key="item._id"
         :title="item.title"
         :description="item.description"
-        :createdTime="calCurrentTime(item.created_time)"
+        :createdTime="item.created_time"
         :url="item.url.length!==0?(item.url): null"
         :love="item.likes"
         @click.native="goBlogInfo(item)"
@@ -19,7 +19,7 @@ import DefaultHeader from '@/layouts/default/Header'
 import { getBlog } from '@/api/Home';
 import { formatTime, calCurrentTime } from '@/util/formatTime'
 import { baseURL } from '@/api/Server';
-import { cancelPraise, praise } from '../api/Like';
+import { cancelPraise, praise } from '@/api/Like';
 
 export default {
     data(){
@@ -49,7 +49,7 @@ export default {
         },
 
         goBlogInfo(item){
-            this.$router.push({ path: `/blog/info/${item._id}` })
+            this.$router.push({ path: `/work/${item._id}` })
         },
 
         async praise(data,id){

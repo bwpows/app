@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <v-app>
       <router-view></router-view>
       <other-snackbar />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -20,3 +20,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.v-input--selection-controls__ripple{
+  display: none !important;
+}
+</style>

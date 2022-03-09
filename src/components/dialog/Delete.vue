@@ -8,7 +8,7 @@
         <v-card class="pa-6">
             <div class="d-flex align-center justify-space-between">
                 <div class="text-h4 font-weight-bold text-truncate">{{ title }}</div>
-                <v-icon color="" size="24" @click="$emit('close')">mdi-close</v-icon>
+                <v-icon size="24" @click="$emit('close')">mdi-close</v-icon>
             </div>
             <div v-html="content" class="mt-4"></div>
             <div class="d-flex justify-end mt-5">

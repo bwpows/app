@@ -25,8 +25,8 @@ export function formatTime(time, format){
 
 // 计算和今天过去了多久
 export function calCurrentTime(time){
-    let paramDate = formatTime(time, 'YYYY-MM-dd HH:mm:ss')
-    let paramTime = new Date(paramDate).getTime()
+    // let paramDate = formatTime(time, 'YYYY-MM-dd HH:mm:ss')
+    let paramTime = new Date(time).getTime()
     let currentTime = new Date().getTime()
     let calSecond = parseInt((currentTime-paramTime)/1000)
     if(calSecond > (60*60*24)){

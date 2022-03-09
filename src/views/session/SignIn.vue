@@ -1,7 +1,7 @@
 <template>
     <v-app class="containers white--text">
         <v-main>
-            <v-img src="../assets/logo.svg" height="100" contain></v-img>
+            <v-img src="@/assets/logo.svg" height="100" contain></v-img>
             <h1 class="text-h2 mt-6 text-center">欢迎</h1>
             <div class="mb-6 mt-4 grey--text text--darken-1 text-center">没有账号将自动为您创建账号</div>
             <v-text-field type="tel" outlined class="mb-0" v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
@@ -21,8 +21,7 @@
     </v-app>
 </template>
 <script>
-import { passwordLogin, getUserInfo } from '@/api/Session'
-import { getSMSCode, SMSCodeLogin } from '../api/Session';
+import { passwordLogin, getUserInfo, getSMSCode, SMSCodeLogin } from '@/api/Session'
 export default {
     data(){
         return{

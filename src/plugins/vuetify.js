@@ -14,6 +14,7 @@ const theme = {
   success: '#4CAF50',
   warning: '#FB8C00',
   error: '#FF5252',
+  footBG: '#f7efe5'
 }
 
 export default new Vuetify({
@@ -22,7 +23,7 @@ export default new Vuetify({
     values: { expand: 'mdi-menu-down' },
   },
   theme: {
-    // dark: true,
+    dark: localStorage.getItem('darkAuto') == 'true',
     themes: {
       dark: theme,
       light: theme,

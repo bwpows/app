@@ -5,7 +5,6 @@
     </v-card>
     <v-card class="pa-6 mb-5">
         <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;"></textarea>
-        <!-- <v-img :src="uploadIcon" height="80" contain width="80" @click="selectFile()"></v-img> -->
         <file-upload @upload="getFiles(arguments)" />
     </v-card>
     <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
@@ -75,11 +74,6 @@ export default {
             }else{
                 this.$snackbar('发布失败')
             }
-        },
-
-        // 验证请求结果
-        verification(res, msg){
-            
         }
 
     },

@@ -1,7 +1,7 @@
 <template>
-<div>
-    {{blogInfo}}
-</div>
+    <div>
+        {{blogInfo}}
+    </div>
 </template>
 <script>
 import { getBlogInfo } from '@/api/Works';

@@ -8,8 +8,7 @@
         <h4> {{ title }} </h4>
         <div class="body-2 my-3"> {{ description }} </div>
         <div class="d-flex justify-space-between align-center body-2 grey--text">
-            <div class=""> {{ createdTime }} </div>
-            <!-- {{ love }} {{ userId }} -->
+            <div class=""> {{ calCurrentTime(createdTime) }} </div>
             <div class="d-flex">
                 <v-img @click.stop="likeEvent()" width="20" height="20" :src="isLove?lovedSvg:loveSvg"></v-img>
             </div>
@@ -22,6 +21,7 @@
 import lovedSvg from '@/assets/icon/loved.svg'
 import loveSvg from '@/assets/icon/love.svg'
 import { baseURL } from '@/api/Server';
+import { calCurrentTime } from '../../util/formatTime';
 export default {
     name: 'BlogList',
 
@@ -79,6 +79,8 @@ export default {
     },
 
     methods: {
+        calCurrentTime,
+
         // 点赞
         likeEvent(){
             this.$emit('praise', this.loveInfo)

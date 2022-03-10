@@ -5,7 +5,7 @@
             :key="index"
             :title="item.title"
             :description="item.description"
-            :createdTime="calCurrentTime(item.created_time)"
+            :createdTime="item.created_time" f
             :url="item.url.length!==0?(item.url): null"
             :love="item.likes"
             @click.native="goBlogInfo(item)"

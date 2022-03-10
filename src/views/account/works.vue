@@ -5,7 +5,7 @@
             :key="item._id"
             :title="item.title"
             :description="item.description"
-            :createdTime="calCurrentTime(item.created_time)"
+            :createdTime="item.created_time"
             :url="item.url.length!==0?(item.url): null"
             :love="item.likes"
             :deleteBtn="true"

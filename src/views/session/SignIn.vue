@@ -1,8 +1,8 @@
 <template>
-    <v-app class="containers white--text">
+    <v-app class="containers">
         <v-main>
             <v-img src="@/assets/logo.svg" height="100" contain></v-img>
-            <h1 class="text-h2 mt-6 text-center">欢迎</h1>
+            <h1 class="text-h2 mt-6 text-center primary--text font-weight-normal">欢迎</h1>
             <div class="mb-6 mt-4 grey--text text--darken-1 text-center">没有账号将自动为您创建账号</div>
             <v-text-field type="tel" outlined class="mb-0" v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
             <v-text-field v-if="signInType != 'code'" type="password" placeholder="请输入密码" outlined class="mb-0" v-model="password" color="primary"></v-text-field>
@@ -105,7 +105,6 @@ export default {
 .containers{
     padding: 60px 60px 0 60px !important;
     height: 100vh;
-    /* background-image: linear-gradient(30deg, #0c1224 ,#000, #000, #000, #331807) !important; */
 }
 .cursor_pointer{
     cursor: pointer;

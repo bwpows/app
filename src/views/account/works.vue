@@ -62,7 +62,7 @@ export default {
 
         // 点赞
         async praise(data,id){
-            if(data){
+            if(data && !data.is_cancel){
                 await cancelPraise(data._id)
             }else{
                 await praise({ user_id: this.userId, work_id: id })

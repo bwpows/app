@@ -11,7 +11,14 @@
             @praise="praise($event ,item._id)"
             @click.native="openBottomSheet(item)"
         ></blog-list>
-        <v-bottom-sheet inset v-model="bottomSheetData.value">
+
+        <bottom-dialog
+            :value="bottomSheetData.value"
+            :data="bottomSheetData.data"
+            @close="bottomSheetData = {}"
+        />
+
+        <!-- <v-bottom-sheet inset v-model="bottomSheetData.value">
             <v-sheet class="rounded-t-lg px-6" height="75vh">
                 <div v-if="bottomSheetData.value">
                     <div class="d-flex justify-center py-4" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
@@ -46,7 +53,7 @@
                     <div> {{ bottomSheetData.data.description }} </div>
                 </div>
             </v-sheet>
-        </v-bottom-sheet>
+        </v-bottom-sheet> -->
     </div>
 </template>
 <script>
@@ -86,6 +93,7 @@ export default {
         async fetch(){
             let res = await getBlog()
             if(res.code == 200){
+                console.log('获取数据成功')
                 this.blogList = res.data
             }
         },
@@ -95,8 +103,7 @@ export default {
         },
 
         async praise(data,id){
-            if(data){
-                // 取消点赞
+            if(data && !data.is_cancel){
                 await cancelPraise(data._id)
             }else{
                 await praise({ user_id: this.userId, work_id: id })

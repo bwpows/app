@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mb-8">
+    <v-card class="mb-8" :key="cardKey">
         <div v-if="url.length == 0"></div>
         <v-carousel
             v-else-if="url.length > 1"
@@ -64,11 +64,11 @@ export default {
 
     data() {
         return {
-            lovedSvg,
-            loveSvg,
-            baseURL,
+            lovedSvg, loveSvg, baseURL,
             loveInfo: null,
             userId: JSON.parse(localStorage.getItem("userInfo")).userId,
+            isLoved: false,
+            cardKey: new Date().getTime()
         };
     },
 
@@ -107,7 +107,6 @@ export default {
             let flag = false;
             for (let i = 0; i < this.love.length; i++) {
                 if (this.love[i].user_id == this.userId && !this.love[i].is_cancel) {
-                    this.loveInfo = this.love[i];
                     flag = true;
                     return true;
                 }
@@ -121,6 +120,12 @@ export default {
 
         // 点赞
         likeEvent() {
+            for (let i = 0; i < this.love.length; i++) {
+                if (this.love[i].user_id == this.userId) {
+                    this.loveInfo = this.love[i];
+                }
+            }
+            console.log(this.loveInfo)
             this.$emit("praise", this.loveInfo);
         },
 

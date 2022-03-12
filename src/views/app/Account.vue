@@ -94,7 +94,8 @@ export default {
 
         // 退出登录
         logout(){
-            localStorage.clear()
+            localStorage.removeItem('userInfo')
+            localStorage.removeItem('token')
             this.$router.replace('/signin')
         }
     },

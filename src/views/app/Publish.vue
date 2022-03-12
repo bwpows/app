@@ -19,6 +19,7 @@
 <script>
 import uploadIcon from '@/assets/common/upload.svg'
 import { publishVideo } from '@/api/Works'
+import { getUserInfo } from '@/api/Session';
 
 var formData = new FormData()
 export default {
@@ -34,11 +35,17 @@ export default {
     },
 
     mounted() {
-        console.log(this.userInfo.userId)
+        this.fetch()
     },
 
     methods: {
 
+        // 获取数据
+        async fetch(){
+            await getUserInfo(this.userInfo.userId)
+        },
+
+        // 文件上传
         getFiles(files){
             this.formData = new FormData()
             if(files[1].length != 0){
@@ -52,7 +59,6 @@ export default {
                     this.formData.append('files',files[0][j]);
                 }
             }
-            this.formData
         },
 
         // 提交

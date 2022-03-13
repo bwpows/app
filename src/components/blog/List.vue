@@ -43,11 +43,18 @@
                 <div class>{{ calCurrentTime(createdTime) }}</div>
                 <div class="d-flex">
                     <v-img
+                        width="20"
+                        height="20"
+                        :src="viewSvg"
+                    ></v-img>
+                    <div class="mx-1 mr-4">{{ views.length }}</div>
+                    <v-img
                         @click.stop="likeEvent()"
                         width="20"
                         height="20"
                         :src="isLove ? lovedSvg : loveSvg"
                     ></v-img>
+                    <div class="ml-1">{{ lovedNum }}</div>
                 </div>
             </div>
         </div>
@@ -57,6 +64,7 @@
 <script>
 import lovedSvg from "@/assets/icon/loved.svg";
 import loveSvg from "@/assets/icon/love.svg";
+import viewSvg from "@/assets/icon/view.svg";
 import { baseURL } from "@/api/Server";
 import { calCurrentTime } from "../../util/formatTime";
 export default {
@@ -64,7 +72,7 @@ export default {
 
     data() {
         return {
-            lovedSvg, loveSvg, baseURL,
+            lovedSvg, loveSvg, baseURL, viewSvg,
             loveInfo: null,
             userId: JSON.parse(localStorage.getItem("userInfo")).userId,
             isLoved: false,
@@ -76,6 +84,10 @@ export default {
         love: {
             type: Array,
             required: true,
+        },
+
+        views: {
+            type: Array,
         },
 
         url: {
@@ -113,6 +125,16 @@ export default {
             }
             return flag;
         },
+
+        lovedNum(){
+            let num = 0
+            for (let i = 0; i < this.love.length; i++) {
+                if(this.love[i].is_cancel == false){
+                    num++
+                }
+            }
+            return num
+        }
     },
 
     methods: {

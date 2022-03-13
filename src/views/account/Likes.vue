@@ -1,26 +1,35 @@
 <template>
     <div>
         <blog-list
-            v-for="(item,index) in workData"
-            :key="index"
+            v-for="item in workData"
+            :key="item._id"
             :title="item.title"
             :description="item.description"
-            :createdTime="item.created_time" f
+            :createdTime="item.created_time"
             :url="item.url.length!==0?(item.url): null"
             :love="item.likes"
-            @click.native="goBlogInfo(item)"
+            :views="item.views"
             @praise="praise($event ,item._id)"
+            @click.native="openBottomSheet(item)"
         ></blog-list>
+
+        <bottom-dialog
+            :value="bottomSheetData.value"
+            :data="bottomSheetData.data"
+            @close="bottomSheetData = {}"
+        />
     </div>
 </template>
 <script>
 import { cancelPraise, getPraiseByUserId, praise } from '../../api/Like'
+import { viewWork } from '../../api/View'
 import { calCurrentTime } from '../../util/formatTime'
 export default {
     data(){
         return {
             workData: [],
-            userInfo: JSON.parse(localStorage.getItem('userInfo'))
+            userInfo: JSON.parse(localStorage.getItem('userInfo')),
+            bottomSheetData: {},
         }
     },
 
@@ -33,28 +42,33 @@ export default {
         async fetch(){
             this.workData = []
             let res = await getPraiseByUserId(this.userInfo.userId);
-            for (let i = 0; i < res.data.length; i++) {
-                let obj = res.data[i].works[0]
-                obj.likes = [{
-                    _id: res.data[i]._id,
-                    user_id: res.data[i].user_id,
-                    work_id: res.data[i].work_id,
-                }]
-                this.workData.push(obj)
+            if(res.code == 200){
+                for (let i = 0; i < res.data.length; i++) {
+                    let obj = res.data[i].works[0]
+                    obj.likes = res.data[i].likes
+                    obj.views = res.data[i].views
+                    this.workData.push(obj)
+                }
             }
+            console.log(res.data)
         },
 
-        goBlogInfo(item){
-            this.$router.push({ path: `/work/${item._id}` })
-        },
 
         async praise(data,id){
-            if(data){
-                // 取消点赞
+            if(data && !data.is_cancel){
                 await cancelPraise(data._id)
             }else{
-                await praise({ user_id: this.userId, work_id: id })
+                await praise({ user_id: this.userInfo.userId, work_id: id })
             }
+            this.fetch()
+        },
+
+        async openBottomSheet(data){
+            this.bottomSheetData = {
+                value: true,
+                data
+            }
+            await viewWork({user_id: this.userInfo.userId, work_id: data._id})
             this.fetch()
         }
 

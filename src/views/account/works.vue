@@ -8,11 +8,18 @@
             :createdTime="item.created_time"
             :url="item.url.length!==0?(item.url): null"
             :love="item.likes"
+            :views="item.views"
             :deleteBtn="true"
-            @click.native="goBlogInfo(item)"
             @praise="praise($event ,item._id)"
+            @click.native="openBottomSheet(item)"
             @delWork="openDelDialog(item)"
         ></blog-list>
+
+        <bottom-dialog
+            :value="bottomSheetData.value"
+            :data="bottomSheetData.data"
+            @close="bottomSheetData = {}"
+        />
 
         <delete-dialog
             :value="delDialog.value"
@@ -28,6 +35,7 @@
 <script>
 import { cancelPraise, praise } from '../../api/Like'
 import { baseURL } from "../../api/Server"
+import { viewWork } from '../../api/View'
 import { delWorkById, getBlogByUserId } from "../../api/Works"
 import { formatTime, calCurrentTime } from "../../util/formatTime"
 
@@ -38,7 +46,8 @@ export default {
             worksData: [],
             delBtnLoading: false,
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
-            delDialog: {}
+            delDialog: {},
+            bottomSheetData: {}
         }
     },
 
@@ -55,9 +64,13 @@ export default {
             this.worksData = res.data
         },
 
-        // 去博客详情页面
-        goBlogInfo(item){
-            this.$router.push({ path: `/work/${item._id}` })
+        async openBottomSheet(data){
+            this.bottomSheetData = {
+                value: true,
+                data
+            }
+            await viewWork({user_id: this.userInfo.userId, work_id: data._id})
+            this.fetch()
         },
 
         // 点赞
@@ -65,7 +78,7 @@ export default {
             if(data && !data.is_cancel){
                 await cancelPraise(data._id)
             }else{
-                await praise({ user_id: this.userId, work_id: id })
+                await praise({ user_id: this.userInfo.userId, work_id: id })
             }
             this.fetch()
         },

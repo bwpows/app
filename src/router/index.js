@@ -54,6 +54,14 @@ const routes = [
           title: '作品详情'
         }
       },{
+        path: '/account/info',
+        name: 'AccountInfo',
+        component: () => import('../views/account/Info.vue'),
+        meta: {
+          level: 2,
+          title: '我的资料'
+        }
+      },{
         path: '/account/works',
         name: 'AccountWorks',
         component: () => import('../views/account/Works.vue'),

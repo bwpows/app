@@ -5,7 +5,7 @@
             <v-avatar size="50" color="primary mr-4" >
                 <v-img :src="userSvg" alt="alt"></v-img>
             </v-avatar>
-            <div>
+            <div @click="$router.push('/account/info')">
                 <div class="display-1 font-weight-regular">Hello, {{ userInfo.nicename || userInfo.username }}</div>
                 <div class="body-2 grey--text text--darken-1 mt-1">昵称、头像与隐私</div>
             </div>

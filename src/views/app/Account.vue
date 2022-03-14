@@ -1,11 +1,11 @@
 <template>
 <div>
-    <v-card class="pa-4 d-flex justify-space-between">
+    <v-card class="pa-4 d-flex justify-space-between" @click="$router.push('/account/info')">
         <div class="d-flex">
-            <v-avatar size="50" color="primary mr-4" >
-                <v-img :src="userSvg" alt="alt"></v-img>
-            </v-avatar>
-            <div @click="$router.push('/account/info')">
+            <div class="mr-3">
+                <v-img :src="baseURL+userInfo.pictrue" class="rounded" width="50" height="50" alt="alt"></v-img>
+            </div>
+            <div>
                 <div class="display-1 font-weight-regular">Hello, {{ userInfo.nicename || userInfo.username }}</div>
                 <div class="body-2 grey--text text--darken-1 mt-1">昵称、头像与隐私</div>
             </div>
@@ -59,11 +59,13 @@ import likeSvg from '@/assets/icon/like.svg'
 import settingSvg from '@/assets/icon/setting.svg'
 import worksSvg from '@/assets/icon/works.svg'
 import { formatPhoneNumber } from '@/util/phone'
+import { baseURL } from '../../api/Server'
+import { getUserInfo } from '../../api/Account';
 export default {
     data() {
         return {
             // 图标
-            userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg,
+            userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg, baseURL,
 
             // 个人信息
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
@@ -81,8 +83,18 @@ export default {
         }
     },
 
+    created() {
+        this.getInfo(this.userInfo.userId)
+    },
+
     methods: {
         formatPhoneNumber,
+
+
+        async getInfo(id){
+            let res = await getUserInfo(id)
+            this.userInfo = res.data
+        },
 
         openLogoutDialog(){
             this.confirm = {

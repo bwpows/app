@@ -17,23 +17,44 @@
                 <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
             </div>
             <v-btn color="primary mt-14" style="width:100%;" depressed x-large @click="signIn()">登录 / 注册</v-btn>
+
+            <v-dialog
+                v-model="setPasswordDialog"
+                persistent
+                max-width="500px"
+            >
+                <v-card class="pa-6">
+                    <div class="text-h4 font-weight-black mb-8">设置新密码</div>
+                    <v-text-field v-model="newPassword" outlined placeholder="请输入新密码"></v-text-field>
+                    <v-text-field v-model="confirmPassword" outlined placeholder="请确认密码"></v-text-field>
+                    <div class="d-flex justify-end">
+                        <v-btn color="primary" depressed @click="surePassword()">确定</v-btn>
+                        <!-- <v-btn color="primary" outlined>取消</v-btn> -->
+                    </div>
+                </v-card>
+            </v-dialog>
         </v-main>
     </v-app>
 </template>
 <script>
-import { passwordLogin, getUserInfo, getSMSCode, SMSCodeLogin } from '@/api/Session'
+import { passwordLogin, getUserInfo, getSMSCode, SMSCodeLogin, setNewPassword } from '@/api/Session'
 export default {
     data(){
         return{
-            phone: '17779467369',
-            password: 'bowei520',
+            phone: '',
+            password: '',
             code: '',
             signInType: 'code',
             interval: {},
             seconds: 60,
             snackbar: {
                 value: true
-            }
+            },
+
+            setPasswordDialog: false,
+
+            newPassword: '',
+            confirmPassword: ''
         }
     },
     methods:{
@@ -53,15 +74,23 @@ export default {
                 }
                 let res = await SMSCodeLogin({phone: this.phone, code: this.code})
                 if(res.code !== 200){
-                    this.$snackbar(res.message || '用户或密码错误')
+                    this.$snackbar(res.message || '用户或验证码错误')
                     return false;
                 }
-                await this.dealLoginRequestResult(res)
+                if(res.type == 2){
+                    clearInterval(this.interval)
+                    this.$snackbar("注册成功")
+                    this.setPasswordDialog = true
+                }else{
+                    await this.dealLoginRequestResult(res)
+                }
+                // await this.dealLoginRequestResult(res)
             }else{
                 if(this.phone == ''){
                     this.$snackbar("请输入密码")
                 }
                 let res = await passwordLogin({ phone: this.phone, password: this.password })
+                console.log(res)
                 if(res.code !== 200){
                     this.$snackbar(res.message || '用户或密码错误')
                     return false;
@@ -94,7 +123,17 @@ export default {
                     this.seconds = 60
                 }
             }, 1000);
+        },
+
+        // 打开设置密码的弹窗
+
+        // 确定密码事件
+        async surePassword(){
+            if(this.newPassword != this.confirmPassword) return this.$snackbar('两次密码输入不一致')
+            let data = await setNewPassword(this.phone, this.newPassword)
+            console.log(data)
         }
+
     },
     destroyed(){
         clearInterval(this.interval)

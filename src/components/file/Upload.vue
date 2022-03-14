@@ -9,7 +9,7 @@
                         </v-img>
                     </div>
                 </template>
-            <v-img :src="uploadIcon" height="90" contain max-width="33%" @click="selectFile()"></v-img>
+            <v-img :src="preview || uploadIcon" :height="height" contain :max-width="width" @click="selectFile()"></v-img>
             </div>
         </div>
         <input type="file" style="display: none;" :multiple="multiple" :accept="accept" ref="uploadInput" @change="uploadFile()" />
@@ -28,7 +28,19 @@ export default {
         multiple: {
             type: Boolean,
             default: true
-        }
+        },
+        preview: {
+            type: String,
+            default: false
+        },
+        height: {
+            type: String,
+            default: 90
+        },
+        width: {
+            type: String,
+            default: '33%'
+        },
     },
 
     data(){

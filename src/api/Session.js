@@ -33,3 +33,12 @@ export function getSMSCode(data){
         data
     })
 }
+
+
+// 设置新密码
+export function setNewPassword(data){
+    return Service({
+        url: '/auth/setNewPassword',
+        data
+    })
+}

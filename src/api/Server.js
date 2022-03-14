@@ -1,5 +1,6 @@
 import axios from 'axios'
-const configBaseURL = 'http://192.168.3.38:3000/';
+// const configBaseURL = 'http://192.168.3.38:3000/';
+const configBaseURL = 'http://159.75.79.247:3000';
 import store from '../store'
 import router from '../router';
 

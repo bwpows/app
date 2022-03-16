@@ -30,11 +30,11 @@ export default {
             default: true
         },
         preview: {
-            type: String,
+            type: [String, Boolean],
             default: false
         },
         height: {
-            type: String,
+            type: [String, Number],
             default: 90
         },
         width: {

@@ -12,7 +12,7 @@
         <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
     </v-card>
 
-    <input type="file" style="display: none;" multiple  accept="image/*" ref="uploadInput" @change="uploadFile()" />
+    <input type="file" style="display: none;" multiple accept="image/*" ref="uploadInput" @change="uploadFile()" />
 </div>
 </template>
 

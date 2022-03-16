@@ -6,8 +6,7 @@
                 <div>我的头像</div>
                 <div class="d-flex">
                     <head-img-file
-                        v-if="userInfo.pictrue"
-                        :preview="baseURL+userInfo.pictrue"
+                        :preview="(userInfo.pictrue)?(baseURL+userInfo.pictrue):userSvg"
                         @upload="uploadHeadImg"
                     />
                 </div>
@@ -33,12 +32,13 @@
 </template>
 
 <script>
+import userSvg from '@/assets/user.svg'
 import { getUserInfo, uploadHeadImg } from '../../api/Account';
 import { baseURL } from '../../api/Server';
 export default {
     data() {
         return {
-            baseURL,
+            baseURL, userSvg,
             userInfo: {}
         }
     },

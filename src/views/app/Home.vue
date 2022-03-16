@@ -54,7 +54,6 @@ export default {
             if(res.code == 200){
                 this.blogList = res.data
             }
-            console.log(res.data)
         },
 
         async praise(data,id){

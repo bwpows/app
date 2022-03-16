@@ -1,6 +1,7 @@
 import axios from 'axios'
-// const configBaseURL = 'http://192.168.3.38:3000/';
-const configBaseURL = 'http://159.75.79.247:3000';
+// const configBaseURL =  process.env.NODE_ENV == 'development'?'http://192.168.3.38:3000/':'http://159.75.79.247:3000';
+// const configBaseURL = 'http://159.75.79.247:3000';
+const configBaseURL = 'http://192.168.3.38:3000/';
 import store from '../store'
 import router from '../router';
 
@@ -15,6 +16,7 @@ export const Service = axios.create({
         'Content-Type': 'application/json;charset=UTF-8'
     }
 })
+
 
 export const baseURL = configBaseURL
 

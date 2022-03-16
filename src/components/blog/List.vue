@@ -1,6 +1,6 @@
 <template>
     <v-card class="mb-8" :key="cardKey">
-        <div v-if="url.length == 0"></div>
+        <div v-if="!url"></div>
         <v-carousel
             v-else-if="url.length > 1"
             delimiter-icon="mdi-minus"

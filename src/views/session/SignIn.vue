@@ -1,6 +1,6 @@
 <template>
-    <v-app class="containers">
-        <v-main>
+    <v-app>
+        <v-main class="containers">
             <v-img src="@/assets/logo.svg" height="100" contain></v-img>
             <h1 class="text-h2 mt-6 text-center primary--text font-weight-normal">欢迎</h1>
             <div class="mb-6 mt-4 grey--text text--darken-1 text-center">没有账号将自动为您创建账号</div>
@@ -29,7 +29,6 @@
                     <v-text-field v-model="confirmPassword" outlined placeholder="请确认密码"></v-text-field>
                     <div class="d-flex justify-end">
                         <v-btn color="primary" depressed @click="surePassword()">确定</v-btn>
-                        <!-- <v-btn color="primary" outlined>取消</v-btn> -->
                     </div>
                 </v-card>
             </v-dialog>
@@ -130,8 +129,14 @@ export default {
         // 确定密码事件
         async surePassword(){
             if(this.newPassword != this.confirmPassword) return this.$snackbar('两次密码输入不一致')
-            let data = await setNewPassword(this.phone, this.newPassword)
+            let data = await setNewPassword({phone: this.phone, password: this.newPassword})
             console.log(data)
+            if(data.code == 200){
+                this.$snackbar("设置密码成功")
+                this.dealLoginRequestResult(data)
+            }else{
+                this.$snackbar(data.message || '设置新密码失败')
+            }
         }
 
     },
@@ -142,8 +147,8 @@ export default {
 </script>
 <style>
 .containers{
-    padding: 60px 60px 0 60px !important;
-    height: 100vh;
+    margin: 60px 60px 0 60px !important;
+    height: calc( 100vh - 80px );
 }
 .cursor_pointer{
     cursor: pointer;

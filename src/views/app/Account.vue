@@ -3,7 +3,7 @@
     <v-card class="pa-4 d-flex justify-space-between" @click="$router.push('/account/info')">
         <div class="d-flex">
             <div class="mr-3">
-                <v-img :src="baseURL+userInfo.pictrue" class="rounded" width="50" height="50" alt="alt"></v-img>
+                <v-img :src="userInfo.pictrue?(baseURL+userInfo.pictrue):userSvg" class="rounded" width="50" height="50" alt="alt"></v-img>
             </div>
             <div>
                 <div class="display-1 font-weight-regular">Hello, {{ userInfo.nicename || userInfo.username }}</div>

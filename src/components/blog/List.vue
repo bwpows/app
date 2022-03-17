@@ -1,5 +1,6 @@
 <template>
     <v-card class="mb-8" :key="cardKey">
+        {{baseURL + url[0]}}
         <div v-if="!url"></div>
         <v-carousel
             v-else-if="url.length > 1"

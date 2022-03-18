@@ -3,20 +3,31 @@
         <v-main class="containers">
             <v-img src="@/assets/logo.svg" height="100" contain></v-img>
             <h1 class="text-h2 mt-6 text-center primary--text font-weight-normal">欢迎</h1>
-            <div class="mb-6 mt-4 grey--text text--darken-1 text-center">没有账号将自动为您创建账号</div>
-            <v-text-field type="tel" outlined class="mb-0" v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
+            <div class="mb-6 mt-4 grey--text text-center">没有账号将自动为您创建账号</div>
+            <v-text-field type="tel" outlined class="mb-0" maxlength="11" counter v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
             <v-text-field v-if="signInType != 'code'" type="password" placeholder="请输入密码" outlined class="mb-0" v-model="password" color="primary"></v-text-field>
             <div v-else style="position: relative;">
-                <v-text-field type="tel" placeholder="请输入验证码" outlined class="mb-0" v-model="code" color="primary"></v-text-field>
+                <v-text-field type="tel" placeholder="请输入验证码" maxlength="6" outlined class="mb-0" v-model="code" color="primary"></v-text-field>
                 <v-btn text @click="getSMSCode()" x-small class="body-2 primary--text cursor_pointer" style="position: absolute; right: 5px; top:15px;" :disabled='seconds != 60'>
                     {{seconds == 60?'获取验证码':seconds+'s '+'后再次获取'}}
                 </v-btn>
             </div>
 
-            <div class="body-2 primary--text mb-8 cursor_pointer">
+            <div class="body-2 primary--text cursor_pointer">
                 <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
             </div>
-            <v-btn color="primary mt-14" style="width:100%;" depressed x-large @click="signIn()">登录 / 注册</v-btn>
+            <div class="body-2 d-flex align-center mt-2">
+                <v-checkbox v-model="agreement" value="value">
+                    <template v-slot:label>
+                        <div class="body-2">
+                            我已同意并阅读
+                            <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">隐私策略</span>和
+                            <span class="primary--text" @click="$router.push('/safety/Agreement')">用户协议</span>
+                        </div>
+                    </template>
+                </v-checkbox>
+            </div>
+            <v-btn color="primary mt-6" style="width:100%;" depressed x-large @click="signIn()" :loading="submitLoading">登录 / 注册</v-btn>
 
             <v-dialog
                 v-model="setPasswordDialog"
@@ -28,7 +39,7 @@
                     <v-text-field v-model="newPassword" outlined placeholder="请输入新密码"></v-text-field>
                     <v-text-field v-model="confirmPassword" outlined placeholder="请确认密码"></v-text-field>
                     <div class="d-flex justify-end">
-                        <v-btn color="primary" depressed @click="surePassword()">确定</v-btn>
+                        <v-btn color="primary" depressed @click="surePassword()" :loading="setDialogLoading">确定</v-btn>
                     </div>
                 </v-card>
             </v-dialog>
@@ -46,14 +57,20 @@ export default {
             signInType: 'code',
             interval: {},
             seconds: 60,
-            snackbar: {
-                value: true
-            },
 
+            // 登录按钮的loading
+            submitLoading: false,
+
+            // 设置密码弹窗
             setPasswordDialog: false,
+            setDialogLoading: false,
 
+            // 密码
             newPassword: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            
+            // 同意协议
+            agreement: false
         }
     },
     methods:{
@@ -67,11 +84,13 @@ export default {
 
         // 登录接口
         async signIn(){
+            if(!this.phone) return this.$snackbar("请输入手机号")
+            if(!this.agreement) return this.$snackbar("请勾选隐私策略")
             if(this.signInType == 'code'){
-                if(this.code == ''){
-                    this.$snackbar("请输入验证码")
-                }
+                if(!this.code) return this.$snackbar("请输入验证码")
+                this.submitLoading = true
                 let res = await SMSCodeLogin({phone: this.phone, code: this.code})
+                this.submitLoading = false
                 if(res.code !== 200){
                     this.$snackbar(res.message || '用户或验证码错误')
                     return false;
@@ -83,13 +102,13 @@ export default {
                 }else{
                     await this.dealLoginRequestResult(res)
                 }
-                // await this.dealLoginRequestResult(res)
             }else{
                 if(this.phone == ''){
                     this.$snackbar("请输入密码")
                 }
+                this.submitLoading = true
                 let res = await passwordLogin({ phone: this.phone, password: this.password })
-                console.log(res)
+                this.submitLoading = false
                 if(res.code !== 200){
                     this.$snackbar(res.message || '用户或密码错误')
                     return false;
@@ -124,13 +143,12 @@ export default {
             }, 1000);
         },
 
-        // 打开设置密码的弹窗
-
         // 确定密码事件
         async surePassword(){
             if(this.newPassword != this.confirmPassword) return this.$snackbar('两次密码输入不一致')
+            this.setDialogLoading = true
             let data = await setNewPassword({phone: this.phone, password: this.newPassword})
-            console.log(data)
+            this.setDialogLoading = false
             if(data.code == 200){
                 this.$snackbar("设置密码成功")
                 this.dealLoginRequestResult(data)

@@ -22,7 +22,11 @@ export default {
 
     methods: {
         changeTheme(){
-            this.$vuetify.theme.dark = this.darkAuto
+            if(!this.darkAuto){
+                this.$vuetify.theme.dark = this.darkAuto
+            }else{
+                this.$vuetify.theme.dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            }
             localStorage.setItem('darkAuto', this.darkAuto)
         }
     },

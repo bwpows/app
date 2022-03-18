@@ -74,6 +74,7 @@ export default {
             this.formData.append('description',this.blogInfo.description);
             this.formData.append('is_public', Boolean(!this.blogInfo.is_public));
             let res = await publishVideo(this.formData)
+            formData = new FormData()
             if(res.code == 200){
                 this.$snackbar('发布成功' )
                 this.$router.replace('/')

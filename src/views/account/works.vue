@@ -1,5 +1,13 @@
 <template>
     <div>
+
+        <v-card class="pa-6 grey--text text--darken-1 body-2" v-if="worksData.length == 0">
+            您还没有创见作品哦！
+            <div class="mt-2"> 点击下方按钮去分享一个吧！</div>
+            <v-btn color="primary" depressed class="mt-4" small @click="$router.replace('/publish')">点击分享您的喜悦！</v-btn>
+        </v-card>
+
+
         <blog-list
             v-for="item in worksData"
             :key="item._id"

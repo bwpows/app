@@ -4,7 +4,7 @@
     <v-sheet class="rounded-t-lg px-6" height="75vh">
         <div v-if="value">
             <div class="d-flex justify-center py-4" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
-                <div style="width: 70px; height: 6px;" class="rounded-xl grey"></div>
+                <div style="width: 70px; height: 4px;" class="rounded-xl grey darken-1"></div>
             </div>
             <div v-if="data.url.length == 0"></div>
             <v-carousel

@@ -99,7 +99,23 @@ const routes = [
         component: () => import('../views/account/Settings.vue'),
         meta: {
           level: 2,
-          title: '我的手机'
+          title: '通用设置'
+        }
+      },{
+        path: '/safety/privacy',
+        name: 'SafetyPrivacy',
+        component: () => import('../views/safety/Privacy.vue'),
+        meta: {
+          level: 2,
+          title: '隐私策略'
+        }
+      },{
+        path: '/safety/agreement',
+        name: 'SafetyAgreement',
+        component: () => import('../views/safety/Agreement.vue'),
+        meta: {
+          level: 2,
+          title: '用户协议'
         }
       },
     ]
@@ -113,7 +129,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.path == '/signIn' || to.path == '/signUn') return next()
+  if(to.path == '/signIn' || to.path == '/safety/privacy' || to.path=='/safety/Agreement') return next()
   if(!localStorage.getItem('token')) return next('signIn')
   next()
 })

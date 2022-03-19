@@ -6,7 +6,6 @@
 </template>
 
 <script>
-
 import OtherSnackbar from './layouts/other/Snackbar.vue'
 export default {
   name: 'App',

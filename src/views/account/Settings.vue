@@ -23,10 +23,13 @@ export default {
     methods: {
         changeTheme(){
             if(!this.darkAuto){
-                this.$vuetify.theme.dark = this.darkAuto
+                plus.navigator.setStatusBarStyle('dark');
+                plus.navigator.setStatusBarBackground('#ffffff')
             }else{
-                this.$vuetify.theme.dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                plus.navigator.setStatusBarStyle('light');
+                plus.navigator.setStatusBarBackground('#000000')
             }
+            this.$vuetify.theme.dark = this.darkAuto
             localStorage.setItem('darkAuto', this.darkAuto)
         }
     },

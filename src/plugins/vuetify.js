@@ -6,6 +6,44 @@ import ripple from 'vuetify/lib/directives/ripple'
 
 Vue.use(Vuetify, { directives: { ripple } })
 
+// plus.navigator.setStatusBarBackground('#272727');
+
+// console.log(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+let dark = localStorage.getItem('darkAuto') == 'true'
+
+// let callback = (e) => {
+//   if(localStorage.getItem('darkAuto') == 'true'){
+//     Vuetify.theme.dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+//   }
+// }
+
+// if(localStorage.getItem('darkAuto') == 'true'){
+//   dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+// }
+
+
+
+if(window.plus){
+  console.log('判断plus')
+	document.addEventListener('plusready', plusReady, false);
+}else{
+  console.log('判断else plus')
+	document.addEventListener('plusready', plusReady, false);
+}
+
+function plusReady(){
+  if(!dark){
+      plus.navigator.setStatusBarStyle('dark');
+      plus.navigator.setStatusBarBackground('#ffffff')
+  }else{
+      plus.navigator.setStatusBarStyle('light');
+      plus.navigator.setStatusBarBackground('#000000')
+  }
+}
+
+
+
 const theme = {
   primary: '#ec752e',
   secondary: '#9C27b0',
@@ -23,7 +61,7 @@ export default new Vuetify({
     values: { expand: 'mdi-menu-down' },
   },
   theme: {
-    dark: localStorage.getItem('darkAuto') == 'true',
+    dark,
     themes: {
       dark: theme,
       light: theme,

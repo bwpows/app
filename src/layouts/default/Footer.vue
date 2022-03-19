@@ -49,6 +49,8 @@ export default {
         goRouter(path){
             if(this.$route.path == path) return false;
             this.$router.replace(path)
+            // 手机震动
+            // window.plus.device.vibrate(2000);
         },
     },
 }

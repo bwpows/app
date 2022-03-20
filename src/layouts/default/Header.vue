@@ -1,6 +1,6 @@
 <template>
-    <v-app-bar app fixed elevation="0">
-        <div class=" d-flex align-center justify-space-between" style="width: 100vw;">
+    <v-app-bar app fixed elevation="0" class="footBG">
+        <div class="d-flex align-center justify-space-between" style="width: 100vw;">
             <v-btn color="primary" icon x-large>
                 <v-icon @click="drawer = true">mdi-format-list-bulleted</v-icon>
             </v-btn>

@@ -1,5 +1,5 @@
 <template>
-    <v-footer app fixed class=" rounded-xl ma-4 mx-7">
+    <v-footer app fixed class="rounded-xl ma-4 mx-7  footBG">
         <div style="width: 100%;" class="d-flex align-center text-center py-3">
             <div style="display: inline-block; width: 25%">
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>

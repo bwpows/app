@@ -44,7 +44,7 @@ function plusReady(){
 
 
 
-const theme = {
+const lightTheme = {
   primary: '#ec752e',
   secondary: '#9C27b0',
   accent: '#e91e63',
@@ -52,7 +52,18 @@ const theme = {
   success: '#4CAF50',
   warning: '#FB8C00',
   error: '#FF5252',
-  footBG: '#f7efe5'
+  footBG: '#fafafa'
+}
+
+const darkTheme = {
+  primary: '#ec752e',
+  secondary: '#9C27b0',
+  accent: '#e91e63',
+  info: '#00CAE3',
+  success: '#4CAF50',
+  warning: '#FB8C00',
+  error: '#FF5252',
+  footBG: '#1f1f1f'
 }
 
 export default new Vuetify({
@@ -63,8 +74,8 @@ export default new Vuetify({
   theme: {
     dark,
     themes: {
-      dark: theme,
-      light: theme,
+      dark: darkTheme,
+      light: lightTheme,
     },
   },
 })

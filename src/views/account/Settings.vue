@@ -22,12 +22,15 @@ export default {
 
     methods: {
         changeTheme(){
-            if(!this.darkAuto){
-                plus.navigator.setStatusBarStyle('dark');
-                plus.navigator.setStatusBarBackground('#ffffff')
-            }else{
-                plus.navigator.setStatusBarStyle('light');
-                plus.navigator.setStatusBarBackground('#000000')
+            if(window.plus){
+
+                if(!this.darkAuto){
+                    plus.navigator.setStatusBarStyle('dark');
+                    plus.navigator.setStatusBarBackground('#ffffff')
+                }else{
+                    plus.navigator.setStatusBarStyle('light');
+                    plus.navigator.setStatusBarBackground('#000000')
+                }
             }
             this.$vuetify.theme.dark = this.darkAuto
             localStorage.setItem('darkAuto', this.darkAuto)

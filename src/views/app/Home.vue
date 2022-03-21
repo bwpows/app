@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <blog-list
             v-for="item in blogList"
             :key="item._id"

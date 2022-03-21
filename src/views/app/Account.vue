@@ -93,7 +93,13 @@ export default {
 
         async getInfo(id){
             let res = await getUserInfo(id)
-            this.userInfo = res.data
+            console.log(res)
+            if(res.code == 200){
+                this.userInfo = res.data
+            }else{
+                this.$snackbar("身份验证失败")
+                this.$router.replace('signin')
+            }
         },
 
         openLogoutDialog(){

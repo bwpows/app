@@ -1,11 +1,11 @@
 <template>
     <div>
-        <default-header v-if="this.$route.meta.level == 1" />
-        <level-header v-else-if="this.$route.meta.level == 2" />
+        <default-header v-if="this.$route.meta.index == 1" />
+        <level-header v-else-if="this.$route.meta.index == 2" />
         <v-main class="ma-6">
             <router-view :key="$route.path" />
         </v-main>
-        <default-footer v-if="this.$route.meta.level == 1" />
+        <default-footer v-if="this.$route.meta.index == 1" />
     </div>
 </template>
 

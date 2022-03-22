@@ -12,7 +12,7 @@
                 </div>
             </div>
             <v-divider></v-divider>
-            <div class="d-flex justify-space-between align-center my-4">
+            <div class="d-flex justify-space-between align-center my-4" @click="openEditUsernameDialog()">
                 <div>我的昵称</div>
                 <div class="d-flex align-center">
                     {{ userInfo.username }}
@@ -23,11 +23,23 @@
             <div class="d-flex justify-space-between align-center my-4">
                 <div>性别</div>
                 <div class="d-flex align-center">
-                    {{ userInfo.username }}
+                    {{ userInfo.sex || '保密' }}
                     <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
                 </div>
             </div>
         </v-card>
+        
+        <!-- 编辑用户名称的弹窗 -->
+        <base-dialog
+            :value="editUsernameDialog"
+            title="修改名称"
+            @close="changeUsername()"
+        >
+            <template>
+                <v-text-field maxlength="10" counter="10" type="text" autofocus placeholder="请输入昵称" class="mt-6 mr-1" v-model="userInfo.username" outlined dense color @keypress.native.enter="changeUsername()"></v-text-field>
+            </template>
+        </base-dialog>
+
     </div>
 </template>
 
@@ -35,11 +47,13 @@
 import userSvg from '@/assets/user.svg'
 import { getUserInfo, uploadHeadImg } from '../../api/Account';
 import { baseURL } from '../../api/Server';
+import { editUsername } from '../../api/User';
 export default {
     data() {
         return {
             baseURL, userSvg,
-            userInfo: {}
+            userInfo: {},
+            editUsernameDialog: false
         }
     },
 
@@ -62,6 +76,25 @@ export default {
             await uploadHeadImg(formData)
             this.getInfo(this.userInfo._id)
         },
+
+        // 打开修改名称弹窗
+        openEditUsernameDialog(){
+            this.editUsernameDialog = true
+        },
+
+        // 修改用户昵称
+        async changeUsername(){
+            let obj = {
+                username: this.userInfo.username
+            }
+            let data = await editUsername(this.userInfo._id, obj)
+            if(data.code == 200){
+                this.editUsernameDialog = false
+                this.getInfo(this.userInfo._id)
+            }
+
+        },
+
     },
 
 }

@@ -1,7 +1,7 @@
 <template>
 
 <v-bottom-sheet inset v-model="value" @click:outside="$emit('close')">
-    <v-sheet class="rounded-t-lg px-6" height="75vh">
+    <v-sheet class="rounded-t-lg px-6 pb-6" height="75vh" style="overflow:scroll;">
         <div v-if="value">
             <!-- 横条 -->
             <div class="d-flex justify-center py-4" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
@@ -58,8 +58,14 @@
                 <v-btn color="primary" outlined :disabled="!comment.content" :loading="submitBtnLoading" @click="submitComment()">发表</v-btn>
             </div>
 
-            <div v-for="comment in data.comments" :key="comment._id">
-                {{comment.content}}
+            <div v-for="comment in commentList" :key="comment._id" class="d-flex align-center my-4">
+                <div>
+                    <v-img height="42" width="42" class="rounded" :src="comment.user.pictrue? (baseURL+comment.user.pictrue) : userSvg"></v-img>
+                </div>
+                <div class="ml-4 body-2">
+                    <div class="grey--text">{{comment.user.username}}</div>
+                    <div class="">{{comment.content}}</div>
+                </div>
             </div>
 
         </div>
@@ -95,7 +101,8 @@ export default {
             userSvg,
             comment: {},
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
-            submitBtnLoading: false
+            submitBtnLoading: false,
+            commentList: []
         }
     },
 
@@ -115,6 +122,7 @@ export default {
         // 获取评论
         async getComment(){
             let data = await getCommentByWorkId(this.data._id)
+            this.commentList = data.data
             console.log(data)
         },
 
@@ -147,6 +155,7 @@ export default {
             this.comment.object_id = null
             this.submitBtnLoading = true;
             let data = await addComment(this.comment)
+            this.getComment()
             this.submitBtnLoading = false;
             if(data.code == 200){
                 this.$snackbar('发表成功')

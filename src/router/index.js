@@ -10,7 +10,7 @@ const routes = [
     name: 'SignIn',
     component: () => import('../views/session/SignIn.vue'),
     meta: {
-      level: 0
+      index: 0
     }
   },
   {
@@ -22,35 +22,35 @@ const routes = [
         name: 'Home',
         component: () => import('../views/app/Home.vue'),
         meta: {
-          level: 1
+          index: 1
         }
       },{
         path: '/publish',
         name: 'Publish',
         component: () => import('../views/app/Publish.vue'),
         meta: {
-          level: 1
+          index: 1
         }
       },{
         path: '/account',
         name: 'Account',
         component: () => import('../views/app/Account.vue'),
         meta: {
-          level: 1
+          index: 1
         }
       },{
         path: '/message',
         name: 'Message',
         component: () => import('../views/app/Message.vue'),
         meta: {
-          level: 1
+          index: 1
         }
       },{
         path: '/work/:id',
         name: 'Work',
         component: () => import('../views/work/Info.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '作品详情'
         }
       },{
@@ -58,7 +58,7 @@ const routes = [
         name: 'AccountInfo',
         component: () => import('../views/account/Info.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '我的资料'
         }
       },{
@@ -66,7 +66,7 @@ const routes = [
         name: 'AccountWorks',
         component: () => import('../views/account/Works.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '我的作品'
         }
       },{
@@ -74,7 +74,7 @@ const routes = [
         name: 'AccountLikes',
         component: () => import('../views/account/Likes.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '我的点赞'
         }
       },{
@@ -82,7 +82,7 @@ const routes = [
         name: 'AccountCollectes',
         component: () => import('../views/account/Collectes.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '我的关注'
         }
       },{
@@ -90,7 +90,7 @@ const routes = [
         name: 'AccountPhone',
         component: () => import('../views/account/Phone.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '我的手机'
         }
       },{
@@ -98,7 +98,7 @@ const routes = [
         name: 'AccountSettings',
         component: () => import('../views/account/Settings.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '通用设置'
         }
       },{
@@ -106,7 +106,7 @@ const routes = [
         name: 'SafetyPrivacy',
         component: () => import('../views/safety/Privacy.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '隐私策略'
         }
       },{
@@ -114,7 +114,7 @@ const routes = [
         name: 'SafetyAgreement',
         component: () => import('../views/safety/Agreement.vue'),
         meta: {
-          level: 2,
+          index: 2,
           title: '用户协议'
         }
       },

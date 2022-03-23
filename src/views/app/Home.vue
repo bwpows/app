@@ -1,5 +1,6 @@
 <template>
     <div>
+        <work-list-loading v-if="loading" />
 
         <blog-list
             v-for="item in blogList"
@@ -36,6 +37,7 @@ export default {
             blogList: [],
             userId: JSON.parse(localStorage.getItem('userInfo')).userId,
             bottomSheetData: {},
+            loading: true
         }
     },
 
@@ -55,6 +57,7 @@ export default {
             if(res.code == 200){
                 this.blogList = res.data
             }
+            this.loading = false
         },
 
         async praise(data,id){

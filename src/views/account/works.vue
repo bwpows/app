@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <work-list-loading v-if="loading" />
+
         <v-card class="pa-6 grey--text text--darken-1 body-2" v-if="worksData.length == 0">
             您还没有创见作品哦！
             <div class="mt-2"> 点击下方按钮去分享一个吧！</div>
@@ -55,7 +57,8 @@ export default {
             delBtnLoading: false,
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
             delDialog: {},
-            bottomSheetData: {}
+            bottomSheetData: {},
+            loading: true
         }
     },
 
@@ -69,6 +72,7 @@ export default {
         // 获取数据
         async fetch(){
             let res = await getBlogByUserId(this.userInfo.userId)
+            this.loading = false
             this.worksData = res.data
         },
 

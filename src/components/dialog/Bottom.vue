@@ -2,26 +2,31 @@
 
 <v-bottom-sheet inset v-model="value" @click:outside="$emit('close')">
     <v-sheet class="rounded-t-lg px-6 pb-6" height="75vh" style="overflow:scroll;">
-        <div v-if="value">
-            <!-- 横条 -->
-            <div class="d-flex justify-center py-4" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
-                <div style="width: 70px; height: 4px;" class="rounded-xl grey darken-1"></div>
-            </div>
+        <!-- 横条 -->
+        <div class="d-flex justify-center py-4" style=" position: relative;" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
+            <div style="width: 70px; height: 4px; position: fixed; z-index: 10;" class="rounded-xl grey darken-1"></div>
+        </div>
+
+        <div v-if="loading">
+            <work-info-loading />
+        </div>
+
+        <div v-else>
 
             <!-- 头像信息 -->
             <div class="d-flex align-center mb-4">
-                <div>
-                    <v-img :src="data.users.pictrue?(baseURL + data.users.pictrue): userSvg" class="rounded" width="36" cover height="36"></v-img>
+                <div class="rounded">
+                    <v-img :src="workInfo.users?(baseURL + workInfo.users.pictrue): userSvg" class="rounded" width="36" cover height="36"></v-img>
                 </div>
                 <div class="mx-4 text-h4">
-                    {{ data.users.username || data.users.phone || '匿名用户' }}
+                    {{ workInfo.users.username || workInfo.users.phone || '匿名用户' }}
                 </div>
             </div>
 
             <!-- 图片 -->
-            <div v-if="data.url.length == 0"></div>
+            <div v-if="workInfo.url.length == 0"></div>
             <v-carousel
-                v-else-if="data.url.length > 1"
+                v-else-if="workInfo.url.length > 1"
                 delimiter-icon="mdi-minus"
                 hide-delimiter-background
                 height="240"
@@ -29,7 +34,7 @@
                 style="overflow: hidden;"
             >
                 <v-carousel-item
-                    v-for="(item, i) in data.url"
+                    v-for="(item, i) in workInfo.url"
                     :key="i"
                     :src="baseURL + item"
                     :show-arrows="false"
@@ -39,17 +44,19 @@
             </v-carousel>
             <v-img
                 v-else
-                :src="baseURL + data.url[0]"
+                :src="baseURL + workInfo.url[0]"
                 style="width: 100%"
                 height="200"
                 class="rounded-lg"
             ></v-img>
 
+            <!-- {{workInfo}} -->
+
             <!-- 内容 -->
-            <div class="my-6 mb-4 text-h4 font-weight-black">{{ data.title }}</div>
-            <div> {{ data.description }} </div>
+            <div class="my-6 mb-4 text-h4 font-weight-black">{{ workInfo.title }}</div>
+            <div> {{ workInfo.description }} </div>
             <div class="my-4 d-flex justify-space-between body-2 grey--text">
-                <div class>{{ calCurrentTime(data.created_time) }}</div>
+                <div class>{{ calCurrentTime(workInfo.created_time) }}</div>
             </div>
 
             <!-- 评论 -->
@@ -63,7 +70,7 @@
                     <v-img height="42" width="42" class="rounded" :src="comment.user.pictrue? (baseURL+comment.user.pictrue) : userSvg"></v-img>
                 </div>
                 <div class="ml-4 body-2">
-                    <div class="grey--text">{{comment.user.username}}</div>
+                    <div class="grey--text">{{comment.user.username || comment.user.phone || '匿名用户'}}</div>
                     <div class="">{{comment.content}}</div>
                 </div>
             </div>
@@ -80,6 +87,7 @@ import { baseURL } from '@/api/Server';
 import { calCurrentTime } from '../../util/formatTime';
 import userSvg from '@/assets/user.svg';
 import { addComment, getCommentByWorkId } from '../../api/Comment';
+import { getBlogInfo } from '../../api/Works';
 
 export default {
 
@@ -102,16 +110,19 @@ export default {
             comment: {},
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
             submitBtnLoading: false,
-            commentList: []
+            commentList: [],
+            workInfo: {},
+            loading: true
         }
     },
 
 
     watch: {
         value(){
-            console.log(444)
             if(this.value){
+                this.loading = true
                 this.getComment()
+                this.getWorkById()
             }
         }
     },
@@ -119,11 +130,19 @@ export default {
     methods: {
         calCurrentTime,
 
+        // 获取单个单个用户
+        async getWorkById(){
+            this.loading = true
+            let data = await getBlogInfo(this.data._id)
+            this.loading = false
+            this.workInfo = data.data
+            console.log(data)
+        },
+
         // 获取评论
         async getComment(){
             let data = await getCommentByWorkId(this.data._id)
             this.commentList = data.data
-            console.log(data)
         },
 
         // 开始移动事件
@@ -155,6 +174,7 @@ export default {
             this.comment.object_id = null
             this.submitBtnLoading = true;
             let data = await addComment(this.comment)
+            this.comment.content = ''
             this.getComment()
             this.submitBtnLoading = false;
             if(data.code == 200){

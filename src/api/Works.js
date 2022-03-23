@@ -9,7 +9,7 @@ export function publishVideo(data){
 }
 
 
-// 查询某个视频
+// 查询某个作品
 export function getBlogInfo(id){
     return Service({
         url: `/publish/${id}`,

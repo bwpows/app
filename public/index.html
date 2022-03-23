@@ -3,10 +3,38 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0,shrink-to-fit=no,viewport-fit=cover"   />
+    <!-- <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0,shrink-to-fit=no,viewport-fit=cover"   /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no ,viewport-fit=cover"   />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <style>
+
+
+      html, body{
+          -webkit-overflow-scrolling:touch;/* 当手指从触摸屏上移开，会保持一段时间的滚动 */
+      }
+
+      *{
+          -webkit-touch-callout:none;  /*系统默认菜单被禁用*/
+          -webkit-user-select:none; /*webkit浏览器*/
+          -khtml-user-select:none; /*早期浏览器*/
+          -moz-user-select:none;/*火狐*/
+          -ms-user-select:none; /*IE10*/
+          user-select:none;
+      }
+      *::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+          display: none;
+      }
+      *::-webkit-scrollbar:horizontal {
+          width: 0;
+          height: 0;
+          display: none;
+      }
+
+    </style>
   </head>
   <body>
     <noscript>

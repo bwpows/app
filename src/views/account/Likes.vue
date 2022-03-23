@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <work-list-loading v-if="loading" />
+
         <v-card class="pa-6 grey--text text--darken-1 body-2" v-if="workData.length == 0">
             您还没有点赞的作品哦！看样子您的品味很高哦。
         </v-card>
@@ -35,6 +37,7 @@ export default {
             workData: [],
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
             bottomSheetData: {},
+            loading: true
         }
     },
 
@@ -47,6 +50,7 @@ export default {
         async fetch(){
             this.workData = []
             let res = await getPraiseByUserId(this.userInfo.userId);
+            this.loading = false
             if(res.code == 200){
                 for (let i = 0; i < res.data.length; i++) {
                     let obj = res.data[i].works[0]
@@ -55,7 +59,6 @@ export default {
                     this.workData.push(obj)
                 }
             }
-            console.log(res.data)
         },
 
 

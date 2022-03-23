@@ -1,16 +1,12 @@
 <template>
 
-  <v-app id="app" style="min-height: 100vh">
+  <v-app id="app">
     <keep-alive>
         <router-view class="Router"></router-view>
     </keep-alive>
     <other-snackbar />
   </v-app>
 </template>
-
-<script>
-</script>
-
 
 <script>
 import OtherSnackbar from './layouts/other/Snackbar.vue'
@@ -32,8 +28,8 @@ export default {
   .v-input--selection-controls__ripple{
     display: none !important;
   }
-  .v-application--wrap{
-    min-height: 50vh !important;
-  }
+  // .v-application--wrap{
+  //   min-height: 50vh !important;
+  // }
 
 </style>

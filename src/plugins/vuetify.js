@@ -52,7 +52,8 @@ const lightTheme = {
   success: '#4CAF50',
   warning: '#FB8C00',
   error: '#FF5252',
-  footBG: '#fafafa'
+  footBG: '#fafafa',
+  headerBG: '#ffffff'
 }
 
 const darkTheme = {
@@ -63,7 +64,8 @@ const darkTheme = {
   success: '#4CAF50',
   warning: '#FB8C00',
   error: '#FF5252',
-  footBG: '#1f1f1f'
+  footBG: '#1f1f1f',
+  headerBG: '#000000'
 }
 
 export default new Vuetify({

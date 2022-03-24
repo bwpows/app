@@ -78,6 +78,14 @@ const routes = [
           title: '我的点赞'
         }
       },{
+        path: '/account/privacy',
+        name: 'AccountPrivacy',
+        component: () => import('../views/account/Privacy.vue'),
+        meta: {
+          index: 2,
+          title: '隐私作品'
+        }
+      },{
         path: '/account/collectes',
         name: 'AccountCollectes',
         component: () => import('../views/account/Collectes.vue'),

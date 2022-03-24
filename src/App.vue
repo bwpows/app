@@ -32,4 +32,13 @@ export default {
   //   min-height: 50vh !important;
   // }
 
+  #app{
+
+    height: 100%;
+    overflow-x: none;
+    overflow-y: scroll;
+    /*解决ios上滑动不流畅*/
+    -webkit-overflow-scrolling: touch;
+  }
+
 </style>

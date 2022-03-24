@@ -58,6 +58,7 @@ import collecteSvg from '@/assets/icon/collecte.svg'
 import likeSvg from '@/assets/icon/like.svg'
 import settingSvg from '@/assets/icon/setting.svg'
 import worksSvg from '@/assets/icon/works.svg'
+import privacySvg from '@/assets/icon/privacy.svg'
 import { formatPhoneNumber } from '@/util/phone'
 import { baseURL } from '../../api/Server'
 import { getUserInfo } from '../../api/Account';
@@ -65,7 +66,7 @@ export default {
     data() {
         return {
             // 图标
-            userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg, baseURL,
+            userSvg, phoneSvg, collecteSvg, likeSvg, settingSvg, worksSvg, baseURL, privacySvg,
 
             // 个人信息
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
@@ -75,7 +76,8 @@ export default {
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
                 { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: settingSvg, text: '通用设置', path:  '/account/settings' },
+                { icon: privacySvg, text: '隐私作品', path:  '/account/privacy' },
+                { icon: settingSvg, text: '通用设置', path:  '/account/settings' }
             ],
 
             // 确定框

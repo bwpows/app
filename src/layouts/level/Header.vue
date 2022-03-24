@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app fixed elevation="0" class="footBG">
+    <v-app-bar app fixed elevation="0" class="headerBG">
         <div @click="$router.go(-1)" fixed class="d-flex align-center" style="position: fixed">
             <v-icon size="30">mdi-chevron-left</v-icon>
         </div>

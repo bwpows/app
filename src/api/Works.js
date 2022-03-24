@@ -26,6 +26,15 @@ export function getBlogByUserId(id){
 }
 
 
+// 获取某人的作品
+export function getPrivacyWork(user_id){
+    return Service({
+        url: `/publish/privacyWork/${user_id}`,
+        method: 'GET'
+    })
+}
+
+
 // 删除作品
 export function delWorkById(id){
     return Service({

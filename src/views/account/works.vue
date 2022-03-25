@@ -13,6 +13,7 @@
         <blog-list
             v-for="item in worksData"
             :key="item._id"
+            :_id="item._id"
             :title="item.title"
             :description="item.description"
             :createdTime="item.created_time"
@@ -22,7 +23,7 @@
             :deleteBtn="true"
             @praise="praise($event ,item._id)"
             @click.native="openBottomSheet(item)"
-            @delWork="openDelDialog(item)"
+            @delWork="fetch()"
         ></blog-list>
 
         <bottom-dialog
@@ -31,14 +32,6 @@
             @close="bottomSheetData = {}"
         />
 
-        <delete-dialog
-            :value="delDialog.value"
-            :title="delDialog.title"
-            :content="delDialog.content"
-            :loading="delBtnLoading"
-            @close="delDialog.value = false"
-            @delEvent="delWork()"
-        />
     </div>
 </template>
 
@@ -95,15 +88,7 @@ export default {
             this.fetch()
         },
 
-        // 弹出删除框
-        openDelDialog(data){
-            this.delDialog = {
-                value: true,
-                title: `删除 ${data.title}`,
-                content: '此作品将不在你的作品中展示，是否继续删除？',
-                data
-            }
-        },
+
 
         // 删除博客
         async delWork(){

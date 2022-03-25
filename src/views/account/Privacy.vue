@@ -10,14 +10,17 @@
         <blog-list
             v-for="item in workData"
             :key="item._id"
+            :_id="item._id"
             :title="item.title"
             :description="item.description"
             :createdTime="item.created_time"
             :url="item.url.length!==0?(item.url): null"
             :love="item.likes"
             :views="item.views"
+            :deleteBtn="true"
             @praise="praise($event ,item._id)"
             @click.native="openBottomSheet(item)"
+            @delWork="fetch()"
         ></blog-list>
 
         <bottom-dialog

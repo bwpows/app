@@ -28,9 +28,9 @@ export default {
   .v-input--selection-controls__ripple{
     display: none !important;
   }
-  // .v-application--wrap{
-  //   min-height: 50vh !important;
-  // }
+  .v-application--wrap{
+    min-height: 50vh !important;
+  }
 
   #app{
 

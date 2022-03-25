@@ -1,6 +1,6 @@
 <template>
 
-<v-bottom-sheet inset v-model="value" @click:outside="$emit('close')">
+<v-bottom-sheet inset v-model="value" @click:outside="$emit('close')" @touchmove.prevent>
     <v-sheet class="rounded-t-lg px-6 pb-6" height="75vh" style="overflow:scroll;">
         <!-- 横条 -->
         <div class="d-flex justify-center py-4" style=" position: relative;" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
@@ -16,10 +16,13 @@
             <!-- 头像信息 -->
             <div class="d-flex align-center mb-4">
                 <div class="rounded">
-                    <v-img :src="workInfo.users?(baseURL + workInfo.users.pictrue): userSvg" class="rounded" width="36" cover height="36"></v-img>
+                    <v-img :src="workInfo.users?workInfo.users.pictrue?(baseURL + workInfo.users.pictrue): userSvg: userSvg" class="rounded" width="36" cover height="36"></v-img>
                 </div>
-                <div class="mx-4 text-h4">
+                <div class="mx-4 text-h4" v-if="workInfo.users">
                     {{ workInfo.users.username || workInfo.users.phone || '匿名用户' }}
+                </div>
+                <div v-else class="mx-4">
+                    匿名用户
                 </div>
             </div>
 
@@ -48,6 +51,7 @@
                 style="width: 100%"
                 height="200"
                 class="rounded-lg"
+                @click="previewImage(baseURL + workInfo.url[0])"
             ></v-img>
 
             <!-- {{workInfo}} -->
@@ -130,6 +134,12 @@ export default {
     methods: {
         calCurrentTime,
 
+        previewImage(url){
+            plus.nativeUI.previewImage([
+                url
+            ]);
+        },
+
         // 获取单个单个用户
         async getWorkById(){
             this.loading = true
@@ -161,7 +171,7 @@ export default {
             var X = moveEndX - this.moveEndX
             var Y = moveEndY - this.moveEndY
 
-            if (Math.abs(Y) > Math.abs(X)+20 && Y > 0) {
+            if (Math.abs(Y) > Math.abs(X)+50 && Y > 0) {
                 this.$emit('close')
             }
         },
@@ -184,6 +194,8 @@ export default {
             }
 
         },
+
+        // 删除作品
 
 
     },

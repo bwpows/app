@@ -25,7 +25,7 @@
         </div>
         <div v-for="item in list" :key="item.path">
             <v-divider class="ml-12 my-3 mr-2"></v-divider>
-            <div class="d-flex align-center" @click="$router.push(item.path)">
+            <div class="d-flex align-center" @click="goOtherPage(item)">
                 <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
                 <div style="width: 100%; height: 100%;" >
                     <div class="d-flex justify-space-between align-center">
@@ -76,7 +76,7 @@ export default {
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
                 { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: privacySvg, text: '隐私作品', path:  '/account/privacy' },
+                { icon: privacySvg, text: '隐私作品', path:  '/account/privacy', privacy: true },
                 { icon: settingSvg, text: '通用设置', path:  '/account/settings' }
             ],
 
@@ -92,10 +92,18 @@ export default {
     methods: {
         formatPhoneNumber,
 
+        async goOtherPage(item){
+            // if(item.privacy){
+
+	
+            // }
+            this.$router.push(item.path)
+        },
+
+
 
         async getInfo(id){
             let res = await getUserInfo(id)
-            console.log(res)
             if(res.code == 200){
                 this.userInfo = res.data
             }else{

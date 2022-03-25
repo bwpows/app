@@ -5,6 +5,7 @@
         <blog-list
             v-for="item in blogList"
             :key="item._id"
+            :_id="item._id"
             :title="item.title"
             :description="item.description"
             :createdTime="item.created_time"

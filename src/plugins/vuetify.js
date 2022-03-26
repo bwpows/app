@@ -34,9 +34,11 @@ if(window.plus){
 
 function plusReady(){
   if(!dark){
+      plus.nativeUI.setUIStyle('light');
       plus.navigator.setStatusBarStyle('dark');
       plus.navigator.setStatusBarBackground('#ffffff')
   }else{
+      plus.nativeUI.setUIStyle('dark');
       plus.navigator.setStatusBarStyle('light');
       plus.navigator.setStatusBarBackground('#000000')
   }

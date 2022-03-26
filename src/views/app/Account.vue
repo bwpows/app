@@ -113,11 +113,28 @@ export default {
         },
 
         openLogoutDialog(){
-            this.confirm = {
-                value: true,
-                title: '退出登录',
-                content: '退出登录会导致部分功能不可用，比如发布作品、点赞和评论等是否要继续退出？'
-            }
+            // this.confirm = {
+            //     value: true,
+            //     title: '退出登录',
+            //     content: '退出登录会导致部分功能不可用，比如发布作品、点赞和评论等是否要继续退出？'
+            // }
+            plus.nativeUI.setUIStyle('dark');
+            let that = this
+            plus.nativeUI.actionSheet(
+                {title:"退出登录会导致部分功能不可用，是否要继续退出？",
+                cancel:"取消",
+                buttons:[
+                    {
+                        title:"确认退出",
+                        style:"destructive"
+                    }
+                ]},
+                function(e){
+                    if(e.index == 1){
+                        that.logout()
+                    }
+                }
+            );
         },
 
         // 退出登录

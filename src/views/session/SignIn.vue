@@ -16,6 +16,7 @@
             <div class="body-2 primary--text cursor_pointer mb-3">
                 <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
             </div>
+
             <div class="body-2 d-flex align-center" style="position: absolute; bottom: 20px;">
                 <v-checkbox v-model="agreement" value="value" dense>
                     <template v-slot:label>
@@ -27,13 +28,10 @@
                     </template>
                 </v-checkbox>
             </div>
+
             <v-btn color="primary mt-6" style="width:100%;" depressed x-large @click="signIn()" :loading="submitLoading">登录 / 注册</v-btn>
 
-            <v-dialog
-                v-model="setPasswordDialog"
-                persistent
-                max-width="500px"
-            >
+            <v-dialog v-model="setPasswordDialog" persistent max-width="500px">
                 <v-card class="pa-6">
                     <div class="text-h4 font-weight-black mb-8">设置新密码</div>
                     <v-text-field v-model="newPassword" outlined placeholder="请输入新密码"></v-text-field>
@@ -47,10 +45,13 @@
     </v-app>
 </template>
 <script>
+
 import { passwordLogin, getUserInfo, getSMSCode, SMSCodeLogin, setNewPassword } from '@/api/Session'
 export default {
     data(){
         return{
+            aweixin: null,
+            auths: {},
             phone: '',
             password: '',
             code: '',
@@ -73,6 +74,7 @@ export default {
             agreement: false
         }
     },
+
     methods:{
 
         async dealLoginRequestResult(res){

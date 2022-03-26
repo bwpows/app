@@ -1,7 +1,7 @@
 <template>
 
 <v-bottom-sheet inset v-model="value" @click:outside="$emit('close')" @touchmove.prevent>
-    <v-sheet class="rounded-t-lg px-6 pb-6" height="75vh" style="overflow:scroll;">
+    <v-sheet class="rounded-t-lg px-6 pb-6" :height="height" style="overflow:scroll;">
         <!-- 横条 -->
         <div class="d-flex justify-center py-4" style=" position: relative;" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
             <div style="width: 70px; height: 4px; position: fixed; z-index: 10;" class="rounded-xl grey darken-1"></div>
@@ -65,7 +65,7 @@
 
             <!-- 评论 -->
             <div class="d-flex mt-6">
-                <v-text-field type="text" placeholder="分享您的看法" v-model="comment.content" outlined dense class="mr-4"></v-text-field>
+                <v-text-field type="text" placeholder="分享您的看法" v-model="comment.content" outlined dense class="mr-4" @focus="height='100%'" @blur="height='75vh'"></v-text-field>
                 <v-btn color="primary" outlined :disabled="!comment.content" :loading="submitBtnLoading" @click="submitComment()">发表</v-btn>
             </div>
 
@@ -116,7 +116,8 @@ export default {
             submitBtnLoading: false,
             commentList: [],
             workInfo: {},
-            loading: true
+            loading: true,
+            height: '75vh'
         }
     },
 

@@ -2,10 +2,12 @@
 <div>
     <v-card class="px-6 py-3 mb-5">
         <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" />
+        <!-- <input type="text" v-model="blogInfo.username"  onfocus="plus.key.setAssistantType('nick')" onblur="plus.key.setAssistantType('none')" placeholder="请输入用户名" /> -->
     </v-card>
     <v-card class="pa-6 mb-5">
         <textarea type="text" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
         <file-upload @upload="getFiles(arguments)" />
+        <!-- <v-img src="uploadIcon" height="90" contain :max-width="width" @click="selectFile()"></v-img> -->
     </v-card>
     <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
     <v-card class="mt-8 pa-1">
@@ -39,6 +41,7 @@ export default {
     },
 
     methods: {
+
 
         // 获取数据
         async fetch(){

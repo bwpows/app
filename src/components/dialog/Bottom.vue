@@ -1,20 +1,27 @@
 <template>
+ <!-- @click:outside="$emit('close')"  -->
+<v-dialog v-model="value" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-card class="mx-8">
+        <v-toolbar height="60" elevation="0" color="headerBG">
+            <v-btn icon dark @click="$emit('close')">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title class=" text-h4 font-weight-black">{{ workInfo.title }}</v-toolbar-title>
+        </v-toolbar>
 
-<v-bottom-sheet inset v-model="value" @click:outside="$emit('close')" @touchmove.prevent>
-    <v-sheet class="rounded-t-lg px-6 pb-6" :height="height" style="overflow:scroll;">
         <!-- 横条 -->
-        <div class="d-flex justify-center py-4" style=" position: relative;" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
+        <!-- <div class="d-flex justify-center py-4" style=" position: relative;" @touchstart="touchStartEvent" @touchmove="touchMoveEvent">
             <div style="width: 70px; height: 4px; position: fixed; z-index: 10;" class="rounded-xl grey darken-1"></div>
-        </div>
+        </div> -->
 
         <div v-if="loading">
             <work-info-loading />
         </div>
 
-        <div v-else>
+        <div v-else class="mx-6">
 
             <!-- 头像信息 -->
-            <div class="d-flex align-center mb-4">
+            <div class="d-flex align-center my-4">
                 <div class="rounded">
                     <v-img :src="workInfo.users?workInfo.users.pictrue?(baseURL + workInfo.users.pictrue): userSvg: userSvg" class="rounded" width="36" cover height="36"></v-img>
                 </div>
@@ -45,8 +52,7 @@
                     transition="fade-transition"
                 ></v-carousel-item>
             </v-carousel>
-            <v-img
-                v-else
+            <v-img v-else
                 :src="baseURL + workInfo.url[0]"
                 style="width: 100%"
                 height="200"
@@ -57,7 +63,7 @@
             <!-- {{workInfo}} -->
 
             <!-- 内容 -->
-            <div class="my-6 mb-4 text-h4 font-weight-black">{{ workInfo.title }}</div>
+            <!-- <div class="my-6 mb-4 text-h4 font-weight-black">{{ workInfo.title }}</div> -->
             <div> {{ workInfo.description }} </div>
             <div class="my-4 d-flex justify-space-between body-2 grey--text">
                 <div class>{{ calCurrentTime(workInfo.created_time) }}</div>
@@ -80,8 +86,8 @@
             </div>
 
         </div>
-    </v-sheet>
-</v-bottom-sheet>
+    </v-card>
+</v-dialog>
 
 </template>
 

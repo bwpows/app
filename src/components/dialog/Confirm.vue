@@ -1,11 +1,12 @@
 <template>
     <v-dialog
+        overlay-opacity="0.85"
         v-model="value"
         persistent
         max-width="500px"
         transition="dialog-transition"
     >
-        <v-card class="pa-6">
+        <v-card class="pa-6"  color="confirmDialog">
             <div class="d-flex justify-space-between">
                 <div v-html="title" class="text-h4 font-weight-bold text-truncate"></div>
                 <v-icon size="24" @click="$emit('close')">mdi-close</v-icon>
@@ -36,6 +37,7 @@
                 type: String,
             }
         },
+
 
         data(){
             return {

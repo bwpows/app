@@ -40,7 +40,7 @@ function plusReady(){
   }else{
       plus.nativeUI.setUIStyle('dark');
       plus.navigator.setStatusBarStyle('light');
-      plus.navigator.setStatusBarBackground('#000000')
+      plus.navigator.setStatusBarBackground('#121212')
   }
 }
 
@@ -55,7 +55,9 @@ const lightTheme = {
   warning: '#FB8C00',
   error: '#FF5252',
   footBG: '#fafafa',
-  headerBG: '#ffffff'
+  headerBG: '#ffffff',
+  delDialog: '#fef8f8',
+  confirmDialog: '#fff9f2'
 }
 
 const darkTheme = {
@@ -67,7 +69,9 @@ const darkTheme = {
   warning: '#FB8C00',
   error: '#FF5252',
   footBG: '#1f1f1f',
-  headerBG: '#000000'
+  headerBG: '#121212',
+  delDialog: '#211e1e',
+  confirmDialog: '#1f1e1d'
 }
 
 export default new Vuetify({

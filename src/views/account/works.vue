@@ -9,7 +9,6 @@
             <v-btn color="primary" depressed class="mt-4" small @click="$router.replace('/publish')">点击分享您的喜悦！</v-btn>
         </v-card>
 
-
         <blog-list
             v-for="item in worksData"
             :key="item._id"
@@ -69,6 +68,7 @@ export default {
             this.worksData = res.data
         },
 
+        // 查看作品
         async openBottomSheet(data){
             this.bottomSheetData = {
                 value: true,

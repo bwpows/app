@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-        v-model="value" persistent :overlay="false"
+        v-model="value" persistent :overlay="false"  overlay-opacity="0.85"
         max-width="500px"
         transition="dialog-transition"
     >

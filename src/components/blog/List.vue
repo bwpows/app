@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+
         <delete-dialog
             :value="delDialog.value"
             :title="delDialog.title"

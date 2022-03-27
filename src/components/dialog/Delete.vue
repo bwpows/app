@@ -1,11 +1,6 @@
 <template>
-    <v-dialog
-        v-model="value"
-        persistent
-        max-width="500px"
-        transition="dialog-transition"
-    >
-        <v-card class="pa-6">
+    <v-dialog v-model="value" persistent max-width="450px" transition="dialog-transition" overlay-opacity="0.8">
+        <v-card class="pa-6" color="delDialog">
             <div class="d-flex align-center justify-space-between">
                 <div class="text-h4 font-weight-bold text-truncate">{{ title }}</div>
                 <v-icon size="24" @click="$emit('close')">mdi-close</v-icon>
@@ -37,6 +32,7 @@ export default {
             type: Boolean,
             default: false
         }
-    }
+    },
+
 }
 </script>

@@ -26,7 +26,7 @@ export default {
 
                 if(!this.darkAuto){
                     plus.navigator.setStatusBarStyle('dark');
-                    plus.navigator.setStatusBarBackground('#ffffff')
+                    plus.navigator.setStatusBarBackground('#121212')
                 }else{
                     plus.navigator.setStatusBarStyle('light');
                     plus.navigator.setStatusBarBackground('#000000')

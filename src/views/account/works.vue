@@ -55,7 +55,7 @@ export default {
     },
 
     created() {
-        console.log('000')
+        // console.log('000')
         this.fetch()
     },
 

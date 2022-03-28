@@ -93,10 +93,6 @@ export default {
         formatPhoneNumber,
 
         async goOtherPage(item){
-            // if(item.privacy){
-
-	
-            // }
             this.$router.push(item.path)
         },
 
@@ -113,11 +109,6 @@ export default {
         },
 
         openLogoutDialog(){
-            // this.confirm = {
-            //     value: true,
-            //     title: '退出登录',
-            //     content: '退出登录会导致部分功能不可用，比如发布作品、点赞和评论等是否要继续退出？'
-            // }
             plus.nativeUI.setUIStyle('dark');
             let that = this
             plus.nativeUI.actionSheet(

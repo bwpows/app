@@ -55,6 +55,7 @@ export default {
     },
 
     created() {
+        console.log('test')
         this.fetch()
     },
 
@@ -87,8 +88,6 @@ export default {
             }
             this.fetch()
         },
-
-
 
         // 删除博客
         async delWork(){

@@ -23,13 +23,12 @@ export default {
     methods: {
         changeTheme(){
             if(window.plus){
-
                 if(!this.darkAuto){
                     plus.navigator.setStatusBarStyle('dark');
                     plus.navigator.setStatusBarBackground('#121212')
                 }else{
                     plus.navigator.setStatusBarStyle('light');
-                    plus.navigator.setStatusBarBackground('#000000')
+                    plus.navigator.setStatusBarBackground('#ffffff')
                 }
             }
             this.$vuetify.theme.dark = this.darkAuto

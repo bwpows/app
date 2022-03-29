@@ -3,7 +3,9 @@
         <default-header v-if="this.$route.meta.index == 1" />
         <level-header v-else-if="this.$route.meta.index == 2" />
         <v-main class="ma-6">
-            <router-view :key="$route.path" />
+            <!-- <keep-alive> -->
+                <router-view :key="$route.path" />
+            <!-- </keep-alive> -->
         </v-main>
         <default-footer v-if="this.$route.meta.index == 1" />
     </div>

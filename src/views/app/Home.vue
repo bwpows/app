@@ -75,8 +75,9 @@ export default {
                 value: true,
                 data
             }
-            await viewWork({user_id: this.userId, work_id: data._id})
-            this.fetch()
+            viewWork({user_id: this.userId, work_id: data._id})
+            // this.fetch()
+            // this.$router.push(`/work/${data._id}`)
         }
     }
 }

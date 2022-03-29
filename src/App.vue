@@ -29,7 +29,7 @@ export default {
     display: none !important;
   }
   .v-application--wrap{
-    min-height: 50vh !important;
+    // min-height: 50vh !important;
   }
 
   #app{
@@ -39,6 +39,15 @@ export default {
     overflow-y: scroll;
     /*解决ios上滑动不流畅*/
     -webkit-overflow-scrolling: touch;
+  }
+
+    html, body{
+      -webkit-overflow-scrolling:touch;/* 当手指从触摸屏上移开，会保持一段时间的滚动 */
+      height: 100%;
+  }
+
+  *{
+    // user-select:none;
   }
 
 </style>

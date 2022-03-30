@@ -29,6 +29,14 @@ const routes = [
         name: 'Publish',
         component: () => import('../views/app/Publish.vue'),
         meta: {
+          index: 1,
+          title: '发布作品'
+        }
+      },{
+        path: '/work',
+        name: 'Work',
+        component: () => import('../views/app/Work.vue'),
+        meta: {
           index: 1
         }
       },{

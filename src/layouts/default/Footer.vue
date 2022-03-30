@@ -5,7 +5,7 @@
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>
             </div>
             <div style="display: inline-block; width: 25%">
-                <v-img :src="logoSvg" :class="path=='/publish'?'':'selected'" height="30" contain @click="goRouter('/publish')"></v-img>
+                <v-img :src="logoSvg" :class="path=='/publish'?'':'selected'" height="30" contain @click="goRouter('/work')"></v-img>
             </div>
             <div style="display: inline-block; width: 25%">
                 <v-img :src="path=='/message'?messageSelectedSvg:messageSvg" height="30" contain @click="goRouter('/message')"></v-img>

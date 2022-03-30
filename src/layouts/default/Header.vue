@@ -4,7 +4,7 @@
             <v-btn color="primary" icon x-large>
                 <v-icon @click="drawer = true">mdi-format-list-bulleted</v-icon>
             </v-btn>
-            <v-img src="@/assets/user.svg" height="35" maxWidth="35" contain></v-img>
+            <v-img src="@/assets/icon/add.svg" height="24" maxWidth="24" contain @click="openAddDialog()"></v-img>
         </div>
     </v-app-bar>
 </template>
@@ -15,6 +15,32 @@ export default {
 
     data:() => ({
         drawer: false
-    })
+    }),
+
+    methods: {
+        openAddDialog(){
+            plus.nativeUI.setUIStyle('dark');
+            let that = this
+            plus.nativeUI.actionSheet(
+                {title:"退出登录会导致部分功能不可用，是否要继续退出？",
+                cancel:"取消",
+                buttons:[
+                    {
+                        title:"发布作品"
+                    },
+                    {
+                        title: "发布任务"
+                    }
+                ]},
+                function(e){
+                    if(e.index == 1){
+                        that.$router.push('/publish')
+                    }else if(e.index == 2){
+                        that.$router.push('/addTask')
+                    }
+                }
+            );
+        }
+    },
 }
 </script>

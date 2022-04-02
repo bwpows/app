@@ -14,7 +14,7 @@
     </v-card>
     <v-card class="pa-4 mt-8 mb-5">
         <div class="d-flex align-center">
-            <v-img :src="phoneSvg" height="35" width="35" class="mr-3" contain></v-img>
+            <v-img :src="phoneSvg" height="38" width="38" class="mr-3" contain></v-img>
             <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
                 <span>手机号</span>
                 <div class="d-flex align-center">
@@ -23,21 +23,38 @@
                 </div>
             </div>
         </div>
-        <div v-for="item in list" :key="item.path">
-            <v-divider class="ml-12 my-3 mr-2"></v-divider>
-            <div class="d-flex align-center" @click="goOtherPage(item)">
-                <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
-                <div style="width: 100%; height: 100%;" >
-                    <div class="d-flex justify-space-between align-center">
-                        <span>{{ item.text }}</span>
-                        <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
-                    </div>
-                </div>
+
+        <v-divider class="ml-12 my-3 mr-2"></v-divider>
+        <div class="d-flex align-center">
+            <v-img :src="settingSvg" height="34" width="34" class="mr-3" contain></v-img>
+            <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/settings')">
+                <span>通用设置</span>
+                <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
             </div>
         </div>
     </v-card>
+    <v-card class="pa-4 my-5">
+        <template v-for="(item,index) in list">
+            <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)"  :key="item.path">
+                <div class="d-flex align-center">
+                    <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
+                    <span>{{ item.text }}</span>
+                </div>
+                <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+            </div>
+            <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"></v-divider>
+        </template>
+        <v-divider class="ml-12 my-3 mr-2" v-if="showPrivacy"></v-divider>
+        <div class="d-flex justify-space-between" @click="$router.push('/account/privacy')" v-if="showPrivacy">
+            <div class="d-flex align-center">
+                <v-img :src="privacySvg" height="35" width="35" class="mr-3" contain></v-img>
+                隐私作品
+            </div>
+            <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+        </div>
+    </v-card>
 
-    <v-card class="pa-1 mt-8 text-center">
+    <v-card class="pa-1 mt-10 text-center">
         <v-btn color="error" class="body-1" width="100%" text @click="openLogoutDialog()">退出登录</v-btn>
     </v-card>
 
@@ -71,13 +88,13 @@ export default {
             // 个人信息
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
 
+            showPrivacy: JSON.parse(localStorage.getItem('showPrivacy')),
+
             // 列表
             list:[
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
-                { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: privacySvg, text: '隐私作品', path:  '/account/privacy', privacy: true },
-                { icon: settingSvg, text: '通用设置', path:  '/account/settings' }
+                { icon: collecteSvg, text: '我的关注', path: '/account/collectes' }
             ],
 
             // 确定框
@@ -100,11 +117,11 @@ export default {
 
         async getInfo(id){
             let res = await getUserInfo(id)
-            if(res.code == 200){
+            if(res.code === 200){
                 this.userInfo = res.data
             }else{
                 this.$snackbar("身份验证失败")
-                this.$router.replace('signin')
+                await this.$router.replace('signin')
             }
         },
 

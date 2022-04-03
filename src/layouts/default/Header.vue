@@ -19,27 +19,32 @@ export default {
 
     methods: {
         openAddDialog(){
-            plus.nativeUI.setUIStyle('dark');
-            let that = this
-            plus.nativeUI.actionSheet(
-                {title:"退出登录会导致部分功能不可用，是否要继续退出？",
-                cancel:"取消",
-                buttons:[
+            // plus.nativeUI.setUIStyle('dark');
+            if(window.plus){
+                let that = this;
+                plus.nativeUI.actionSheet(
                     {
-                        title:"发布作品"
+                        cancel:"取消",
+                        buttons:[
+                            {
+                                title:"发布作品"
+                            },
+                            {
+                                title: "创建任务"
+                            }
+                        ]
                     },
-                    {
-                        title: "发布任务"
+                    function(e){
+                        if(e.index == 1){
+                            that.$router.push('/publish')
+                        }else if(e.index == 2){
+                            that.$router.push('/addTask')
+                        }
                     }
-                ]},
-                function(e){
-                    if(e.index == 1){
-                        that.$router.push('/publish')
-                    }else if(e.index == 2){
-                        that.$router.push('/addTask')
-                    }
-                }
-            );
+                );
+            }else{
+                this.$router.push('/publish')
+            }
         }
     },
 }

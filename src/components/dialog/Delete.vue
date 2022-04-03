@@ -7,8 +7,8 @@
             </div>
             <div v-html="content" class="mt-4"></div>
             <div class="d-flex justify-end mt-5">
-                <v-btn color="error" depressed outlined class="mr-8" small @click="$emit('close')" :disabled="loading">取消</v-btn>
                 <v-btn color="error" depressed small @click="$emit('delEvent')" :loading="loading">删除</v-btn>
+                <v-btn color="error" depressed outlined class="ml-8" small @click="$emit('close')" :disabled="loading">取消</v-btn>
             </div>
         </v-card>
     </v-dialog>

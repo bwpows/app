@@ -18,7 +18,7 @@
             </div>
 
             <div class="body-2 d-flex align-center" style="position: absolute; bottom: 20px;">
-                <v-checkbox v-model="agreement" value="value" dense>
+                <v-checkbox v-model="agreement" dense>
                     <template v-slot:label>
                         <div class="caption">
                             我已同意并阅读
@@ -41,6 +41,15 @@
                     </div>
                 </v-card>
             </v-dialog>
+
+            <confirm-dialog title="服务协议和隐藏政策提示" :value="agreementDialog" @close="agreementDialog = false" :closeBtn="false" confirmText="同意并继续" @confirm="sureAgreement()">
+                <template>
+                    <div class="body-2">
+                        感谢您使用 bwpow。为了保护您的个人信息安全，我们将依据 bwpow 的 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》</span> 和 <span class="primary--text" @click="$router.push('/safety/Agreement')">《用户协议》</span> 来帮助您了解：我们如何收集个人信息，如何使用及存储个人信息，以及您享有的相关权利。<br /> <br />
+                        在您使用 bwpow 的服务前，请务必阅读 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》</span>和 <span class="primary--text" @click="$router.push('/safety/Agreement')">《用户协议》</span> 以了解详细内容。如您同意，请点击“同意并继续”并开始使用我们的服务
+                    </div>
+                </template>
+            </confirm-dialog>
         </v-main>
     </v-app>
 </template>
@@ -71,7 +80,10 @@ export default {
             confirmPassword: '',
             
             // 同意协议
-            agreement: false
+            agreement: false,
+
+            // 协议弹窗
+            agreementDialog: false
         }
     },
 
@@ -87,6 +99,10 @@ export default {
         // 登录接口
         async signIn(){
             if(!this.phone) return this.$snackbar("请输入手机号")
+            if(!this.agreement) {
+                this.agreementDialog = true
+                return;
+            }
             if(!this.agreement) return this.$snackbar("请勾选隐私策略")
             if(this.signInType == 'code'){
                 if(!this.code) return this.$snackbar("请输入验证码")
@@ -157,6 +173,13 @@ export default {
             }else{
                 this.$snackbar(data.message || '设置新密码失败')
             }
+        },
+
+        // 同意协议
+        sureAgreement(){
+            this.agreement = true
+            this.agreementDialog = false
+            this.signIn()
         }
 
     },

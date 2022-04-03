@@ -73,7 +73,7 @@ export default {
                 value: true,
                 data
             }
-            await viewWork({user_id: this.userInfo.userId, work_id: data._id})
+            viewWork({user_id: this.userInfo.userId, work_id: data._id})
             this.fetch()
         }
 

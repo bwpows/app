@@ -7,7 +7,7 @@
         <v-card class="pa-6">
             <div class="d-flex justify-space-between mb-4">
                 <div class="text-h5 font-weight-bold">{{ title }}</div>
-                <v-icon color="" @click="$emit('close')">mdi-close</v-icon>
+                <v-icon color="" @click="$emit('close')" v-if="closeBtn">mdi-close</v-icon>
             </div>
             <slot></slot>
         </v-card>
@@ -25,6 +25,10 @@ export default{
         value: {
             type: Boolean,
             default: false
+        },
+        closeBtn: {
+            type: Boolean,
+            default: true
         }
     }
 }

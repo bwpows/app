@@ -12,9 +12,10 @@
                 <v-icon size="24" @click="$emit('close')">mdi-close</v-icon>
             </div>
             <div v-html="content" class="my-5"></div>
+            <slot/>
             <div class="d-flex justify-end mt-6">
-                <v-btn color="primary" small outlined depressed class="mr-8" @click="$emit('close')">取消</v-btn>
-                <v-btn color="primary" small depressed @click="$emit('confirm')">确定</v-btn>
+                <v-btn color="primary" small depressed @click="$emit('confirm')">{{ confirmText  }}</v-btn>
+                <v-btn color="primary" small outlined depressed class="ml-8" @click="$emit('close')"> {{ cancelText }} </v-btn>
             </div>
         </v-card>
     </v-dialog>
@@ -35,6 +36,16 @@
 
             content: {
                 type: String,
+            },
+
+            confirmText: {
+                type: String,
+                default: '确定'
+            },
+
+            cancelText: {
+                type: String,
+                default: '取消'
             }
         },
 

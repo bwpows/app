@@ -18,7 +18,7 @@ export default {
     data() {
         return {
             darkAuto: null,
-            showPrivacy: true
+            showPrivacy: JSON.parse(localStorage.getItem('showPrivacy')) || false
         }
     },
 
@@ -30,13 +30,13 @@ export default {
         changeTheme(){
             if(window.plus){
                 if(!this.darkAuto){
-                    plus.nativeUI.setUIStyle('dark');
-                    plus.navigator.setStatusBarStyle('dark');
-                    plus.navigator.setStatusBarBackground('#121212')
-                }else{
                     plus.nativeUI.setUIStyle('light');
-                    plus.navigator.setStatusBarStyle('light');
+                    plus.navigator.setStatusBarStyle('dark');
                     plus.navigator.setStatusBarBackground('#ffffff')
+                }else{
+                    plus.nativeUI.setUIStyle('dark');
+                    plus.navigator.setStatusBarStyle('light');
+                    plus.navigator.setStatusBarBackground('#121212')
                 }
             }
             this.$vuetify.theme.dark = this.darkAuto

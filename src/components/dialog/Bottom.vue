@@ -36,6 +36,7 @@
                     height="240"
                     class="rounded-lg"
                     style="overflow: hidden;"
+                    @click.native="viewPictrue()"
                 >
                     <v-carousel-item
                         v-for="(item, i) in workInfo.url"
@@ -51,7 +52,7 @@
                     style="width: 100%"
                     height="200"
                     class="rounded-lg"
-                    @click="previewImage(baseURL + workInfo.url[0])"
+                    @click="previewImage([baseURL + workInfo.url[0]])"
                 ></v-img>
 
                 <!-- {{workInfo}} -->
@@ -135,10 +136,17 @@ export default {
     methods: {
         calCurrentTime,
 
+        viewPictrue(){
+            let arr = []
+            for (let i = 0; i < this.workInfo.url.length; i++) {
+                arr.push(baseURL + this.workInfo.url[i])
+            }
+            console.log(arr)
+            this.previewImage(arr)
+        },
+
         previewImage(url){
-            plus.nativeUI.previewImage([
-                url
-            ]);
+            plus.nativeUI.previewImage(url);
         },
 
         // 获取单个单个用户

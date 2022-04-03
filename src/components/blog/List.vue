@@ -128,7 +128,6 @@ export default {
                     this.loveInfo = this.love[i];
                 }
             }
-            console.log(this.loveInfo)
             this.$emit("praise", this.loveInfo);
         },
 

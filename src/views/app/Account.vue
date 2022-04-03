@@ -126,7 +126,6 @@ export default {
         },
 
         openLogoutDialog(){
-            plus.nativeUI.setUIStyle('dark');
             let that = this
             plus.nativeUI.actionSheet(
                 {title:"退出登录会导致部分功能不可用，是否要继续退出？",

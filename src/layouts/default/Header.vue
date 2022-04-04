@@ -19,7 +19,6 @@ export default {
 
     methods: {
         openAddDialog(){
-            // plus.nativeUI.setUIStyle('dark');
             if(window.plus){
                 let that = this;
                 plus.nativeUI.actionSheet(
@@ -38,12 +37,12 @@ export default {
                         if(e.index == 1){
                             that.$router.push('/publish')
                         }else if(e.index == 2){
-                            that.$router.push('/addTask')
+                            that.$router.push('/task/add')
                         }
                     }
                 );
             }else{
-                this.$router.push('/publish')
+                this.$router.push('/task/add')
             }
         }
     },

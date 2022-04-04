@@ -133,7 +133,14 @@ const routes = [
           index: 2,
           title: '用户协议'
         }
-      },
+      },{
+        path: '/task/add',
+        name: 'TaskAdd',
+        component: () => import('../views/task/Add.vue'),
+        meta: {
+          index: 2, title: '创建任务'
+        }
+      }
     ]
   },
 ]

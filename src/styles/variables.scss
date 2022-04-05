@@ -1,6 +1,10 @@
 // reduce button default elevation
 // default background color is #EEEEEE
 
+
+$base-border: 1px solid #EC752E;
+$transparent-border: 1px solid transparent;
+
 $btn-sizes: (
   'x-small': 28,
   'small': 36,
@@ -107,3 +111,13 @@ $headings: (
 $tab-font-size: .775rem;
 $tab-font-weight: 500;
 $tabs-item-letter-spacing: normal;
+
+
+.base_border {
+  border: $base-border !important;
+}
+
+.transparent_border{
+  border: $transparent-border !important;
+}
+

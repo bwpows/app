@@ -1,4 +1,6 @@
 $basepx: 4px;
+$primary-color: '#EC752E';
+$base-border: 1px solid #EC752E;
 
 
 .width_60 {
@@ -14,3 +16,6 @@ $basepx: 4px;
     max-width: $basepx * 25;
 }
 
+.base_border {
+    border: $base-border !important;
+}

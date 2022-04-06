@@ -1,44 +1,40 @@
 <template>
     <div class="mb-12">
         <work-list-loading v-if="loading" />
-        <div class="grey--text mb-2">今日任务</div>
-        <template v-for="task in taskList">
-            <v-card class="pa-4 mb-2" v-if="task.taskDateType == 1" :key="task._id">
-                <div>
-                    {{ task.content }}
-                </div>
+        <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
+        <template v-for="task in todayTasks">
+            <v-card class="pa-4 mb-2" :key="task._id">
+                {{ task.content }}
             </v-card>
         </template>
 
         <div class="grey--text mt-6 mb-2">明日任务</div>
-        <template v-for="task in taskList">
-            <v-card class="pa-4 mb-2" v-if="task.taskDateType == 2" :key="task._id">
-                <div>
-                    {{ task.content }}
-                </div>
+        <template v-for="task in tomorrowTasks">
+            <v-card class="pa-4 mb-2" :key="task._id">
+                {{ task.content }}
             </v-card>
         </template>
 
         <div class="grey--text mt-6 mb-2">本周任务</div>
-        <v-card class="pa-4">
-            <div class="font-weight-bold">
-                本周任务
-            </div>
-        </v-card>
+        <template v-for="task in weekTasks">
+            <v-card class="pa-4 mb-2" :key="task._id">
+                {{ task.content }}
+            </v-card>
+        </template>
 
-        <div class="grey--text mt-6 mb-2">当月任务</div>
-        <v-card class="pa-4">
-            <div class="font-weight-bold">
-                当月任务
-            </div>
-        </v-card>
+        <div class="grey--text mt-6 mb-2">本月任务</div>
+        <template v-for="task in monthTasks">
+            <v-card class="pa-4 mb-2" :key="task._id">
+                {{ task.content }}
+            </v-card>
+        </template>
 
         <div class="grey--text mt-6 mb-2">今年任务</div>
-        <v-card class="pa-4">
-            <div class="font-weight-bold">
-                今年任务
-            </div>
-        </v-card>
+        <template v-for="task in yearTasks">
+            <v-card class="pa-4 mb-2" :key="task._id">
+                {{ task.content }}
+            </v-card>
+        </template>
     </div>
 </template>
 <script>
@@ -50,7 +46,12 @@ export default {
         return{
             taskList: [],
             userId: JSON.parse(localStorage.getItem('userInfo')).userId,
-            loading: true
+            loading: true,
+            todayTasks: [],
+            tomorrowTasks: [],
+            weekTasks: [],
+            monthTasks: [],
+            yearTasks: []
         }
     },
 
@@ -61,9 +62,27 @@ export default {
     methods: {
         async fetch(){
             let res = await getTaskByUserId(this.userId)
-            console.log(res)
+            this.todayTasks = []
+            this.tomorrowTasks = []
+            this.weekTasks = []
+            this.monthTasks = []
+            this.yearTasks = []
             if(res.code == 200){
-                this.taskList = res.data
+                for (let i = 0; i < res.data.length; i++) {
+                    console.log(res.data[i].taskDateType)
+                    if(res.data[i].taskDateType == 1){
+                        this.todayTasks.push(res.data[i])
+                    }else if(res.data[i].taskDateType == 2){
+                        this.tomorrowTasks.push(res.data[i])
+                    }else if(res.data[i].taskDateType == 3){
+                        this.weekTasks.push(res.data[i])
+                    }else if(res.data[i].taskDateType == 4){
+                        this.monthTasks.push(res.data[i])
+                    }else if(res.data[i].taskDateType == 5){
+                        this.yearTasks.push(res.data[i])
+                    }
+                }
+                // this.taskList = res.data
             }
             this.loading = false
         }

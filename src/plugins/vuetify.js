@@ -6,23 +6,7 @@ import ripple from 'vuetify/lib/directives/ripple'
 
 Vue.use(Vuetify, { directives: { ripple } })
 
-// plus.navigator.setStatusBarBackground('#272727');
-
-// console.log(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
-
 let dark = localStorage.getItem('darkAuto') == 'true'
-
-// let callback = (e) => {
-//   if(localStorage.getItem('darkAuto') == 'true'){
-//     Vuetify.theme.dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-//   }
-// }
-
-// if(localStorage.getItem('darkAuto') == 'true'){
-//   dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-// }
-
-
 
 if(window.plus){
   console.log('判断plus')

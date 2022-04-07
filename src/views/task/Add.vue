@@ -3,7 +3,7 @@
 
     <div class="grey--text mb-3">选择任务类型</div>
     <div class="d-flex justify-space-between mb-5">
-        <v-card v-for="item in typeList" :key="item.value" style="min-width: 30%;" class="py-6 body-1 text-center mb-5" :class="addTask.type == item.value?'primary--text base_border':'transparent_border'" @click="addTask.type = item.value">
+        <v-card v-for="item in typeList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.type == item.value?'primary--text base_border':'transparent_border'" @click="addTask.type = item.value">
             {{ item.text }}
         </v-card>
     </div>
@@ -13,7 +13,7 @@
     </div>
     <v-card class="px-4 py-3 mb-5">
         <textarea type="text" cols="20" rows="3" v-model="addTask.content" placeholder="请输入任务内容" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''" v-if="addTask.type!=3"></textarea>
-        <textarea type="tel" cols="20" rows="3" v-model="addTask.targetNum" v-else placeholder="请输入预存金额" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
+        <textarea type="tel" cols="20" rows="3" v-model="addTask.target_number" v-else placeholder="请输入预存金额" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
     </v-card>
 
     <div class="grey--text mb-3">开始日期</div>
@@ -56,7 +56,7 @@ export default {
             },
             typeList: [
                 { text: '普通任务', value: 1 },
-                { text: '周期任务', value: 2 },
+                // { text: '周期任务', value: 2 },
                 { text: '存钱任务', value: 3 },
             ],
             startDateList: [

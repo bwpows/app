@@ -15,3 +15,11 @@ export function getTaskByUserId(userId){
         method: 'GET'
     })
 }
+
+// 完成任务
+export function completeTask(data){
+    return Service({
+        url: '/task/completed',
+        method: 'PUT'
+    })
+}

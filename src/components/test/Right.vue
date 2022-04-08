@@ -2,12 +2,12 @@
 <template>
     
     <div class="container">
-        <div class="list-item2" v-for="(item,index) in list " data-type="0" :key="index">
-            <div class="list-box d-flex align-center" @touchstart.capture="touchStart" @touchend.capture="touchEnd" :data-index="index">
-                    <p class="title">{{item.title}}</p>
-            </div>
-            <div class="delete" @click="deleteItem" :data-index="index">删除</div>
-        </div>
+      <div class="list-item2" v-for="(item,index) in list " data-type="0" :key="index">
+          <div class="list-box d-flex align-center" @touchstart.capture="touchStart" @touchend.capture="touchEnd" :data-index="index">
+            <p class="title">{{item.title}}</p>
+          </div>
+          <div class="delete" @click="deleteItem" :data-index="index">删除</div>
+      </div>
     </div>
 </template>
 <script>

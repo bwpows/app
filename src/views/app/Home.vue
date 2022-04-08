@@ -1,58 +1,55 @@
 <template>
-    <div class="mb-12">
+    <div class="mb-12" @click="leftSlide = false">
 
         <work-list-loading v-if="loading" />
 
         <div class="grey--text mb-2" v-if="financeTasks.length != 0">存钱任务</div>
         <template v-for="task in financeTasks">
-            <v-card class="pa-4 mb-2" :key="task._id"  @touchstart.capture="touchStart" @touchend.capture="touchEnd">
-                <div>目标金额：{{ task.target_number }}</div>
-                <div class="mt-2">完成金额：{{ task.completed_number || 0 }}</div>
-                <div class="mt-2">
-                    截止日期：{{ formatTime(task.end_date, 'YYYY-MM-dd') }}
+            <v-card class="mb-2 d-flex justify-space-between" :key="task._id" @touchstart.capture="touchStart" @touchmove="touchEnd($event, task)" style="max-width: 100%; overflow: hidden;">
+                <div style="min-width: 110%;" class="pa-4">
+                    <div>目标金额：{{ task.target_number }}</div>
+                    <div class="mt-2">完成金额：{{ task.completed_number || 0 }}</div>
+                    <div class="mt-2">
+                        截止日期：{{ formatTime(task.end_date, 'YYYY-MM-dd') }}
+                    </div>
+                </div>
+                <div style="min-width: 60px; min-height: 100%;" :class="leftSlide?'list':'list-remove'" class="d-flex flex-column align-center rounded text-center justify-space-around">
+                    <div class="white--text error d-flex align-center justify-center" style="height: 100%; width: 100%;" @click="openCancelDialog()"> 取消 </div>
+                    <div class="white--text primary d-flex align-center justify-center" style="height: 100%; width: 100%;" @click="openEditDialog()"> 编辑 </div>
                 </div>
             </v-card>
         </template>
-
+        <!-- {{ todayTasks }} -->
         <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
         <template v-for="task in todayTasks">
-            <v-card class="pa-4 mb-2" :key="task._id">
-                {{ task.content }}
-            </v-card>
+            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" />
         </template>
+
 
         <div class="grey--text mt-6 mb-2" v-if="tomorrowTasks.length != 0">明日任务</div>
         <template v-for="task in tomorrowTasks">
-            <v-card class="pa-4 mb-2" :key="task._id">
-                {{ task.content }}
-            </v-card>
+            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="weekTasks.length != 0">本周任务</div>
         <template v-for="task in weekTasks">
-            <v-card class="pa-4 mb-2" :key="task._id">
-                {{ task.content }}
-            </v-card>
+            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="monthTasks.length != 0">本月任务</div>
         <template v-for="task in monthTasks">
-            <v-card class="pa-4 mb-2" :key="task._id">
-                {{ task.content }}
-            </v-card>
+            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="yearTasks.length != 0">今年任务</div>
         <template v-for="task in yearTasks">
-            <v-card class="pa-4 mb-2" :key="task._id">
-                {{ task.content }}
-            </v-card>
+            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
         </template>
     </div>
 </template>
 <script>
 
-import { getTaskByUserId } from '../../api/Task.js'
+import { completeTask, getTaskByUserId } from '../../api/Task.js'
 import { calCurrentTime } from '../../util/formatTime.js'
 import { formatTime } from '@/util/formatTime';
 
@@ -70,7 +67,11 @@ export default {
             financeTasks: [],
 
             startX: '',
-            endX: ''
+            endX: '',
+            leftSlide: false,
+            rightSlide: false,
+
+            key: 0
         }
     },
 
@@ -81,30 +82,32 @@ export default {
     methods: {
         calCurrentTime, formatTime,
 
+        openCancelDialog(){
+            console.log(9999)
+        },
+
+
+        openEditDialog(){
+            console.log(8888)
+        },
+
 
         touchStart (e) {
-            // console.log(e);
             // 记录初始位置
             this.startX = e.touches[0].clientX
         },
         // 滑动结束
-        touchEnd (e) {
+        touchEnd (e, task) {
             // 记录结束位置
             this.endX = e.changedTouches[0].clientX
             // 左滑
             if (this.startX - this.endX > 30) {
-                // this.restSlide(index)
-                // parentElement.dataset.type = 1;
-                console.log('左滑动')
+                this.leftSlide = true;
             }
             // 右滑
             if (this.startX - this.endX < -30) {
-                // this.restSlide(index);
-                // parentElement.dataset.type = 0;
-                console.log('右滑动')
+                this.leftSlide = false;
             }
-            this.startX = 0
-            this.endX = 0
         },
 
 
@@ -136,7 +139,37 @@ export default {
                 }
             }
             this.loading = false
+        },
+
+        // 完成任务
+        async complete(id){
+            console.log(9999)
+            let res = await completeTask({ id, user_id: this.userId })
+            console.log(res)
+        },
+
+        async giveUp(id){
+            console.log(id)
         }
+
+
+
     }
 }
 </script>
+
+<style scoped>
+
+.list {
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    transform: translate3d(-90px,0,0);
+}
+
+.list-remove{
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    transform: translate3d(0,0,0);
+}
+
+</style>

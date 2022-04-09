@@ -19,37 +19,37 @@
                 </div>
             </v-card>
         </template>
-        <!-- {{ todayTasks }} -->
+
         <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
         <template v-for="task in todayTasks">
-            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
         </template>
 
 
         <div class="grey--text mt-6 mb-2" v-if="tomorrowTasks.length != 0">明日任务</div>
         <template v-for="task in tomorrowTasks">
-            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="weekTasks.length != 0">本周任务</div>
         <template v-for="task in weekTasks">
-            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="monthTasks.length != 0">本月任务</div>
         <template v-for="task in monthTasks">
-            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="yearTasks.length != 0">今年任务</div>
         <template v-for="task in yearTasks">
-            <right-slide-card :content="task.content" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)"  />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
         </template>
     </div>
 </template>
 <script>
 
-import { completeTask, getTaskByUserId } from '../../api/Task.js'
+import { cancelTask, completeTask, deleteTask, getTaskByUserId } from '../../api/Task.js'
 import { calCurrentTime } from '../../util/formatTime.js'
 import { formatTime } from '@/util/formatTime';
 
@@ -82,16 +82,6 @@ export default {
     methods: {
         calCurrentTime, formatTime,
 
-        openCancelDialog(){
-            console.log(9999)
-        },
-
-
-        openEditDialog(){
-            console.log(8888)
-        },
-
-
         touchStart (e) {
             // 记录初始位置
             this.startX = e.touches[0].clientX
@@ -119,6 +109,7 @@ export default {
             this.weekTasks = []
             this.monthTasks = []
             this.yearTasks = []
+            this.financeTasks = []
             if(res.code == 200){
                 for (let i = 0; i < res.data.length; i++) {
                     if(res.data[i].type != 3){
@@ -143,14 +134,22 @@ export default {
 
         // 完成任务
         async complete(id){
-            console.log(9999)
-            let res = await completeTask({ id, user_id: this.userId })
-            console.log(res)
+            await completeTask({ _id: id, user_id: this.userId })
+            this.fetch()
         },
 
+        // 取消任务
         async giveUp(id){
+            await cancelTask({ _id: id, user_id: this.userId })
+            this.fetch()
+        },
+
+        // 删除任务
+        async deleteTask(id){
             console.log(id)
-        }
+            await deleteTask({ _id: id, user_id: this.userId })
+            this.fetch()
+        },
 
 
 

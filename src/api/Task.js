@@ -20,6 +20,25 @@ export function getTaskByUserId(userId){
 export function completeTask(data){
     return Service({
         url: '/task/completed',
-        method: 'PUT'
+        method: 'PUT',
+        data
+    })
+}
+
+// 取消任务
+export function cancelTask(data){
+    return Service({
+        url: '/task/cancel',
+        method: 'PUT',
+        data
+    })
+}
+
+// 删除任务
+export function deleteTask(data){
+    return Service({
+        url: '/task',
+        method: 'DELETE',
+        data
     })
 }

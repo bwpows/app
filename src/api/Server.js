@@ -21,6 +21,8 @@ export const Service = axios.create({
 
 export const baseURL = configBaseURL
 
+export const wsURL = 'ws://localhost:3002'
+
 Service.interceptors.request.use(req => {
     let token = localStorage.getItem('token') || ''
     req.headers.common['Authorization'] = 'Bearer ' + token;

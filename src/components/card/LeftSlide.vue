@@ -3,8 +3,9 @@
         <div style="min-width: 110%;" class="pa-4">
             <div :class="(is_completed || is_cancel)?' text-decoration-line-through':''">{{ content }}</div>
         </div>
-        <div style="min-width: 100px; min-height: 100%;" :class="leftSlide?'list':'list-remove'" class="rounded d-flex text-center body-2 white--text">
-            <div class="success d-flex align-center justify-center" @click.capture="completeEvent()" style="min-width: 55px;"> 完成 </div>
+        <div style="min-height: 100%;" :class="leftSlide?'list':'list-remove'" class="rounded d-flex text-center body-2 white--text">
+            <div class="success d-flex align-center justify-center" @click.capture="completeEvent()" style="min-width: 55px;" v-if="!is_completed"> 完成 </div>
+            <div class="success d-flex align-center justify-center" @click.capture="recoveryEvent()" style="min-width: 55px;" v-else> 恢复 </div>
             <div class="warning d-flex align-center justify-center" @click.capture="giveUpEvent()" style="min-width: 55px;"> 终止 </div>
             <div class="rounded-r error d-flex align-center justify-center" @click.capture="deleteEvent()" style="min-width: 55px;"> 删除 </div>
         </div>
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import { cancelTask, completeTask, deleteTask, recoveryTask } from '../../api/Task'
 
 export default {
     name: "RightSlideCard",
@@ -28,13 +30,19 @@ export default {
 
         is_cancel: {
             type: Boolean
+        },
+
+        _id: {
+            type: String,
+            required: true
         }
 
     },
 
     data(){
         return {
-            leftSlide: false
+            leftSlide: false,
+            userId: JSON.parse(localStorage.getItem('userInfo')).userId,
         }
     },
 
@@ -76,17 +84,44 @@ export default {
             }
         },
 
-        giveUpEvent(){
-            this.$emit('giveUp')
+        // giveUpEvent(){
+        //     this.$emit('giveUp')
+        // },
+
+        // completeEvent(){
+        //     this.$emit('complete')
+        // },
+
+        // deleteEvent(){
+        //     this.$emit('delete')
+        // },
+
+
+        // 完成任务
+        async completeEvent(){
+            await completeTask({ _id: this._id, user_id: this.userId })
+            this.$emit('refresh')
         },
 
-        completeEvent(){
-            this.$emit('complete')
+        // 取消任务
+        async giveUpEvent(){
+            await cancelTask({ _id: this._id, user_id: this.userId })
+            this.$emit('refresh')
         },
 
-        deleteEvent(){
-            this.$emit('delete')
+        // 删除任务
+        async deleteEvent(){
+            await deleteTask({ _id: this._id, user_id: this.userId })
+            this.$emit('refresh')
         },
+
+        // 恢复任务
+        async recoveryEvent(){
+            await recoveryTask({ _id: this._id, user_id: this.userId })
+            this.$emit('refresh')
+        },
+
+
     },
 
 }
@@ -99,7 +134,7 @@ export default {
 .list {
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
-    transform: translate3d(-200px,0,0);
+    transform: translate3d(-204px,0,0);
 }
 
 .list-remove{

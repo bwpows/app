@@ -29,7 +29,7 @@ const routes = [
         name: 'Publish',
         component: () => import('../views/app/Publish.vue'),
         meta: {
-          index: 1,
+          index: 2,
           title: '发布作品'
         }
       },{

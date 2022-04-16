@@ -42,3 +42,12 @@ export function deleteTask(data){
         data
     })
 }
+
+// 删除任务
+export function recoveryTask(data){
+    return Service({
+        url: '/task/recovery',
+        method: 'PUT',
+        data
+    })
+}

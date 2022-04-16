@@ -5,7 +5,7 @@
 
         <div class="grey--text mb-2" v-if="financeTasks.length != 0">存钱任务</div>
         <template v-for="task in financeTasks">
-            <v-card class="mb-2 d-flex justify-space-between" :key="task._id" @touchstart.capture="touchStart" @touchmove="touchEnd($event, task)" style="max-width: 100%; overflow: hidden;">
+            <v-card class="mb-2 d-flex justify-space-between" :key="task._id" @touchstart.capture="touchStart" @touchend="touchEnd($event, task)" style="max-width: 100%; overflow: hidden;">
                 <div style="min-width: 110%;" class="pa-4">
                     <div>目标金额：{{ task.target_number }}</div>
                     <div class="mt-2">完成金额：{{ task.completed_number || 0 }}</div>
@@ -22,29 +22,33 @@
 
         <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
         <template v-for="task in todayTasks">
-            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
 
 
         <div class="grey--text mt-6 mb-2" v-if="tomorrowTasks.length != 0">明日任务</div>
         <template v-for="task in tomorrowTasks">
-            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="weekTasks.length != 0">本周任务</div>
         <template v-for="task in weekTasks">
-            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="monthTasks.length != 0">本月任务</div>
         <template v-for="task in monthTasks">
-            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
 
         <div class="grey--text mt-6 mb-2" v-if="yearTasks.length != 0">今年任务</div>
         <template v-for="task in yearTasks">
-            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :key="task._id" @giveUp="giveUp(task._id)" @complete="complete(task._id)" @delete="deleteTask(task._id)" />
+            <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
+
+
+
+        <!-- <h1 class="animate__animated animate__fadeInUp">An animated element</h1> -->
     </div>
 </template>
 <script>

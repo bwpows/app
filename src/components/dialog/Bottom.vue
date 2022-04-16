@@ -3,7 +3,7 @@
         <v-card class="mx-8">
             <v-toolbar height="60" elevation="0" color="headerBG">
                 <v-btn icon dark @click="$emit('close')">
-                <v-icon>mdi-close</v-icon>
+                    <v-img src="../../assets/icon/rightArrow.svg" max-width="20" contain></v-img>
                 </v-btn>
                 <v-toolbar-title class=" text-h4 font-weight-black">{{ workInfo.title }}</v-toolbar-title>
             </v-toolbar>

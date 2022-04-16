@@ -10,6 +10,8 @@
 
 <script>
 import OtherSnackbar from './layouts/other/Snackbar.vue'
+import { io } from 'socket.io-client'
+import { baseURL, wsURL } from './api/Server'
 export default {
   name: 'app',
   data () {
@@ -21,6 +23,22 @@ export default {
   components: {
     OtherSnackbar,
   },
+
+  mounted() {
+    // const socket = io(wsURL);
+    // socket.emit('findAllWs', (res)=>{
+    //   console.log(res);
+    // })
+    // socket.emit('findOneWs', 10, (res) => {
+    //   console.log(res)
+    // })
+    // socket.on('toAll', res => {
+    //   console.log(res)
+    // })
+  }
+
+
+
 }
 </script>
 <style lang="scss">

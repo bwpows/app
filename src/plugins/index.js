@@ -2,4 +2,6 @@
 
 import './app'
 
+import './ws'
+
 // import './vuetify'

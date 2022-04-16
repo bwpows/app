@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="pa-4 d-flex justify-space-between" @click="$router.push('/account/info')">
+    <v-card class="pa-4 d-flex justify-space-between align-center" @click="$router.push('/account/info')">
         <div class="d-flex">
             <div class="mr-3">
                 <v-img :src="userInfo.pictrue?(baseURL+userInfo.pictrue):userSvg" class="rounded" width="50" height="50" alt="alt"></v-img>
@@ -10,7 +10,7 @@
                 <div class="body-2 grey--text text--darken-1 mt-1">昵称、头像与隐私</div>
             </div>
         </div>
-        <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+        <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
     </v-card>
     <v-card class="pa-4 mt-8 mb-5">
         <div class="d-flex align-center">
@@ -18,8 +18,8 @@
             <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
                 <span>手机号</span>
                 <div class="d-flex align-center">
-                    <span class="grey--text body-2">{{ formatPhoneNumber(userInfo.phone) }}</span>
-                    <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+                    <span class="grey--text body-2 mr-2">{{ formatPhoneNumber(userInfo.phone) }}</span>
+                    <v-img src="../../assets/icon/leftArrow.svg" width="20" height="20"></v-img>
                 </div>
             </div>
         </div>
@@ -29,18 +29,18 @@
             <v-img :src="settingSvg" height="34" width="34" class="mr-3" contain></v-img>
             <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/settings')">
                 <span>通用设置</span>
-                <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+                <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
             </div>
         </div>
     </v-card>
     <v-card class="pa-4 my-5">
         <template v-for="(item,index) in list">
-            <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)"  :key="item.path">
+            <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="item.path">
                 <div class="d-flex align-center">
                     <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
                     <span>{{ item.text }}</span>
                 </div>
-                <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+                <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
             </div>
             <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"></v-divider>
         </template>
@@ -50,7 +50,7 @@
                 <v-img :src="privacySvg" height="35" width="35" class="mr-3" contain></v-img>
                 隐私作品
             </div>
-            <v-icon color="grey" size="30">mdi-chevron-right</v-icon>
+            <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
         </div>
     </v-card>
 

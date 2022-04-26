@@ -1,24 +1,34 @@
 <template>
     <div class="mb-12" @click="leftSlide = false">
 
-        <work-list-loading v-if="loading" />
+        <v-img src="../../assets/common/bg.png" height="190px" width="100%" cover class="rounded-lg pa-5 mb-5">
+            <div class="d-flex justify-space-between align-center" style="font-weight: 300; font-size: 20px;">
+                <div>存储金额</div>
+                <div style="font-weight:300; font-size: 14px;" class="d-flex">
+                    <div class="mr-6">充值</div>
+                    <div>消费</div>
+                </div>
+            </div>
+            <div class="mt-6" style="letter-spacing: 2px; font-weight: 400; font-size: 26px;">
+                <div>¥ 5344274.67</div>
+            </div>
+            <div class="mt-8 grey--text text--lighten-1" style="letter-spacing: 3px; font-size: 18px; font-weight: 400;">2342 3848 9023 8239</div>
+        </v-img>
 
-        <div class="grey--text mb-2" v-if="financeTasks.length != 0">存钱任务</div>
-        <template v-for="task in financeTasks">
-            <v-card class="mb-2 d-flex justify-space-between" :key="task._id" @touchstart.capture="touchStart" @touchend="touchEnd($event, task)" style="max-width: 100%; overflow: hidden;">
-                <div style="min-width: 110%;" class="pa-4">
-                    <div>目标金额：{{ task.target_number }}</div>
-                    <div class="mt-2">完成金额：{{ task.completed_number || 0 }}</div>
-                    <div class="mt-2">
-                        截止日期：{{ formatTime(task.end_date, 'YYYY-MM-dd') }}
-                    </div>
-                </div>
-                <div style="min-width: 60px; min-height: 100%;" :class="leftSlide?'list':'list-remove'" class="d-flex flex-column align-center rounded text-center justify-space-around">
-                    <div class="white--text error d-flex align-center justify-center" style="height: 100%; width: 100%;" @click="openCancelDialog()"> 取消 </div>
-                    <div class="white--text primary d-flex align-center justify-center" style="height: 100%; width: 100%;" @click="openEditDialog()"> 编辑 </div>
-                </div>
-            </v-card>
-        </template>
+        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="financeTasks.length === 0">
+            <div>想实现财富自由吧，了解自己的收入来源和支出，才是实现财富自由的第一步。</div>
+            <div class="text-center my-3">
+                <v-btn color="primary darken-1">添加储蓄卡</v-btn>
+            </div>
+        </v-card>
+        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="taskList.length === 0">
+            <div>工作很忙吧，但是要提醒一下，别把一些重要的日子和事情给遗忘了哦！</div>
+            <div class="text-center mt-5 mb-3">
+                <v-btn color="primary darken-1" @click="$router.push('/task/add')">添加任务</v-btn>
+            </div>
+        </v-card>
+
+        <work-list-loading v-if="loading" />
 
         <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
         <template v-for="task in todayTasks">
@@ -46,9 +56,6 @@
             <right-slide-card :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
         </template>
 
-
-
-        <!-- <h1 class="animate__animated animate__fadeInUp">An animated element</h1> -->
     </div>
 </template>
 <script>
@@ -70,8 +77,6 @@ export default {
             yearTasks: [],
             financeTasks: [],
 
-            startX: '',
-            endX: '',
             leftSlide: false,
             rightSlide: false,
 
@@ -86,25 +91,6 @@ export default {
     methods: {
         calCurrentTime, formatTime,
 
-        touchStart (e) {
-            // 记录初始位置
-            this.startX = e.touches[0].clientX
-        },
-        // 滑动结束
-        touchEnd (e, task) {
-            // 记录结束位置
-            this.endX = e.changedTouches[0].clientX
-            // 左滑
-            if (this.startX - this.endX > 30) {
-                this.leftSlide = true;
-            }
-            // 右滑
-            if (this.startX - this.endX < -30) {
-                this.leftSlide = false;
-            }
-        },
-
-
         // 获取数据
         async fetch(){
             let res = await getTaskByUserId(this.userId)
@@ -115,6 +101,8 @@ export default {
             this.yearTasks = []
             this.financeTasks = []
             if(res.code == 200){
+                res.data = res.data || []
+                this.taskList = res.data
                 for (let i = 0; i < res.data.length; i++) {
                     if(res.data[i].type != 3){
                         if(res.data[i].taskDateType == 1){
@@ -150,7 +138,6 @@ export default {
 
         // 删除任务
         async deleteTask(id){
-            console.log(id)
             await deleteTask({ _id: id, user_id: this.userId })
             this.fetch()
         },
@@ -174,5 +161,7 @@ export default {
     transition: all 0.4s;
     transform: translate3d(0,0,0);
 }
+
+
 
 </style>

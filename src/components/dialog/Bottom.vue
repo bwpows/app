@@ -1,21 +1,21 @@
 <template>
-    <v-dialog v-model="value" fullscreen hide-overlay transition="dialog-bottom-transition" fixed style="position: fixed; top:0; left:0">
+    <v-dialog v-model="value" fullscreen fixed hide-overlay transition="dialog-bottom-transition" style="position: fixed; top:0; left:0;" ref="bottomDialogRef">
+        <v-toolbar height="60" elevation="0" color="headerBG" style="position: fixed; top:0; left:0; z-index: 10;">
+            <v-btn icon dark @click="$emit('close')">
+                <v-img src="../../assets/icon/rightArrow.svg" max-width="20" contain></v-img>
+            </v-btn>
+            <v-toolbar-title class=" text-h4 font-weight-black">{{ workInfo.title }}</v-toolbar-title>
+        </v-toolbar>
         <v-card class="mx-8">
-            <v-toolbar height="60" elevation="0" color="headerBG">
-                <v-btn icon dark @click="$emit('close')">
-                    <v-img src="../../assets/icon/rightArrow.svg" max-width="20" contain></v-img>
-                </v-btn>
-                <v-toolbar-title class=" text-h4 font-weight-black">{{ workInfo.title }}</v-toolbar-title>
-            </v-toolbar>
 
             <div v-if="loading">
                 <work-info-loading />
             </div>
 
-            <div v-else class="mx-6">
+            <div v-else class="mx-6" style="padding-top: 74px;">
 
                 <!-- 头像信息 -->
-                <div class="d-flex align-center my-4">
+                <div class="d-flex align-center mb-4">
                     <div class="rounded">
                         <v-img :src="workInfo.users?workInfo.users.pictrue?(baseURL + workInfo.users.pictrue): userSvg: userSvg" class="rounded" width="36" cover height="36"></v-img>
                     </div>
@@ -55,8 +55,6 @@
                     @click="previewImage([baseURL + workInfo.url[0]])"
                 ></v-img>
 
-                <!-- {{workInfo}} -->
-
                 <!-- 内容 -->
                 <!-- <div class="my-6 mb-4 text-h4 font-weight-black">{{ workInfo.title }}</div> -->
                 <div class="mt-5"> {{ workInfo.description }} </div>
@@ -70,7 +68,7 @@
                     <v-btn color="primary" outlined :disabled="!comment.content" :loading="submitBtnLoading" @click="submitComment()">发表</v-btn>
                 </div>
 
-                <div v-for="comment in commentList" :key="comment._id" class="d-flex align-center my-4">
+                <div v-for="comment in commentList" :key="comment._id" class="d-flex align-center py-2">
                     <div>
                         <v-img height="42" width="42" class="rounded" :src="comment.user.pictrue? (baseURL+comment.user.pictrue) : userSvg"></v-img>
                     </div>
@@ -93,6 +91,7 @@ import { calCurrentTime } from '../../util/formatTime';
 import userSvg from '@/assets/user.svg';
 import { addComment, getCommentByWorkId } from '../../api/Comment';
 import { getBlogInfo } from '../../api/Works';
+import {lock, unlock} from 'tua-body-scroll-lock';
 
 export default {
 
@@ -125,10 +124,15 @@ export default {
 
     watch: {
         value(){
+            // let dom = document.getElementById('app')
             if(this.value){
-                this.loading = true
-                this.getComment()
-                this.getWorkById()
+                this.loading = true;
+                this.getComment();
+                this.getWorkById();
+                lock(this.$refs.bottomDialogRef)
+                unlock(this.$refs.bottomDialogRef)
+            }else{
+                // unlock(dom)
             }
         }
     },

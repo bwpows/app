@@ -1,16 +1,18 @@
 <template>
     <div>
-        <work-list-loading v-if="loading" />
+        <v-card class="px-6 py-3 mb-6" style="position: relative;">
+            <input type="text" placeholder="搜索作品" v-model="keyword" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" @keydown.enter="fetch()" ref="inputVal" @blur.prevent="fetch()" />
+            <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
+        </v-card>
 
-        <div v-elses>
-            <v-card class="px-6 py-3 mb-5" style="position: relative;">
-                <input type="text" placeholder="搜索作品" v-model="keyword" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" @keydown.enter="fetch()" ref="inputVal" />
-                <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
-            </v-card>
+        <work-list-loading v-if="loading" class="animate__animated animate__fadeIn" />
 
+        <div v-else>
             <blog-list
-                v-for="item in blogList"
+                class="animate__animated animate__fadeIn"
+                v-for="item,index in blogList"
                 :key="item._id"
+                :class="'animate__delay-'+ 0.15*index +'s'"
                 :_id="item._id"
                 :title="item.title"
                 :description="item.description"
@@ -18,7 +20,7 @@
                 :url="item.url.length!==0?(item.url): null"
                 :love="item.likes"
                 :views="item.views"
-                @praise="praise($event ,item._id)"
+                @praise="praise($event, item._id)"
                 @click.native="openBottomSheet(item)"
             ></blog-list>
         </div>
@@ -66,7 +68,6 @@ export default {
 
         async fetch(){
             this.$refs.inputVal.blur();
-            this.loading = true
             let res = await getBlog({keyword: this.keyword})
             if(res.code == 200){
                 this.blogList = res.data
@@ -89,8 +90,7 @@ export default {
                 data
             }
             viewWork({user_id: this.userId, work_id: data._id})
-            // this.fetch()
-            // this.$router.push(`/work/${data._id}`)
+            this.fetch()
         }
     }
 }

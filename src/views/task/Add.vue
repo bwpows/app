@@ -1,19 +1,11 @@
 <template>
 <div>
 
-    <div class="grey--text mb-3">选择任务类型</div>
-    <div class="d-flex justify-space-between mb-5">
-        <v-card v-for="item in typeList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.type == item.value?'primary--text base_border':'transparent_border'" @click="addTask.type = item.value">
-            {{ item.text }}
-        </v-card>
-    </div>
-
     <div class="grey--text mb-3">
-        {{ addTask.type != 3?'请描述您的任务':'请输入预计金额' }}
+        请描述您的任务
     </div>
     <v-card class="px-4 py-3 mb-5">
-        <textarea type="text" cols="20" rows="3" v-model="addTask.content" placeholder="请输入任务内容" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''" v-if="addTask.type!=3"></textarea>
-        <textarea type="tel" cols="20" rows="3" v-model="addTask.target_number" v-else placeholder="请输入预存金额" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
+        <textarea type="text" cols="20" rows="3" v-model="addTask.content" placeholder="请输入任务内容" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
     </v-card>
 
     <div class="grey--text mb-3">开始日期</div>
@@ -22,21 +14,18 @@
             {{ item.text }}
         </v-card>
     </div>
-    <div class="grey--text mb-3">{{ addTask.type != 2?'截止日期':'循环周期'}}</div>
-    <div class="d-flex justify-space-between flex-wrap" v-if="addTask.type != 2">
-        <v-card v-for="item in endDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.end_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.end_date = item.value">
-            {{ item.text }}
-        </v-card>
-    </div>
-    <div class="d-flex justify-space-between flex-wrap" v-else>
-        <v-card v-for="item in cycleList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.cycleDate == item.value?'primary--text base_border':'transparent_border'" @click="addTask.cycleDate = item.value">
+
+    <div class="grey--text mb-3">截止日期</div>
+    <div class="d-flex justify-space-between flex-wrap">
+        <v-card v-for="item in endDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.end_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.end_date = item.value" :disabled="item.value < addTask.start_date">
             {{ item.text }}
         </v-card>
     </div>
 
     <v-card class="my-8 pa-1">
-        <v-btn color="primary" width="100%" class="body-1" text @click="submit()" :loading="submitLoading">发布任务</v-btn>
+        <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">发布任务</v-btn>
     </v-card>
+
 </div>
 
 </template>
@@ -48,17 +37,12 @@ export default {
         return {
             userId: JSON.parse(localStorage.getItem('userInfo')).userId,
             addTask: {
-                type: 1,
+                content: '',
                 end_date: 1,
                 start_date: 1,
                 cycleDate: 1,
                 user_id: JSON.parse(localStorage.getItem('userInfo')).userId
             },
-            typeList: [
-                { text: '普通任务', value: 1 },
-                // { text: '周期任务', value: 2 },
-                { text: '存钱任务', value: 3 },
-            ],
             startDateList: [
                 { text: '现在开始', value: 1 },
                 { text: '明天开始', value: 2 },
@@ -72,13 +56,6 @@ export default {
                 { text: '下周完成', value: 4 },
                 { text: '本月完成', value: 5 },
                 { text: '今年完成', value: 6 },
-            ],
-            cycleList: [
-                { text: '每天循环', value: 1 },
-                { text: '每周循环', value: 7 },
-                { text: '每月循环', value: 30 },
-                { text: '每季度循环', value: 120 },
-                { text: '年循环', value: 365 },
             ],
             taskParams: {},
             submitLoading: false
@@ -125,6 +102,7 @@ export default {
 
         // 添加任务
         async submit(){
+            if(!this.addTask.content){ return this.$snackbar('请输入任务内容') }
             this.taskParams = JSON.parse(JSON.stringify(this.addTask))
             this.formatStartDate()
             this.formatEndDate()
@@ -134,7 +112,6 @@ export default {
             if(res.code == 200){
                 this.$router.go(-1)
             }
-            console.log(res)
         },
 
 

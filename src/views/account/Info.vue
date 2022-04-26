@@ -65,7 +65,9 @@ export default {
     methods: {
         async getInfo(id){
             let res = await getUserInfo(id)
-            this.userInfo = res.data
+            if(res.code == 200){
+                this.userInfo = res.data || {};
+            }
         },
 
          // 文件上传

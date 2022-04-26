@@ -27,24 +27,6 @@ export default {
   },
 
   mounted() {
-
-    let obj = {
-      name: '章三',
-      arr: [2, [3,4], 6]
-    }
-
-    let obj2 = obj
-    obj2.name = '李四';
-    obj2.arr[1] = [5,6,7]
-
-    console.log(obj)
-    console.log(obj2)
-
-    let obj3 = 4;
-    let obj4 = obj3;
-    obj3 = 5
-    console.log(obj3, obj4)
-
     // const socket = io(baseURL+'chat');
     // console.log(this.usreInfo)
     // socket.emit('connection', this.usreInfo.userId,(res) =>{
@@ -55,7 +37,7 @@ export default {
     // })
 
 
-    // console.log(null == undefined, 'test')
+    console.log(null == undefined, 'test')
 
 
 

@@ -123,7 +123,7 @@ const routes = [
         component: () => import('../views/safety/Privacy.vue'),
         meta: {
           index: 2,
-          title: '隐私策略'
+          title: '用户协议和隐私策略'
         }
       },{
         path: '/safety/agreement',

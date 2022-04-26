@@ -22,8 +22,7 @@
                     <template v-slot:label>
                         <div class="caption">
                             我已同意并阅读
-                            <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">隐私策略</span>和
-                            <span class="primary--text" @click="$router.push('/safety/Agreement')">用户协议</span>
+                            <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">用户协议和隐私策略</span>
                         </div>
                     </template>
                 </v-checkbox>
@@ -45,8 +44,8 @@
             <confirm-dialog title="服务协议和隐藏政策提示" :value="agreementDialog" @close="agreementDialog = false" :closeBtn="false" confirmText="同意并继续" @confirm="sureAgreement()">
                 <template>
                     <div class="body-2">
-                        感谢您使用 bwpow。为了保护您的个人信息安全，我们将依据 bwpow 的 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》</span> 和 <span class="primary--text" @click="$router.push('/safety/Agreement')">《用户协议》</span> 来帮助您了解：我们如何收集个人信息，如何使用及存储个人信息，以及您享有的相关权利。<br /> <br />
-                        在您使用 bwpow 的服务前，请务必阅读 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》</span>和 <span class="primary--text" @click="$router.push('/safety/Agreement')">《用户协议》</span> 以了解详细内容。如您同意，请点击“同意并继续”并开始使用我们的服务
+                        感谢您使用 bwpow。为了保护您的个人信息安全，我们将依据 bwpow 的 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》和《用户协议》</span> 来帮助您了解：我们如何收集个人信息，如何使用及存储个人信息，以及您享有的相关权利。<br /> <br />
+                        在您使用 bwpow 的服务前，请务必阅读 <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">《隐私策略》和《用户协议》</span> 以了解详细内容。如您同意，请点击“同意并继续”并开始使用我们的服务。
                     </div>
                 </template>
             </confirm-dialog>
@@ -78,7 +77,7 @@ export default {
             // 密码
             newPassword: '',
             confirmPassword: '',
-            
+
             // 同意协议
             agreement: false,
 

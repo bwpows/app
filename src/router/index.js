@@ -22,7 +22,32 @@ const routes = [
         name: 'Home',
         component: () => import('../views/app/Home.vue'),
         meta: {
-          index: 1
+          index: 1,
+          title: 'bwpow'
+        }
+      },{
+        path: '/work',
+        name: 'Work',
+        component: () => import('../views/app/Work.vue'),
+        meta: {
+          index: 1,
+          title: '作品'
+        }
+      },{
+        path: '/account',
+        name: 'Account',
+        component: () => import('../views/app/Account.vue'),
+        meta: {
+          index: 1,
+          title: '我的账号'
+        }
+      },{
+        path: '/message',
+        name: 'Message',
+        component: () => import('../views/app/Message.vue'),
+        meta: {
+          index: 1,
+          title: '我的消息'
         }
       },{
         path: '/publish',
@@ -31,27 +56,6 @@ const routes = [
         meta: {
           index: 2,
           title: '发布作品'
-        }
-      },{
-        path: '/work',
-        name: 'Work',
-        component: () => import('../views/app/Work.vue'),
-        meta: {
-          index: 1
-        }
-      },{
-        path: '/account',
-        name: 'Account',
-        component: () => import('../views/app/Account.vue'),
-        meta: {
-          index: 1
-        }
-      },{
-        path: '/message',
-        name: 'Message',
-        component: () => import('../views/app/Message.vue'),
-        meta: {
-          index: 1
         }
       },{
         path: '/work/:id',

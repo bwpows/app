@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" fullscreen fixed hide-overlay transition="dialog-bottom-transition" style="position: fixed; top:0; left:0;" ref="bottomDialogRef">
+    <v-dialog v-model="value" fullscreen fixed hide-overlay transition="dialog-bottom-transition" style="position: fixed; top:0; left:0;" ref="bottomDialogRef" >
         <v-toolbar height="60" elevation="0" color="headerBG" style="position: fixed; top:0; left:0; z-index: 10;">
             <v-btn icon dark @click="$emit('close')">
                 <v-img src="../../assets/icon/rightArrow.svg" max-width="20" contain></v-img>

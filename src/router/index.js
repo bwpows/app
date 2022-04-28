@@ -31,7 +31,8 @@ const routes = [
         component: () => import('../views/app/Work.vue'),
         meta: {
           index: 1,
-          title: '作品'
+          title: '作品',
+          keepAlive: true
         }
       },{
         path: '/account',
@@ -152,7 +153,19 @@ const routes = [
 const router = new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    if(savedPosition){
+      return savedPosition
+    }
+    if(from.keepAlive) {
+      from.meta.savedPosition = document.body.scrollTop
+    }
+    return {
+      x: 0,
+      y: to.meta.savedPosition || 0,
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {

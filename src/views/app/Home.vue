@@ -16,9 +16,9 @@
         </v-img>
 
         <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="financeTasks.length === 0">
-            <div>想实现财富自由吧，了解自己的收入来源和支出，才是实现财富自由的第一步。</div>
+            <div>想实现财富自由吧，了解自己的收入来源和支出，实现财富自由的第一步。</div>
             <div class="text-center my-3">
-                <v-btn color="primary darken-1">添加储蓄卡</v-btn>
+                <v-btn color="primary darken-1">添加 Bwpow Cash</v-btn>
             </div>
         </v-card>
         <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="taskList.length === 0">

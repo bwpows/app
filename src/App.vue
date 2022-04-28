@@ -1,17 +1,18 @@
 <template>
 
   <v-app id="app">
-    <keep-alive>
-        <router-view class="Router"></router-view>
+    <keep-alive v-if="$route.meta.keepAlive">
+      <router-view></router-view>
     </keep-alive>
-    <other-snackbar />
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+
   </v-app>
 </template>
 
 <script>
 import OtherSnackbar from './layouts/other/Snackbar.vue'
-import { io } from 'socket.io-client'
-import { baseURL, wsURL } from './api/Server'
+// import { io } from 'socket.io-client'
+// import { baseURL, wsURL } from './api/Server'
 export default {
   name: 'app',
   data () {
@@ -28,22 +29,6 @@ export default {
 
   mounted() {
 
-    let obj = {
-      name: '章三',
-      arr: [2, [3,4], 6]
-    }
-
-    let obj2 = obj
-    obj2.name = '李四';
-    obj2.arr[1] = [5,6,7]
-
-    console.log(obj)
-    console.log(obj2)
-
-    let obj3 = 4;
-    let obj4 = obj3;
-    obj3 = 5
-    console.log(obj3, obj4)
 
     // const socket = io(baseURL+'chat');
     // console.log(this.usreInfo)

@@ -1,10 +1,10 @@
 <template>
     <v-app-bar app fixed elevation="0" class="headerBG">
         <div class="d-flex align-center justify-space-between" style="width: 100vw;">
-            <div style="width: 48px;"></div>
-            <!-- <div class="grey--text"></div> -->
-            {{$route.meta.title}}
-            <v-img src="@/assets/icon/add.svg" height="24" maxWidth="24" contain @click="openAddDialog()" class="mx-3"></v-img>
+            <v-btn color="primary" icon x-large>
+                <v-icon @click="drawer = true">mdi-format-list-bulleted</v-icon>
+            </v-btn>
+            <v-img src="@/assets/icon/add.svg" height="24" maxWidth="24" contain @click="openAddDialog()"></v-img>
         </div>
     </v-app-bar>
 </template>

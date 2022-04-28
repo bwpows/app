@@ -94,7 +94,8 @@ export default {
             list:[
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
-                { icon: collecteSvg, text: '我的关注', path: '/account/collectes' }
+                { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
+                { icon: collecteSvg, text: '收支明细', path: '/account/card' }
             ],
 
             // 确定框

@@ -52,7 +52,6 @@
             <!-- {{workInfo}} -->
 
             <!-- 内容 -->
-            <!-- <div class="my-6 mb-4 text-h4 font-weight-black">{{ workInfo.title }}</div> -->
             <div class="mt-6"> {{ workInfo.description }} </div>
             <div class="my-4 d-flex justify-space-between body-2 grey--text">
                 <div class>{{ calCurrentTime(workInfo.created_time) }}</div>

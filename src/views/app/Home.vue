@@ -1,24 +1,25 @@
 <template>
-    <div class="mb-12" @click="leftSlide = false">
-
-        <v-img src="../../assets/common/bg.png" height="190px" width="100%" cover class="rounded-lg pa-5 mb-5">
+    <div class="mb-12">
+        <v-img src="../../assets/common/bg.png" height="190px" width="100%" cover class="rounded-lg pa-5 mb-5" v-for="item in cardList" :key="item.key">
             <div class="d-flex justify-space-between align-center" style="font-weight: 300; font-size: 20px;">
-                <div>存储金额</div>
+                <div>{{ item.name }}</div>
                 <div style="font-weight:300; font-size: 14px;" class="d-flex">
-                    <div class="mr-6">充值</div>
-                    <div>消费</div>
+                    <div class="mr-6" @click="$router.push('/card/recharge')">充值</div>
+                    <div @click="$router.push('/card/consumption')">消费</div>
                 </div>
             </div>
             <div class="mt-6" style="letter-spacing: 2px; font-weight: 400; font-size: 26px;">
-                <div>¥ 5344274.67</div>
+                <div>¥ {{ item.balance }}</div>
             </div>
-            <div class="mt-8 grey--text text--lighten-1" style="letter-spacing: 3px; font-size: 18px; font-weight: 400;">2342 3848 9023 8239</div>
+            <div class="mt-8 grey--text text--lighten-1" style="letter-spacing: 3px; font-size: 18px; font-weight: 400;">
+                {{ item.number }}
+            </div>
         </v-img>
 
-        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="financeTasks.length === 0">
+        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="cardList.length === 0">
             <div>想实现财富自由吧，了解自己的收入来源和支出，实现财富自由的第一步。</div>
             <div class="text-center my-3">
-                <v-btn color="primary darken-1">添加 Bwpow Cash</v-btn>
+                <v-btn color="primary darken-1" @click="$router.push('/card/add')">添加 Bwpow Cash</v-btn>
             </div>
         </v-card>
         <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="taskList.length === 0">
@@ -61,26 +62,32 @@
 <script>
 
 import { cancelTask, completeTask, deleteTask, getTaskByUserId } from '../../api/Task.js'
+import { getCardByUser } from '../../api/Card'
 import { calCurrentTime } from '../../util/formatTime.js'
 import { formatTime } from '@/util/formatTime';
 
 export default {
     data(){
         return{
-            taskList: [],
             userId: JSON.parse(localStorage.getItem('userInfo')).userId,
             loading: true,
+
+            // 任务列表
+            taskList: [],
             todayTasks: [],
             tomorrowTasks: [],
             weekTasks: [],
             monthTasks: [],
             yearTasks: [],
-            financeTasks: [],
 
-            leftSlide: false,
-            rightSlide: false,
 
-            key: 0
+            // 卡列表
+            cardList: []
+
+            // leftSlide: false,
+            // rightSlide: false,
+
+            // key: 0
         }
     },
 
@@ -91,37 +98,55 @@ export default {
     methods: {
         calCurrentTime, formatTime,
 
-        // 获取数据
-        async fetch(){
+        fetch(){
+            this.getCard();
+            this.getTask();
+        },
+
+        // 获取用户卡数据
+        async getCard(){
+            let res = await getCardByUser(this.userId)
+            if(res.code == 200){
+                this.cardList = res.data || []
+            } else {
+                this.$snackbar('获取银行卡数据失败')
+            }
+        },
+
+        // 获取任务数据
+        async getTask(){
             let res = await getTaskByUserId(this.userId)
+            this.loading = false
+            if(res.code == 200){
+                this.taskList = res.data || []
+                this.taskDataProcessing()
+            }else{
+                this.$snackbar('获取任务数据失败')
+            }
+        },
+
+        // 获取数据
+        async taskDataProcessing(){
             this.todayTasks = []
             this.tomorrowTasks = []
             this.weekTasks = []
             this.monthTasks = []
             this.yearTasks = []
-            this.financeTasks = []
-            if(res.code == 200){
-                res.data = res.data || []
-                this.taskList = res.data
-                for (let i = 0; i < res.data.length; i++) {
-                    if(res.data[i].type != 3){
-                        if(res.data[i].taskDateType == 1){
-                            this.todayTasks.push(res.data[i])
-                        }else if(res.data[i].taskDateType == 2){
-                            this.tomorrowTasks.push(res.data[i])
-                        }else if(res.data[i].taskDateType == 3){
-                            this.weekTasks.push(res.data[i])
-                        }else if(res.data[i].taskDateType == 4){
-                            this.monthTasks.push(res.data[i])
-                        }else if(res.data[i].taskDateType == 5){
-                            this.yearTasks.push(res.data[i])
-                        }
-                    }else if((res.data[i].type == 3)){
-                        this.financeTasks.push(res.data[i])
+            for (let i = 0; i < this.taskList.length; i++) {
+                if(this.taskList[i].type != 3){
+                    if(this.taskList[i].taskDateType == 1){
+                        this.todayTasks.push(this.taskList[i])
+                    }else if(this.taskList[i].taskDateType == 2){
+                        this.tomorrowTasks.push(this.taskList[i])
+                    }else if(this.taskList[i].taskDateType == 3){
+                        this.weekTasks.push(this.taskList[i])
+                    }else if(this.taskList[i].taskDateType == 4){
+                        this.monthTasks.push(this.taskList[i])
+                    }else if(this.taskList[i].taskDateType == 5){
+                        this.yearTasks.push(this.taskList[i])
                     }
                 }
             }
-            this.loading = false
         },
 
         // 完成任务

@@ -1,12 +1,13 @@
 <template>
 
   <v-app id="app">
-    <keep-alive v-if="$route.meta.keepAlive">
-      <router-view></router-view>
+    <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
-
+    <OtherSnackbar />
   </v-app>
+
 </template>
 
 <script>
@@ -44,12 +45,6 @@ export default {
 
 
 
-    // if(checkoutStepEncountered != null && checkoutStepEncountered != undefined){
-      // do
-      // && 表示两个条件都要满足； || 表示满足一个就可以
-    // }
-
-
 
   }
 
@@ -61,9 +56,6 @@ export default {
 
   .v-input--selection-controls__ripple{
     display: none !important;
-  }
-  .v-application--wrap{
-    // min-height: 50vh !important;
   }
 
   #app{
@@ -80,8 +72,5 @@ export default {
       height: 100%;
   }
 
-  *{
-    // user-select:none;
-  }
 
 </style>

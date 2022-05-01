@@ -91,7 +91,6 @@ import { calCurrentTime } from '../../util/formatTime';
 import userSvg from '@/assets/user.svg';
 import { addComment, getCommentByWorkId } from '../../api/Comment';
 import { getBlogInfo } from '../../api/Works';
-import {lock, unlock} from 'tua-body-scroll-lock';
 
 export default {
 
@@ -124,15 +123,10 @@ export default {
 
     watch: {
         value(){
-            // let dom = document.getElementById('app')
             if(this.value){
                 this.loading = true;
                 this.getComment();
                 this.getWorkById();
-                lock(this.$refs.bottomDialogRef)
-                unlock(this.$refs.bottomDialogRef)
-            }else{
-                // unlock(dom)
             }
         }
     },
@@ -140,12 +134,12 @@ export default {
     methods: {
         calCurrentTime,
 
+
         viewPictrue(){
             let arr = []
             for (let i = 0; i < this.workInfo.url.length; i++) {
                 arr.push(baseURL + this.workInfo.url[i])
             }
-            console.log(arr)
             this.previewImage(arr)
         },
 
@@ -159,34 +153,12 @@ export default {
             let data = await getBlogInfo(this.data._id)
             this.loading = false
             this.workInfo = data.data
-            console.log(data)
         },
 
         // 获取评论
         async getComment(){
             let data = await getCommentByWorkId(this.data._id)
             this.commentList = data.data
-        },
-
-        // 开始移动事件
-        touchStartEvent(event){
-            event.preventDefault()
-            this.moveEndX = event.changedTouches[0].pageX
-            this.moveEndY = event.changedTouches[0].pageY
-        },
-
-        // 移动手指事件
-        touchMoveEvent(event){
-            event.preventDefault() //阻止默认事件（长按的时候出现复制）
-            var moveEndX = event.changedTouches[0].pageX
-            var moveEndY = event.changedTouches[0].pageY
-
-            var X = moveEndX - this.moveEndX
-            var Y = moveEndY - this.moveEndY
-
-            if (Math.abs(Y) > Math.abs(X)+50 && Y > 0) {
-                this.$emit('close')
-            }
         },
 
         // 发表评论

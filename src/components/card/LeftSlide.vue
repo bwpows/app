@@ -1,7 +1,7 @@
 <template>
     <v-card ref="card" class="mb-2 d-flex justify-space-between" @touchstart="touchStart" @touchend="touchEnd($event)" style="max-width: 100%; overflow: hidden;" :class="calClass()">
         <div style="min-width: 110%;" class="pa-4">
-            <div :class="(is_completed || is_cancel)?' text-decoration-line-through':''">{{ content }}</div>
+            <div :class="(is_completed || is_cancel)?' text-decoration-line-through grey--text':''">{{ content }}</div>
         </div>
         <div style="min-height: 100%;" :class="leftSlide?'list':'list-remove'" class="rounded d-flex text-center body-2 white--text">
             <div class="success d-flex align-center justify-center" @click.capture="completeEvent()" style="min-width: 55px;" v-if="!is_completed"> 完成 </div>

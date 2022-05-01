@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="pa-4 d-flex justify-space-between align-center" @click="$router.push('/account/info')">
+    <v-card class="pa-4 d-flex justify-space-between align-center rounded-lg" @click="$router.push('/account/info')">
         <div class="d-flex">
             <div class="mr-3">
                 <v-img :src="userInfo.pictrue?(baseURL+userInfo.pictrue):userSvg" class="rounded" width="50" height="50" alt="alt"></v-img>
@@ -12,7 +12,7 @@
         </div>
         <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
     </v-card>
-    <v-card class="pa-4 mt-8 mb-5">
+    <v-card class="pa-4 mt-8 mb-5 rounded-lg">
         <div class="d-flex align-center">
             <v-img :src="phoneSvg" height="38" width="38" class="mr-3" contain></v-img>
             <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </v-card>
-    <v-card class="pa-4 my-5">
+    <v-card class="pa-4 my-5 rounded-lg">
         <template v-for="(item,index) in list">
             <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="item.path">
                 <div class="d-flex align-center">
@@ -42,7 +42,7 @@
                 </div>
                 <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
             </div>
-            <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"></v-divider>
+            <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"  :key="item.path"></v-divider>
         </template>
         <v-divider class="ml-12 my-3 mr-2" v-if="showPrivacy"></v-divider>
         <div class="d-flex justify-space-between" @click="$router.push('/account/privacy')" v-if="showPrivacy">
@@ -54,7 +54,7 @@
         </div>
     </v-card>
 
-    <v-card class="pa-1 mt-10 text-center">
+    <v-card class="pa-1 mt-10 text-center rounded-lg">
         <v-btn color="error" class="body-1" width="100%" text @click="openLogoutDialog()">退出登录</v-btn>
     </v-card>
 

@@ -75,8 +75,7 @@ export default {
             let res = await publishVideo(this.formData)
             formData = new FormData()
             if(res.code == 200){
-                this.$snackbar('发布成功' )
-                this.$router.replace('/')
+                this.$router.go(-1)
             }else{
                 this.$snackbar('发布失败')
             }

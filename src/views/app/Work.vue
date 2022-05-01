@@ -5,12 +5,10 @@
             <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
         </v-card>
 
-        {{ offsetTop }}
-
         <work-list-loading v-if="loading" class="animate__animated animate__fadeIn" />
 
-        <div v-else id="bottomDialog" >
-            <blog-list v-scroll:#bottomDialog="onScroll"
+        <div v-else>
+            <blog-list
                 class="animate__animated animate__fadeIn"
                 v-for="item,index in blogList"
                 :key="item._id"
@@ -28,7 +26,6 @@
         </div>
 
         <bottom-dialog
-            id="bottomDialog"
             :value="bottomSheetData.value"
             :data="bottomSheetData.data"
             @close="closeBottomDialog()"
@@ -43,7 +40,6 @@ import { formatTime } from '@/util/formatTime'
 import { cancelPraise, praise } from '@/api/Like';
 import { viewWork } from '../../api/View';
 import searchSvg from '../../assets/icon/search.svg'
-import {lock, unlock} from 'tua-body-scroll-lock';
 
 
 export default {
@@ -56,11 +52,12 @@ export default {
             loading: true,
             keyword: '',
             bottomSheetvalue: false,
-            offsetTop: ''
+            offsetTop: '',
+            preRouteName: ''
         }
     },
 
-    async mounted(){
+    async created(){
         await this.fetch()
     },
 
@@ -69,22 +66,39 @@ export default {
         DefaultHeader
     },
 
+    beforeRouteEnter(to, from, next){
+        next(vm => {
+            vm.preRouteName = from.name
+        })
+    },
+
+    async activated(){
+        if(this.preRouteName == 'WorkInfo'){
+            document.getElementById('app').scrollTop = this.offsetTop || 0;
+        }else{
+            this.fetch()
+        }
+    },
+
+    beforeRouteLeave (to, from, next) {
+        this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
+        localStorage.setItem('offsetTop', this.offsetTop)
+        next()
+    },
+
     methods: {
         formatTime,
 
-        onScroll (e) {
-            this.offsetTop = e.target.scrollTop
-            console.log(this.offsetTop)
-        },
-
         async fetch(){
-            this.$refs.inputVal.blur();
+            this.$nextTick(() => {
+                this.$refs.inputVal.blur();
+            })
             let res = await getBlog({keyword: this.keyword})
             if(res.code == 200){
-                this.blogList = res.data
+                this.blogList = res.data || []
             }
-            this.loading = false
-            console.log('获取数据')
+            this.loading = false;
+            console.log('获取苏')
         },
 
         async praise(data,id){
@@ -96,33 +110,27 @@ export default {
             this.fetch()
         },
 
-        async openBottomSheet(data){
-            this.bottomSheetData = {
-                value: true,
-                data
-            }
-            let dom = document.getElementById('bottomDialog');
-            dom.style.position = "fixed";
-            dom.style.overflow = "hidden";
-
-            await viewWork({user_id: this.userId, work_id: data._id})
-            this.fetch()
-        },
-
-        closeBottomDialog(){
-            this.bottomSheetData = {}
-            let dom = document.getElementById('bottomDialog');
-            dom.style.position = "";
-            dom.style.overflow = "";
-            console.log(this.offsetTop)
-            this.$vuetify.goTo(this.offsetTop)
-        }
-
         // async openBottomSheet(data){
-        //     this.$router.push({
-        //         path: `/work/${data._id }`
-        //     })
+        //     this.bottomSheetData = { value: true, data }
+        //     let dom = document.getElementById('bottomDialog');
+        //     dom.style.position = "fixed";
+        //     dom.style.overflow = "hidden";
+        //     await viewWork({user_id: this.userId, work_id: data._id})
+        //     this.fetch()
+        // },
+
+        // closeBottomDialog(){
+        //     this.bottomSheetData = {}
+        //     let dom = document.getElementById('bottomDialog');
+        //     dom.style.position = "";
+        //     dom.style.overflow = "";
         // }
+
+        async openBottomSheet(data){
+            this.$router.push({
+                path: `/workinfo/${data._id }`
+            })
+        }
     }
 }
 </script>

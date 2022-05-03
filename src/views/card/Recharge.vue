@@ -1,22 +1,81 @@
 <template>
     <div>
-        <v-card class="px-6 py-3 mb-5">
-            <input type="tel" oninput="value=value.replace(/[^\d\.]/g,'')" placeholder="请输入收入金额" v-model="recharge.number" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" />
+        <div class="grey--text mb-4">
+            充值金额
+        </div>
+
+        <v-card class="py-3 mb-6 rounded-lg">
+            <input type="tel" oninput="value=value.replace(/[^\d\.]/g,'')" placeholder="请输入充值金额" v-model="recharge.amount" maxLength="8" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1 px-6" />
         </v-card>
-        <v-card class="px-6 py-4 mb-5">
-            <div class="grey--text">
-                请选择收入类型
-            </div>
+
+        <div class="grey--text mb-4">
+            充值类型
+        </div>
+
+        <div class="d-flex justify-space-between flex-wrap">
+            <v-card v-for="item in typeList" :key="item.value" style="min-width: 22%;" class="py-4 body-2 text-center mb-5 rounded-lg" :class="recharge.type_id == item._id?'primary--text base_border':'transparent_border'" @click="recharge.type_id = item._id">
+                {{ item.name }}
+            </v-card>
+        </div>
+
+        <v-card class="my-8 pa-1 rounded-lg">
+            <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">发布任务</v-btn>
         </v-card>
+
     </div>
 </template>
 <script>
-
+import { addConsumption } from '../../api/Card'
+import { getTypeByUser } from '../../api/Type'
 export default {
     data() {
         return {
-            recharge: {}
+            recharge: {
+                type_id: 0
+            },
+            userInfo: JSON.parse(localStorage.getItem('userInfo')),
+            typeList: [],
+
+            submitLoading: false
         }
+    },
+
+    mounted() {
+        this.fetch()
+    },
+
+    methods: {
+        async fetch(){
+            let res = await getTypeByUser({ type: 1, user_id: this.userInfo.userId })
+            console.log(res)
+            if(res.code == 200){
+                this.typeList = res.data || [];
+            }
+        },
+
+
+        async submit(){
+
+            if(!this.consumption.amount){
+                return this.$snackbar('请输入金额')
+            }
+
+            let obj = {
+                type_id: this.recharge.type_id,
+                amount: this.recharge.amount,
+                user_id: this.userInfo.userId,
+                card_id: this.$route.query.card_id
+            }
+            this.submitLoading = true
+            let res = await addConsumption(obj)
+            this.submitLoading = false;
+            if(res.code == 200){
+                this.$router.go(-1)
+            }else{
+                this.$snackbar('新增失败')
+            }
+        }
+
     },
 }
 

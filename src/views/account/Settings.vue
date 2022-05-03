@@ -1,5 +1,5 @@
 <template>
-    <v-card class="px-6 pa-2">
+    <v-card class="px-6 pa-2 rounded-lg">
         <div class="d-flex align-center justify-space-between my-4">
             <div>夜间模式</div>
             <v-switch inset v-model="darkAuto" class="mt-0" @change="changeTheme()" hide-details></v-switch>

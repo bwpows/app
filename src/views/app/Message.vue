@@ -1,5 +1,5 @@
 <template>
-    <v-card class="pa-6">
+    <v-card class="pa-6 rounded-lg">
         我的消息
         <!-- <v-btn color="primary" depressed @click="testSocket()">测试</v-btn> -->
     </v-card>

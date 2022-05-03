@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <v-card class="px-4 py-2">
+        <v-card class="px-4 py-2 rounded-lg">
             <div class="d-flex justify-space-between align-center my-4">
                 <div>我的头像</div>
                 <div class="d-flex">

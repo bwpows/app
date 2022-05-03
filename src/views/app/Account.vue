@@ -35,7 +35,7 @@
     </v-card>
     <v-card class="pa-4 my-5 rounded-lg">
         <template v-for="(item,index) in list">
-            <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="item.path">
+            <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="index">
                 <div class="d-flex align-center">
                     <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
                     <span>{{ item.text }}</span>

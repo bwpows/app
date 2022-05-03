@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="pa-6">
+        <v-card class="pa-6 rounded-lg">
             我的关注
             <v-btn color="" @click="showPrompt()">输入框</v-btn><br />
             <v-btn small elevation="" color="" @click="showAlert()">弹出系统提示对话框</v-btn><br />

@@ -14,6 +14,13 @@ export function getCardByUser(params){
     return Service({
         url: `/card/${params}`,
         method: 'GET',
-        // params
+    })
+}
+
+// 消费
+export function addConsumption(data){
+    return Service({
+        url: '/consumption',
+        data
     })
 }

@@ -71,14 +71,14 @@ const routes = [
         name: 'AccountWorks',
         component: () => import('../views/account/Works.vue'),
         meta: {
-          index: 2, title: '我的作品'
+          index: 2, title: '我的作品', keepAlive: true
         }
       },{
         path: '/account/likes',
         name: 'AccountLikes',
         component: () => import('../views/account/Likes.vue'),
         meta: {
-          index: 2, title: '我的点赞'
+          index: 2, title: '我的点赞', keepAlive: true
         }
       },{
         path: '/account/privacy',

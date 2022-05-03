@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="px-6 py-3 mb-6" style="position: relative;">
+        <v-card class="px-6 py-3 mb-6 rounded-lg" style="position: relative;">
             <input type="text" placeholder="搜索作品" v-model="keyword" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" @keydown.enter="fetch()" ref="inputVal" @blur.prevent="fetch()" />
             <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
         </v-card>
@@ -10,9 +10,9 @@
         <div v-else>
             <blog-list
                 class="animate__animated animate__fadeIn"
+                :class="'animate__delay-'+ 0.3*index +'s'"
                 v-for="item,index in blogList"
                 :key="item._id"
-                :class="'animate__delay-'+ 0.15*index +'s'"
                 :_id="item._id"
                 :title="item.title"
                 :description="item.description"
@@ -21,15 +21,10 @@
                 :love="item.likes"
                 :views="item.views"
                 @praise="praise($event, item._id)"
-                @click.native="openBottomSheet(item)"
+                @click.native="goWorkInfo(item)"
             ></blog-list>
         </div>
 
-        <bottom-dialog
-            :value="bottomSheetData.value"
-            :data="bottomSheetData.data"
-            @close="closeBottomDialog()"
-        />
     </div>
 </template>
 <script>
@@ -48,7 +43,6 @@ export default {
             searchSvg,
             blogList: [],
             userId: JSON.parse(localStorage.getItem('userInfo')).userId,
-            bottomSheetData: {},
             loading: true,
             keyword: '',
             bottomSheetvalue: false,
@@ -98,7 +92,6 @@ export default {
                 this.blogList = res.data || []
             }
             this.loading = false;
-            console.log('获取苏')
         },
 
         async praise(data,id){
@@ -110,23 +103,7 @@ export default {
             this.fetch()
         },
 
-        // async openBottomSheet(data){
-        //     this.bottomSheetData = { value: true, data }
-        //     let dom = document.getElementById('bottomDialog');
-        //     dom.style.position = "fixed";
-        //     dom.style.overflow = "hidden";
-        //     await viewWork({user_id: this.userId, work_id: data._id})
-        //     this.fetch()
-        // },
-
-        // closeBottomDialog(){
-        //     this.bottomSheetData = {}
-        //     let dom = document.getElementById('bottomDialog');
-        //     dom.style.position = "";
-        //     dom.style.overflow = "";
-        // }
-
-        async openBottomSheet(data){
+        async goWorkInfo(data){
             this.$router.push({
                 path: `/workinfo/${data._id }`
             })

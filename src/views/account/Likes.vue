@@ -1,15 +1,17 @@
 <template>
     <div>
 
-        <work-list-loading v-if="loading" />
+        <work-list-loading v-if="loading" class="animate__animated animate__fadeIn" />
 
-        <v-card class="pa-6 grey--text text--darken-1 body-2" v-if="workData.length == 0">
+        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg" v-if="workData.length == 0">
             您还没有点赞的作品哦！看样子您的品味很高哦。
         </v-card>
 
         <blog-list
-            v-for="item in workData"
-            :key="item._id"
+            class="animate__animated animate__fadeIn"
+            :class="'animate__delay-'+ 0.3*index +'s'"
+            v-for="item,index in workData"
+            :key="index"
             :title="item.title"
             :description="item.description"
             :createdTime="item.created_time"
@@ -17,14 +19,9 @@
             :love="item.likes"
             :views="item.views"
             @praise="praise($event ,item._id)"
-            @click.native="openBottomSheet(item)"
+            @click.native="goWorkInfo(item)"
         ></blog-list>
 
-        <bottom-dialog
-            :value="bottomSheetData.value"
-            :data="bottomSheetData.data"
-            @close="bottomSheetData = {}"
-        />
     </div>
 </template>
 <script>
@@ -36,13 +33,32 @@ export default {
         return {
             workData: [],
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
-            bottomSheetData: {},
-            loading: true
+            loading: true,
+            offsetTop: 0
         }
     },
 
     created() {
         this.fetch()
+    },
+
+    beforeRouteEnter(to, from, next){
+        next(vm => {
+            vm.preRouteName = from.name
+        })
+    },
+
+    async activated(){
+        if(this.preRouteName == 'WorkInfo'){
+            document.getElementById('app').scrollTop = this.offsetTop || 0;
+        }else{
+            this.fetch()
+        }
+    },
+
+    beforeRouteLeave (to, from, next) {
+        this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
+        next()
     },
 
     methods: {
@@ -71,13 +87,11 @@ export default {
             this.fetch()
         },
 
-        async openBottomSheet(data){
-            this.bottomSheetData = {
-                value: true,
-                data
-            }
-            await viewWork({user_id: this.userInfo.userId, work_id: data._id})
-            this.fetch()
+        goWorkInfo(data){
+            console.log(8888)
+            this.$router.push({
+                path: `/workinfo/${data._id }`
+            })
         }
 
     },

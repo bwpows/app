@@ -4,25 +4,25 @@
             <div class="d-flex justify-space-between align-center" style="font-weight: 300; font-size: 20px;">
                 <div>{{ item.name }}</div>
                 <div style="font-weight:300; font-size: 14px;" class="d-flex">
-                    <div class="mr-6" @click="$router.push('/card/recharge')">充值</div>
-                    <div @click="$router.push('/card/consumption')">消费</div>
+                    <div class="mr-6" @click="goRouter('/card/recharge', item._id)">充值</div>
+                    <div @click="goRouter('/card/consumption', item._id)">消费</div>
                 </div>
             </div>
             <div class="mt-6" style="letter-spacing: 2px; font-weight: 400; font-size: 26px;">
-                <div>¥ {{ item.balance }}</div>
+                <div>¥ {{ (item.balance).toFixed(2) }}</div>
             </div>
             <div class="mt-8 grey--text text--lighten-1" style="letter-spacing: 3px; font-size: 18px; font-weight: 400;">
                 {{ item.number }}
             </div>
         </v-img>
 
-        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="cardList.length === 0">
+        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="cardList.length === 0">
             <div>想实现财富自由吧，了解自己的收入来源和支出，实现财富自由的第一步。</div>
             <div class="text-center my-3">
                 <v-btn color="primary darken-1" @click="$router.push('/card/add')">添加 Bwpow Cash</v-btn>
             </div>
         </v-card>
-        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn" v-if="taskList.length === 0">
+        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="taskList.length === 0">
             <div>工作很忙吧，但是要提醒一下，别把一些重要的日子和事情给遗忘了哦！</div>
             <div class="text-center mt-5 mb-3">
                 <v-btn color="primary darken-1" @click="$router.push('/task/add')">添加任务</v-btn>
@@ -83,11 +83,6 @@ export default {
 
             // 卡列表
             cardList: []
-
-            // leftSlide: false,
-            // rightSlide: false,
-
-            // key: 0
         }
     },
 
@@ -165,6 +160,14 @@ export default {
         async deleteTask(id){
             await deleteTask({ _id: id, user_id: this.userId })
             this.fetch()
+        },
+
+        // 前往路由
+        async goRouter(data, id){
+            this.$router.push({
+                path: data,
+                query: { card_id: id }
+            })
         },
 
 

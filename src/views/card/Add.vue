@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-card class="px-6 py-3 mb-5">
+        <v-card class="px-6 py-3 mb-5 rounded-lg">
             <input type="string" placeholder="请输入银行卡名称（比如存钱卡）" v-model="addCard.card_name" maxLength="5" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" />
         </v-card>
-        <v-card class="pa-6">
+        <v-card class="pa-6 rounded-lg">
             <div class="grey--text mb-3">自定义银行卡尾号</div>
             <v-otp-input length="4" v-model="addCard.tailNumber"></v-otp-input>
         </v-card>
-        <v-card class="mt-10 pa-1">
+        <v-card class="mt-10 pa-1 rounded-lg">
             <v-btn color="primary" width="100%" class="body-1" text @click="submit()" :loading="loading">添加银行卡</v-btn>
         </v-card>
     </div>

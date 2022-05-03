@@ -1,5 +1,5 @@
 <template>
-    <v-card class="pb-10">
+    <v-card class="pb-10 rounded-lg">
         <div v-if="loading">
             <work-info-loading />
         </div>

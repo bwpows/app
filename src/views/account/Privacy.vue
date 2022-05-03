@@ -3,7 +3,7 @@
 
         <work-list-loading v-if="loading" />
 
-        <v-card class="pa-6 grey--text text--darken-1 body-2" v-if="workData.length == 0">
+        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg" v-if="workData.length == 0">
             您还没有点赞的作品哦！看样子您的品味很高哦。
         </v-card>
 

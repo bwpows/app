@@ -4,25 +4,25 @@
     <div class="grey--text mb-3">
         请描述您的任务
     </div>
-    <v-card class="px-4 py-3 mb-5">
-        <textarea type="text" cols="20" rows="3" v-model="addTask.content" placeholder="请输入任务内容" style="border: none; width: 100%;" class="body-1" :class="$vuetify.theme.dark?'white--text':''"></textarea>
+    <v-card class="py-4 mb-5 rounded-lg">
+        <textarea type="text" cols="20" rows="2" v-model="addTask.content" placeholder="请输入任务内容" style="border: none; width: 100%;" class="body-1 px-4" :class="$vuetify.theme.dark?'white--text':''"></textarea>
     </v-card>
 
     <div class="grey--text mb-3">开始日期</div>
     <div class="d-flex justify-space-between flex-wrap">
-        <v-card v-for="item in startDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.start_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.start_date = item.value">
+        <v-card v-for="item in startDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5 rounded-lg" :class="addTask.start_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.start_date = item.value">
             {{ item.text }}
         </v-card>
     </div>
 
     <div class="grey--text mb-3">截止日期</div>
     <div class="d-flex justify-space-between flex-wrap">
-        <v-card v-for="item in endDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5" :class="addTask.end_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.end_date = item.value" :disabled="item.value < addTask.start_date">
+        <v-card v-for="item in endDateList" :key="item.value" style="min-width: 45%;" class="py-6 body-1 text-center mb-5 rounded-lg" :class="addTask.end_date == item.value?'primary--text base_border':'transparent_border'" @click="addTask.end_date = item.value" :disabled="item.value < addTask.start_date">
             {{ item.text }}
         </v-card>
     </div>
 
-    <v-card class="my-8 pa-1">
+    <v-card class="my-8 pa-1 rounded-lg">
         <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">发布任务</v-btn>
     </v-card>
 

@@ -5,13 +5,11 @@
             <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
         </v-card>
 
-        <work-list-loading v-if="loading" class="animate__animated animate__fadeIn" />
+        <work-list-loading v-if="loading" />
 
         <div v-else>
             <blog-list
-                class="animate__animated animate__fadeIn"
-                :class="'animate__delay-'+ 0.3*index +'s'"
-                v-for="item,index in blogList"
+                v-for="item in blogList"
                 :key="item._id"
                 :_id="item._id"
                 :title="item.title"

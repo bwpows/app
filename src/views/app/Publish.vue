@@ -1,19 +1,19 @@
 <template>
-<div>
-    <v-card class="mb-5 py-3 rounded-lg">
-        <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1 px-4" />
-    </v-card>
-    <v-card class="mb-5 rounded-lg">
-        <textarea type="text py-4" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;" class="body-1 pa-4" :class="$vuetify.theme.dark?'white--text':''"></textarea>
-        <file-upload @upload="getFiles(arguments)" />
-    </v-card>
-    <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
-    <v-card class="mt-8 pa-1 rounded-lg">
-        <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
-    </v-card>
+    <div>
+        <v-card class="mb-5 py-3 rounded-lg">
+            <input type="text" placeholder="请输入标题（15字以内）" v-model="blogInfo.title" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1 px-4" />
+        </v-card>
+        <v-card class="mb-5 rounded-lg">
+            <textarea type="text py-4" cols="20" rows="6" v-model="blogInfo.description" placeholder="这一刻的想法..." style="border: none; width: 100%;" class="body-1 pa-4" :class="$vuetify.theme.dark?'white--text':''"></textarea>
+            <file-upload @upload="getFiles(arguments)" />
+        </v-card>
+        <v-checkbox v-model="blogInfo.is_public" hide-details dense label="设置为隐私"></v-checkbox>
+        <v-card class="mt-8 pa-1 rounded-lg">
+            <v-btn color="primary" width="100%" class="body-1" text @click="submit()">发布作品</v-btn>
+        </v-card>
 
-    <input type="file" style="display: none;" multiple accept="image/*" ref="uploadInput" @change="uploadFile()" />
-</div>
+        <input type="file" style="display: none;" multiple accept="image/*" ref="uploadInput" @change="uploadFile()" />
+    </div>
 </template>
 
 <script>

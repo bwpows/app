@@ -24,12 +24,14 @@
                 <div v-if="workInfo.url.length == 0"></div>
 
                 <v-carousel
+                    v-model="selectedImg"
                     v-else-if="workInfo.url.length > 1"
                     delimiter-icon="mdi-minus"
                     hide-delimiter-background
                     height="240"
                     class="rounded-lg"
                     style="overflow: hidden;"
+                    @click.native="viewPictrue()"
                 >
                     <v-carousel-item
                         v-for="(item, i) in workInfo.url"
@@ -45,7 +47,7 @@
                     style="width: 100%"
                     height="200"
                     class="rounded-lg"
-                    @click="previewImage(baseURL + workInfo.url[0])"
+                    @click="previewImage([baseURL + workInfo.url[0]])"
                 ></v-img>
             </div>
 
@@ -86,6 +88,7 @@ import { baseURL } from '@/api/Server';
 import { calCurrentTime } from '../../util/formatTime';
 import userSvg from '@/assets/user.svg';
 import { addComment, getCommentByWorkId } from '../../api/Comment';
+import { viewWork } from '../../api/View';
 
 export default {
 
@@ -100,13 +103,22 @@ export default {
             submitBtnLoading: false,
             commentList: [],
             workInfo: {},
-            loading: true
+            loading: true,
+            siti: {},
+            selectedImg: 0
         }
     },
 
     created() {
         this.fetch()
         this.getComment()
+        this.siti = setTimeout(() => {
+            viewWork({user_id: this.userInfo.userId, work_id: this.$route.params.id})
+        }, 3000);
+    },
+
+    destroyed() {
+        clearInterval(this.siti)
     },
 
     methods: {
@@ -114,19 +126,29 @@ export default {
 
         async fetch(){
             let res = await getBlogInfo(this.$route.params.id)
+            this.loading = false
             if(res.code == 200){
                 this.workInfo = res.data
             }
-            this.loading = false
         },
 
         calCurrentTime,
 
-        previewImage(url){
-            plus.nativeUI.previewImage([
-                url
-            ]);
+        viewPictrue(){
+            let arr = []
+            for (let i = 0; i < this.workInfo.url.length; i++) {
+                arr.push(baseURL + this.workInfo.url[i])
+            }
+            this.previewImage(arr)
         },
+
+        previewImage(url){
+            console.log(url)
+            plus.nativeUI.previewImage(url,{
+                current: this.selectedImg
+            });
+        },
+
 
         // 获取评论
         async getComment(){

@@ -1,5 +1,5 @@
 <template>
-    <v-card ref="card" class="mb-2 d-flex justify-space-between" @touchstart="touchStart" @touchend="touchEnd($event)" style="max-width: 100%; overflow: hidden;" :class="calClass()">
+    <v-card ref="card" class="mb-2 d-flex justify-space-between animate__animated animate__fadeIn" @touchstart="touchStart" @touchend="touchEnd($event)" style="max-width: 100%; overflow: hidden;" :class="calClass()">
         <div style="min-width: 110%;" class="pa-4">
             <div :class="(is_completed || is_cancel)?' text-decoration-line-through grey--text':''">{{ content }}</div>
         </div>

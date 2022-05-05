@@ -85,7 +85,7 @@ const routes = [
         name: 'AccountPrivacy',
         component: () => import('../views/account/Privacy.vue'),
         meta: {
-          index: 2, title: '隐私作品'
+          index: 2, title: '隐私作品', keepAlive: true
         }
       },{
         path: '/account/collectes',
@@ -147,6 +147,13 @@ const routes = [
         path: '/card/consumption',
         name: 'CardConsumption',
         component: () => import('../views/card/Consumption.vue'),
+        meta: {
+          index: 2, title: '消费'
+        }
+      },{
+        path: '/card/details',
+        name: 'CardDetails',
+        component: () => import('../views/card/Details.vue'),
         meta: {
           index: 2, title: '消费'
         }

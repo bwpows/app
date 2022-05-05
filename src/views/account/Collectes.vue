@@ -6,7 +6,6 @@
             <v-btn small elevation="" color="" @click="showAlert()">弹出系统提示对话框</v-btn><br />
             <v-btn small elevation="" color="" @click="showConfirm()">弹出提示信息对话框</v-btn><br />
             <v-btn small elevation="" color="" @click="autoCloseWaiting()">自动关闭等待框</v-btn><br />
-            
         </v-card>
     </div>
 </template>

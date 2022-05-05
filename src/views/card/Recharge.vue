@@ -19,7 +19,7 @@
         </div>
 
         <v-card class="my-8 pa-1 rounded-lg">
-            <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">发布任务</v-btn>
+            <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">充值</v-btn>
         </v-card>
 
     </div>
@@ -56,8 +56,12 @@ export default {
 
         async submit(){
 
-            if(!this.consumption.amount){
+            if(!this.recharge.amount){
                 return this.$snackbar('请输入金额')
+            }
+
+            if(!this.recharge.type_id){
+                return this.$snackbar('请选择类型')
             }
 
             let obj = {

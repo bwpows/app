@@ -12,6 +12,7 @@
         </div>
         <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
     </v-card>
+
     <v-card class="pa-4 mt-8 mb-5 rounded-lg">
         <div class="d-flex align-center">
             <v-img :src="phoneSvg" height="38" width="38" class="mr-3" contain></v-img>
@@ -95,7 +96,7 @@ export default {
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
                 { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: collecteSvg, text: '收支明细', path: '/account/card' }
+                { icon: collecteSvg, text: '收支明细', path: '/card/details' }
             ],
 
             // 确定框

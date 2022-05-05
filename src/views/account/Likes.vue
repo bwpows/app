@@ -3,13 +3,11 @@
 
         <work-list-loading v-if="loading" class="animate__animated animate__fadeIn" />
 
-        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg" v-if="workData.length == 0">
+        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg animate__animated animate__fadeIn" v-if="workData.length == 0">
             您还没有点赞的作品哦！看样子您的品味很高哦。
         </v-card>
 
         <blog-list
-            class="animate__animated animate__fadeIn"
-            :class="'animate__delay-'+ 0.3*index +'s'"
             v-for="item,index in workData"
             :key="index"
             :title="item.title"
@@ -88,7 +86,6 @@ export default {
         },
 
         goWorkInfo(data){
-            console.log(8888)
             this.$router.push({
                 path: `/workinfo/${data._id }`
             })

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mb-6 rounded-lg" :key="cardKey">
+    <v-card class="mb-6 rounded-lg animate__animated animate__fadeIn" :key="cardKey">
         <div v-if="!url"></div>
         <v-carousel delimiter-icon="mdi-minus" hide-delimiter-background height="240" class="rounded-b-0" style="overflow: hidden;" v-else-if="url.length > 1">
             <v-carousel-item v-for="(item, i) in url" :key="i" :src="baseURL + item" :show-arrows="false" class="rounded-b-0" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>

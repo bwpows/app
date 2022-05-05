@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <v-skeleton-loader class="mb-8" type="list-item-avatar-two-line, card, list-item-three-line, list-item-three-line"></v-skeleton-loader>
-    </div>
+    <v-skeleton-loader class="mb-8 animate__animated animate__fadeIn" type="list-item-avatar-two-line, card, list-item-three-line, list-item-three-line"></v-skeleton-loader>
 </template>
 <script>
 

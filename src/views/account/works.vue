@@ -3,7 +3,7 @@
 
         <work-list-loading v-if="loading" />
 
-        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg" v-if="worksData.length == 0">
+        <v-card class="pa-6 grey--text text--darken-1 body-2 rounded-lg animate__animated animate__fadeIn" v-if="!loading && worksData.length == 0">
             您还没有创见作品哦！
             <div class="mt-2"> 点击下方按钮去分享一个吧！ </div>
             <v-btn color="primary" depressed class="mt-4" small @click="$router.replace('/publish')">点击分享您的喜悦！</v-btn>
@@ -21,15 +21,9 @@
             :views="item.views"
             :deleteBtn="true"
             @praise="praise($event ,item._id)"
-            @click.native="openBottomSheet(item)"
+            @click.native="goWorkInfo(item)"
             @delWork="fetch()"
         ></blog-list>
-
-        <bottom-dialog
-            :value="bottomSheetData.value"
-            :data="bottomSheetData.data"
-            @close="bottomSheetData = {}"
-        />
 
     </div>
 </template>
@@ -50,14 +44,36 @@ export default {
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
             delDialog: {},
             bottomSheetData: {},
-            loading: true
+            loading: true,
+
+            preRouteName: '',
+            offsetTop: 0
         }
     },
 
     created() {
-        console.log('000')
         this.fetch()
     },
+
+    beforeRouteEnter(to, from, next){
+        next(vm => {
+            vm.preRouteName = from.name
+        })
+    },
+
+    async activated(){
+        if(this.preRouteName == 'WorkInfo'){
+            document.getElementById('app').scrollTop = this.offsetTop || 0;
+        }else{
+            this.fetch()
+        }
+    },
+
+    beforeRouteLeave (to, from, next) {
+        this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
+        next()
+    },
+
 
     methods: {
         formatTime, calCurrentTime,
@@ -67,16 +83,6 @@ export default {
             let res = await getBlogByUserId(this.userInfo.userId)
             this.loading = false
             this.worksData = res.data
-        },
-
-        // 查看作品
-        async openBottomSheet(data){
-            this.bottomSheetData = {
-                value: true,
-                data
-            }
-            await viewWork({user_id: this.userInfo.userId, work_id: data._id})
-            this.fetch()
         },
 
         // 点赞
@@ -99,6 +105,13 @@ export default {
             this.delBtnLoading = false
             this.delDialog = {}
             this.fetch()
+        },
+
+        // 前往详情页面
+        goWorkInfo(data){
+            this.$router.push({
+                path: `/workinfo/${data._id }`
+            })
         }
 
     },

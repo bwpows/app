@@ -19,7 +19,7 @@
         </div>
 
         <v-card class="my-8 pa-1 rounded-lg">
-            <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">发布任务</v-btn>
+            <v-btn color="primary" width="100%" class="body-1" @click="submit()" text :loading="submitLoading">消费</v-btn>
         </v-card>
 
     </div>
@@ -58,6 +58,9 @@ export default {
                 return this.$snackbar('请输入金额')
             }
 
+            if(!this.consumption.type_id){
+                return this.$snackbar('请选择类型')
+            }
             let obj = {
                 type_id: this.consumption.type_id,
                 amount: this.consumption.amount,

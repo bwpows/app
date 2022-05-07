@@ -41,7 +41,7 @@ const lightTheme = {
   footBG: '#fafafa',
   headerBG: '#ffffff',
   delDialog: '#fef8f8',
-  confirmDialog: '#fff9f2'
+  confirmDialog: '#fdf9f4'
 }
 
 const darkTheme = {

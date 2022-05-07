@@ -15,7 +15,7 @@
 
     <v-card class="pa-4 mt-8 mb-5 rounded-lg">
         <div class="d-flex align-center">
-            <v-img :src="phoneSvg" height="38" width="38" class="mr-3" contain></v-img>
+            <v-img :src="phoneSvg" height="34" width="34" class="mr-3" contain></v-img>
             <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
                 <span>手机号</span>
                 <div class="d-flex align-center">
@@ -77,6 +77,7 @@ import likeSvg from '@/assets/icon/like.svg'
 import settingSvg from '@/assets/icon/setting.svg'
 import worksSvg from '@/assets/icon/works.svg'
 import privacySvg from '@/assets/icon/privacy.svg'
+import cardDetailsSvg from '@/assets/icon/cardDetails.svg'
 import { formatPhoneNumber } from '@/util/phone'
 import { baseURL } from '../../api/Server'
 import { getUserInfo } from '../../api/Account';
@@ -96,7 +97,7 @@ export default {
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
                 { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: collecteSvg, text: '收支明细', path: '/card/details' }
+                { icon: cardDetailsSvg, text: '收支明细', path: '/card/details' }
             ],
 
             // 确定框

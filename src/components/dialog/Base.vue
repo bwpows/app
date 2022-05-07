@@ -3,11 +3,12 @@
         v-model="value" persistent :overlay="false"  overlay-opacity="0.85"
         max-width="500px"
         transition="dialog-transition"
+        class="rounded-lg"
     >
-        <v-card class="pa-6">
+        <v-card class="pa-6 rounded-lg" color="confirmDialog">
             <div class="d-flex justify-space-between mb-4">
                 <div class="text-h5 font-weight-bold">{{ title }}</div>
-                <v-icon color="" @click="$emit('close')" v-if="closeBtn">mdi-close</v-icon>
+                <v-icon @click="$emit('close')" v-if="closeBtn">mdi-close</v-icon>
             </div>
             <slot></slot>
         </v-card>

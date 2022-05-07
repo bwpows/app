@@ -6,7 +6,7 @@
         max-width="500px"
         transition="dialog-transition"
     >
-        <v-card class="pa-6"  color="confirmDialog">
+        <v-card class="pa-6 rounded-lg" color="confirmDialog">
             <div class="d-flex justify-space-between">
                 <div v-html="title" class="text-h4 font-weight-bold text-truncate"></div>
                 <v-icon size="24" @click="$emit('close')">mdi-close</v-icon>

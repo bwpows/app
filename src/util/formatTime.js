@@ -25,7 +25,6 @@ export function formatTime(time, format){
 
 // 计算和今天过去了多久
 export function calCurrentTime(time){
-    // let paramDate = formatTime(time, 'YYYY-MM-dd HH:mm:ss')
     let paramTime = new Date(time).getTime()
     let currentTime = new Date().getTime()
     let calSecond = parseInt((currentTime-paramTime)/1000)
@@ -38,6 +37,14 @@ export function calCurrentTime(time){
     }else {
         return parseInt(calSecond)+'秒前'
     }
+}
+
+
+// 传入时间，获取月初和月末
+export function getStartAndEndDate(time){
+    let startDate = new Date(time).setDate(1);
+    let endDate = new Date(new Date(time).setMonth(new Date(time).getMonth()+1)).setDate(0)
+    return { startDate: formatTime(startDate, 'YYYY-MM-dd'), endDate: formatTime(endDate, 'YYYY-MM-dd') }
 }
 
 

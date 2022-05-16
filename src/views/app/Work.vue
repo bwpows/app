@@ -31,7 +31,6 @@ import DefaultHeader from '@/layouts/default/Header'
 import { getBlog } from '@/api/Home';
 import { formatTime } from '@/util/formatTime'
 import { cancelPraise, praise } from '@/api/Like';
-import { viewWork } from '../../api/View';
 import searchSvg from '../../assets/icon/search.svg'
 
 

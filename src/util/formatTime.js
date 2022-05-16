@@ -1,11 +1,9 @@
-
 function isLessThenTen(val){
     return val < 10?'0'+val:val
 }
 
 // 格式化时间
 export function formatTime(time, format){
-
     var dealTime = new Date(time)
 
     if( isNaN(dealTime.getTime()) ){

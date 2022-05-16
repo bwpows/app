@@ -13,7 +13,7 @@ export function addCard(data){
 export function getCardByUser(params){
     return Service({
         url: `/card/${params}`,
-        method: 'GET',
+        method: 'GET'
     })
 }
 

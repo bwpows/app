@@ -47,7 +47,6 @@ export default {
     methods: {
         async fetch(){
             let res = await getTypeByUser({ type: 1, user_id: this.userInfo.userId })
-            console.log(res)
             if(res.code == 200){
                 this.typeList = res.data || [];
             }

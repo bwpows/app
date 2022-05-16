@@ -110,7 +110,7 @@ export default {
         async getCard(){
             let res = await getCardByUser(this.userId)
             if(res.code == 200){
-                this.cardList = res.data || []
+                this.cardList = res.data || [];
             } else {
                 this.$snackbar('获取银行卡数据失败')
             }

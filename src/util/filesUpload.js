@@ -4,7 +4,7 @@ export function createUpload(files, data) {
 		{ method:"POST",priority:100 },
 		function ( t, status ) {
 			// 上传完成
-			if ( status == 200 ) { 
+			if ( status == 200 ) {
 				alert( "Upload success: " + t.url );
 			} else {
 				alert( "Upload failed: " + status );

@@ -61,6 +61,7 @@ export default {
             if(!this.consumption.type_id){
                 return this.$snackbar('请选择类型')
             }
+
             let obj = {
                 type_id: this.consumption.type_id,
                 amount: this.consumption.amount,

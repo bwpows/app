@@ -1,8 +1,9 @@
 const state = {
-    snackbar: {
-        value: false,
-        content: ''
-    }
+  unreadNum: 0,
+  snackbar: {
+      value: false,
+      content: ''
+  }
 }
 
 // getters 相当于计算属性，过滤的功能
@@ -19,7 +20,12 @@ const mutations = {
     let objs = JSON.stringify(obj)
     objs = JSON.parse(objs)
     state.snackbar = objs
+  },
+
+  updateUnreadNum(state, num) {
+    state.unreadNum = num
   }
+
 }
 
 export default {

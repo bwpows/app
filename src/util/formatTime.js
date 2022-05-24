@@ -42,7 +42,7 @@ export function calCurrentTime(time){
 export function getStartAndEndDate(time){
     let startDate = new Date(time).setDate(1);
     let endDate = new Date(new Date(time).setMonth(new Date(time).getMonth()+1)).setDate(0)
-    return { startDate: formatTime(startDate, 'YYYY-MM-dd'), endDate: formatTime(endDate, 'YYYY-MM-dd') }
+    return { start_time: formatTime(startDate, 'YYYY-MM-dd'), end_time: formatTime(endDate, 'YYYY-MM-dd') }
 }
 
 

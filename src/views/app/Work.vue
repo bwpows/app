@@ -7,7 +7,7 @@
 
         <work-list-loading v-if="loading" />
 
-        <div v-else>
+        <div v-else class="test">
             <blog-list
                 v-for="item in blogList"
                 :key="item._id"
@@ -33,7 +33,6 @@ import { formatTime } from '@/util/formatTime'
 import { cancelPraise, praise } from '@/api/Like';
 import searchSvg from '../../assets/icon/search.svg'
 
-
 export default {
     data(){
         return{
@@ -57,12 +56,21 @@ export default {
         DefaultHeader
     },
 
+    // Get the name of the previous route
     beforeRouteEnter(to, from, next){
         next(vm => {
             vm.preRouteName = from.name
         })
     },
 
+    // Get the current page sliding position,
+    beforeRouteLeave (to, from, next) {
+        this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
+        localStorage.setItem('offsetTop', this.offsetTop)
+        next()
+    },
+
+    // If the previous route is 'WorkInfo', jump the location recorded when leaving the page.
     async activated(){
         if(this.preRouteName == 'WorkInfo'){
             document.getElementById('app').scrollTop = this.offsetTop || 0;
@@ -71,15 +79,10 @@ export default {
         }
     },
 
-    beforeRouteLeave (to, from, next) {
-        this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
-        localStorage.setItem('offsetTop', this.offsetTop)
-        next()
-    },
-
     methods: {
         formatTime,
 
+        // Get work data
         async fetch(){
             this.$nextTick(() => {
                 this.$refs.inputVal.blur();
@@ -91,6 +94,7 @@ export default {
             this.loading = false;
         },
 
+        // Like work
         async praise(data,id){
             if(data && !data.is_cancel){
                 await cancelPraise(data._id)
@@ -100,6 +104,7 @@ export default {
             this.fetch()
         },
 
+        // Go to the work details page
         async goWorkInfo(data){
             this.$router.push({
                 path: `/workinfo/${data._id }`

@@ -1,5 +1,6 @@
 <template>
     <div class="mb-12">
+
         <v-img src="../../assets/common/bg.png" height="190px" width="100%" cover class="rounded-lg pa-5 mb-5 animate__animated animate__fadeIn" v-for="item in cardList" :key="item.key">
             <div class="d-flex justify-space-between align-center white--text font-weight-light" style="font-size: 20px;">
                 <div class="font-weight-regular"> {{ item.name }} </div>
@@ -16,6 +17,7 @@
                     <v-img src="../../assets/icon/eye-close.svg" v-else width="30" height="30" contain @click="changeBalanceHide(0)"></v-img>
                 </div>
             </div>
+
             <div class="mt-8 grey--text text--lighten-1 font-weight-regular" style="letter-spacing: 3px; font-size: 18px;">
                 {{ calBankuNum(item.number) }}
             </div>
@@ -24,14 +26,14 @@
         <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="!loading && cardList.length === 0">
             <div>想实现财富自由吧，了解自己的收入来源和支出，实现财富自由的第一步。</div>
             <div class="text-center my-3">
-                <v-btn color="primary darken-1" @click="$router.push('/card/add')">添加 Bwpow Cash</v-btn>
+                <v-btn color="primary" @click="$router.push('/card/add')" depressed>添加 Bwpow Cash</v-btn>
             </div>
         </v-card>
 
         <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="!loading && taskList.length === 0">
             <div>工作很忙吧，但是要提醒一下，别把一些重要的日子和事情给遗忘了哦！</div>
             <div class="text-center mt-5 mb-3">
-                <v-btn color="primary darken-1" @click="$router.push('/task/add')">添加任务</v-btn>
+                <v-btn color="primary" @click="$router.push('/task/add')" depressed>添加任务</v-btn>
             </div>
         </v-card>
 

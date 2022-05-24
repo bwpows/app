@@ -59,7 +59,7 @@ export default {
                     }
                 );
             }else{
-                this.$router.push('/publish')
+                this.$router.push('/task/add')
             }
         }
     },

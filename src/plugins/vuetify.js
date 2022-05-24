@@ -2,9 +2,10 @@
 
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
-import ripple from 'vuetify/lib/directives/ripple'
+// import ripple from 'vuetify/lib/directives/ripple'
 
-Vue.use(Vuetify, { directives: { ripple } })
+// Vue.use(Vuetify, { directives: { ripple } })
+Vue.use(Vuetify)
 
 let dark = localStorage.getItem('darkAuto') == 'true'
 
@@ -41,7 +42,8 @@ const lightTheme = {
   footBG: '#fafafa',
   headerBG: '#ffffff',
   delDialog: '#fef8f8',
-  confirmDialog: '#fdf9f4'
+  confirmDialog: '#fdf9f4',
+  mainBG: '#EEEEEE'
 }
 
 const darkTheme = {
@@ -55,7 +57,8 @@ const darkTheme = {
   footBG: '#1f1f1f',
   headerBG: '#121212',
   delDialog: '#211e1e',
-  confirmDialog: '#1f1e1d'
+  confirmDialog: '#1f1e1d',
+  mainBG: '#121212'
 }
 
 export default new Vuetify({

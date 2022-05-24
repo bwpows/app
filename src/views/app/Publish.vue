@@ -41,12 +41,12 @@ export default {
     methods: {
 
 
-        // 获取数据
+        // Get user information
         async fetch(){
             await getUserInfo(this.userInfo.userId)
         },
 
-        // 文件上传
+        // Upload pictures of your work
         getFiles(files){
             this.formData = new FormData()
 
@@ -63,11 +63,10 @@ export default {
             }
         },
 
-        // 提交
+        // submit your work to the server
         async submit(){
             if(!this.blogInfo.title) return this.$snackbar('请输入标题')
             if(!this.blogInfo.description) return this.$snackbar('请输入内容')
-
             this.formData.append('user_id',this.userInfo.userId);
             this.formData.append('title',this.blogInfo.title);
             this.formData.append('description',this.blogInfo.description);

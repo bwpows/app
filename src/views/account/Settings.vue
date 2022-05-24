@@ -41,6 +41,7 @@ export default {
             }
             this.$vuetify.theme.dark = this.darkAuto
             localStorage.setItem('darkAuto', this.darkAuto)
+            this.$router.go(0)
         },
 
         // 修改相册隐藏

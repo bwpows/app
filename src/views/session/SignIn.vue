@@ -1,34 +1,36 @@
 <template>
-    <v-app>
-        <v-main class="containers">
-            <v-img src="@/assets/logo.svg" height="100" contain></v-img>
-            <h1 class="text-h2 mt-6 text-center primary--text font-weight-regular">欢迎</h1>
-            <div class="mb-6 mt-4 grey--text text-center">没有账号将自动为您创建账号</div>
-            <v-text-field type="tel" outlined class="mb-0" maxlength="11" counter v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
-            <v-text-field v-if="signInType != 'code'" type="password" placeholder="请输入密码" outlined class="mb-0" v-model="password" color="primary"></v-text-field>
-            <div v-else style="position: relative;">
-                <v-text-field type="tel" placeholder="请输入验证码" maxlength="6" outlined class="mb-0" v-model="code" color="primary"></v-text-field>
-                <v-btn text @click="getSMSCode()" x-small class="body-2 primary--text cursor_pointer" style="position: absolute; right: 5px; top:15px;" :disabled='seconds != 60'>
-                    {{seconds == 60?'获取验证码':seconds+'s '+'后再次获取'}}
-                </v-btn>
+    <v-app id="app" style="max-height: 100vh; overflow: hidden;">
+        <v-main class="headerBG">
+            <div style="padding: 60px; padding-bottom: 0px;">
+                <v-img src="@/assets/logo.svg" height="100" contain></v-img>
+                <h1 class="text-h2 mt-6 text-center primary--text font-weight-regular">欢迎</h1>
+                <div class="mb-6 mt-4 grey--text text-center">没有账号将自动为您创建账号</div>
+                <v-text-field type="tel" outlined class="mb-0" maxlength="11" counter v-model="phone" color="primary" placeholder="请输入手机号"></v-text-field>
+                <v-text-field v-if="signInType != 'code'" type="password" placeholder="请输入密码" outlined class="mb-0" v-model="password" color="primary"></v-text-field>
+                <div v-else style="position: relative;">
+                    <v-text-field type="tel" placeholder="请输入验证码" maxlength="6" outlined class="mb-0" v-model="code" color="primary"></v-text-field>
+                    <v-btn text @click="getSMSCode()" x-small class="body-2 primary--text cursor_pointer" style="position: absolute; right: 5px; top:15px;" :disabled='seconds != 60'>
+                        {{seconds == 60?'获取验证码':seconds+'s '+'后再次获取'}}
+                    </v-btn>
+                </div>
+    
+                <div class="body-2 primary--text cursor_pointer mb-3">
+                    <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
+                </div>
+    
+                <div class="body-2 d-flex align-center" style="position: absolute; bottom: 20px;">
+                    <v-checkbox v-model="agreement" dense>
+                        <template v-slot:label>
+                            <div class="caption">
+                                我已同意并阅读
+                                <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">用户协议和隐私策略</span>
+                            </div>
+                        </template>
+                    </v-checkbox>
+                </div>
+    
+                <v-btn color="primary mt-6" style="width:100%;" depressed x-large @click="signIn()" :loading="submitLoading">登录 / 注册</v-btn>
             </div>
-
-            <div class="body-2 primary--text cursor_pointer mb-3">
-                <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
-            </div>
-
-            <div class="body-2 d-flex align-center" style="position: absolute; bottom: 20px;">
-                <v-checkbox v-model="agreement" dense>
-                    <template v-slot:label>
-                        <div class="caption">
-                            我已同意并阅读
-                            <span class="primary--text mr-1" @click="$router.push('/safety/privacy')">用户协议和隐私策略</span>
-                        </div>
-                    </template>
-                </v-checkbox>
-            </div>
-
-            <v-btn color="primary mt-6" style="width:100%;" depressed x-large @click="signIn()" :loading="submitLoading">登录 / 注册</v-btn>
 
             <v-dialog v-model="setPasswordDialog" persistent max-width="500px">
                 <v-card class="pa-6">
@@ -189,7 +191,9 @@ export default {
 </script>
 <style>
 .containers{
-    margin: 60px 60px 0 60px !important;
+    height: 100vh;
+    max-height: 100vh;
+    /* padding: 60px 60px 0 60px !important; */
     /* height: calc( 100vh - 880px ); */
 }
 .cursor_pointer{

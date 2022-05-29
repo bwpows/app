@@ -20,3 +20,8 @@ $base-border: 1px solid #EC752E;
     border: $base-border !important;
 }
 
+
+.hidden_scrollbar::-webkit-scrollbar {
+    display:none
+}
+

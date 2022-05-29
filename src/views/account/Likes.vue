@@ -9,6 +9,7 @@
 
         <blog-list
             v-for="item,index in workData"
+            :item="item"
             :key="index"
             :title="item.title"
             :description="item.description"

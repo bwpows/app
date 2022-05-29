@@ -1,67 +1,44 @@
 <template>
     <div class="mb-12">
 
-        <v-img src="../../assets/common/bg.png" height="190px" width="100%" cover class="rounded-lg pa-5 mb-5 animate__animated animate__fadeIn" v-for="item in cardList" :key="item.key">
-            <div class="d-flex justify-space-between align-center white--text font-weight-light" style="font-size: 20px;">
-                <div class="font-weight-regular"> {{ item.name }} </div>
-                <div style="font-weight:300; font-size: 14px;" class="d-flex">
-                    <div class="mr-6" @click="goRouter('/card/recharge', item._id)">充值</div>
-                    <div @click="goRouter('/card/consumption', item._id)">消费</div>
-                </div>
-            </div>
-
-            <div class="mt-6 d-flex justify-space-between align-center white--text font-weight-regular" style="letter-spacing: 2px; font-size: 26px;">
-                <div>¥ {{ isBalanceHide?'******':(item.balance).toFixed(2) }}</div>
-                <div>
-                    <v-img src="../../assets/icon/eye.svg" v-if="!isBalanceHide" width="30" height="30" contain @click="changeBalanceHide(1)"></v-img>
-                    <v-img src="../../assets/icon/eye-close.svg" v-else width="30" height="30" contain @click="changeBalanceHide(0)"></v-img>
-                </div>
-            </div>
-
-            <div class="mt-8 grey--text text--lighten-1 font-weight-regular" style="letter-spacing: 3px; font-size: 18px;">
-                {{ calBankuNum(item.number) }}
-            </div>
-        </v-img>
-
-        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="!loading && cardList.length === 0">
-            <div>想实现财富自由吧，了解自己的收入来源和支出，实现财富自由的第一步。</div>
-            <div class="text-center my-3">
-                <v-btn color="primary" @click="$router.push('/card/add')" depressed>添加 Bwpow Cash</v-btn>
-            </div>
-        </v-card>
-
-        <v-card class="pa-4 my-5 grey--text animate__animated animate__fadeIn rounded-lg" v-if="!loading && taskList.length === 0">
-            <div>工作很忙吧，但是要提醒一下，别把一些重要的日子和事情给遗忘了哦！</div>
-            <div class="text-center mt-5 mb-3">
-                <v-btn color="primary" @click="$router.push('/task/add')" depressed>添加任务</v-btn>
-            </div>
-        </v-card>
-
         <work-list-loading v-if="loading" />
 
-        <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
-        <right-slide-card v-for="task in todayTasks" :key="task._id" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" @refresh="fetch()" />
+        <no-task v-if="!loading && taskList.length === 0" />
 
-        <div class="grey--text mt-6 mb-2" v-if="tomorrowTasks.length != 0">明日任务</div>
-        <right-slide-card v-for="task in tomorrowTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
+        <div class="mb-6">
+            <div class="grey--text mb-2" v-if="todayTasks.length != 0">今日任务</div>
+            <right-slide-card v-for="task in todayTasks" :key="task._id" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" @refresh="getTask()" />
+        </div>
 
-        <div class="grey--text mt-6 mb-2" v-if="weekTasks.length != 0">本周任务</div>
-        <right-slide-card v-for="task in weekTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
+        <div class="mb-6">
+            <div class="grey--text mb-2" v-if="tomorrowTasks.length != 0">明日任务</div>
+            <right-slide-card v-for="task in tomorrowTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="getTask()" />
+        </div>
 
-        <div class="grey--text mt-6 mb-2" v-if="monthTasks.length != 0">本月任务</div>
-        <right-slide-card v-for="task in monthTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
 
-        <div class="grey--text mt-6 mb-2" v-if="yearTasks.length != 0">今年任务</div>
-        <right-slide-card v-for="task in yearTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="fetch()" />
+        <div class="mb-6">
+            <div class="grey--text mb-2" v-if="weekTasks.length != 0">本周任务</div>
+            <right-slide-card v-for="task in weekTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="getTask()" />
+        </div>
+
+        <div class="mb-6">
+            <div class="grey--text mb-2" v-if="monthTasks.length != 0">本月任务</div>
+            <right-slide-card v-for="task in monthTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="getTask()" />
+        </div>
+
+        <div class="mb-6">
+            <div class="grey--text mb-2" v-if="yearTasks.length != 0">今年任务</div>
+            <right-slide-card v-for="task in yearTasks" :content="task.content" :is_cancel="task.is_cancel" :is_completed="task.is_completed" :_id="task._id" :key="task._id" @refresh="getTask()" />
+        </div>
 
     </div>
 </template>
 <script>
 
-import { cancelTask, completeTask, deleteTask, getTaskByUserId } from '../../api/Task.js'
-import { getCardByUser } from '../../api/Card'
+import { getTaskByUserId } from '../../api/Task.js'
 import { calCurrentTime } from '../../util/formatTime.js'
 import { formatTime } from '@/util/formatTime';
+import { baseURL } from '@/api/Server';
 
 export default {
     data(){
@@ -77,46 +54,15 @@ export default {
             monthTasks: [],
             yearTasks: [],
 
-            // 卡列表
-            cardList: [],
-
-            isBalanceHide: (localStorage.getItem('balanceHide') == 1)
         }
     },
 
     async mounted(){
-        await this.fetch()
+        await this.getTask()
     },
 
     methods: {
         calCurrentTime, formatTime,
-
-        calBankuNum(value){
-            if(!value) return ''
-            value = value.toString().replace(/\s/g, '').replace(/(.{4})/g, "$1 ")
-            return value
-        },
-
-        changeBalanceHide(data){
-            this.isBalanceHide = data
-            localStorage.setItem('balanceHide', data)
-        },
-
-        // 获取数据
-        fetch(){
-            this.getCard();
-            this.getTask();
-        },
-
-        // 获取用户卡数据
-        async getCard(){
-            let res = await getCardByUser(this.userId)
-            if(res.code == 200){
-                this.cardList = res.data || [];
-            } else {
-                this.$snackbar('获取银行卡数据失败')
-            }
-        },
 
         // 获取任务数据
         async getTask(){
@@ -138,68 +84,23 @@ export default {
             this.monthTasks = [];
             this.yearTasks = [];
             for (let i = 0; i < this.taskList.length; i++) {
-                if(this.taskList[i].type != 3){
-                    if(this.taskList[i].taskDateType == 1){
-                        this.todayTasks.push(this.taskList[i])
-                    }else if(this.taskList[i].taskDateType == 2){
-                        this.tomorrowTasks.push(this.taskList[i])
-                    }else if(this.taskList[i].taskDateType == 3){
-                        this.weekTasks.push(this.taskList[i])
-                    }else if(this.taskList[i].taskDateType == 4){
-                        this.monthTasks.push(this.taskList[i])
-                    }else if(this.taskList[i].taskDateType == 5){
-                        this.yearTasks.push(this.taskList[i])
-                    }
+                if(this.taskList[i].taskDateType == 1){
+                    this.todayTasks.push(this.taskList[i])
+                }else if(this.taskList[i].taskDateType == 2){
+                    this.tomorrowTasks.push(this.taskList[i])
+                }else if(this.taskList[i].taskDateType == 3){
+                    this.weekTasks.push(this.taskList[i])
+                }else if(this.taskList[i].taskDateType == 4){
+                    this.monthTasks.push(this.taskList[i])
+                }else if(this.taskList[i].taskDateType == 5){
+                    this.yearTasks.push(this.taskList[i])
                 }
             }
-        },
+        }
 
-        // 完成任务
-        async complete(id){
-            await completeTask({ _id: id, user_id: this.userId })
-            this.fetch()
-        },
-
-        // 取消任务
-        async giveUp(id){
-            await cancelTask({ _id: id, user_id: this.userId })
-            this.fetch()
-        },
-
-        // 删除任务
-        async deleteTask(id){
-            await deleteTask({ _id: id, user_id: this.userId })
-            this.fetch()
-        },
-
-        // 前往路由
-        async goRouter(data, id){
-            this.$router.push({
-                path: data,
-                query: { card_id: id }
-            })
-        },
 
 
 
     }
 }
 </script>
-
-<style scoped>
-
-.list {
-    -webkit-transition: all 0.4s;
-    transition: all 0.4s;
-    transform: translate3d(-90px,0,0);
-}
-
-.list-remove{
-    -webkit-transition: all 0.4s;
-    transition: all 0.4s;
-    transform: translate3d(0,0,0);
-}
-
-
-
-</style>

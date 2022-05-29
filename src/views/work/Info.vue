@@ -1,5 +1,5 @@
 <template>
-    <v-card class="pb-10 rounded-lg">
+    <v-card class="pb-8 rounded-lg">
         <div v-if="loading">
             <work-info-loading />
         </div>
@@ -65,7 +65,7 @@
                 <v-btn color="primary" outlined :disabled="!comment.content" :loading="submitBtnLoading" @click="submitComment()">发表</v-btn>
             </div>
 
-            <div v-for="comment in commentList" :key="comment._id" class="d-flex align-center my-6  ">
+            <div v-for="comment in commentList" :key="comment._id" class="d-flex align-center mt-6  ">
                 <div>
                     <v-img height="42" width="42" class="rounded" :src="comment.user.pictrue? (baseURL+comment.user.pictrue) : userSvg"></v-img>
                 </div>

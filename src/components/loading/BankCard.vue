@@ -4,7 +4,7 @@
 <script>
 
 export default {
-    name: 'BankCard'
+    name: 'BankCardLoading'
 }
 
 </script>

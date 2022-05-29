@@ -1,13 +1,15 @@
 <template>
-    <div>
+    <div class="overflow-y-auto hidden_scrollbar">
         <v-card class="px-6 py-3 mb-6 rounded-lg" style="position: relative;">
             <input type="text" placeholder="搜索作品" v-model="keyword" maxLength="15" style="border: none; width: 100%; height: 40px;" :class="$vuetify.theme.dark?'white--text':''" class="body-1" @keydown.enter="fetch()" ref="inputVal" @blur.prevent="fetch()" />
             <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
         </v-card>
 
+        <!-- <div style="position: fixed; top: 100px; right: 0; z-index: 200;">{{scrolOffsetTop}}</div> -->
+
         <work-list-loading v-if="loading" />
 
-        <div v-else class="test">
+        <div v-else>
             <blog-list
                 v-for="item in blogList"
                 :key="item._id"
@@ -23,11 +25,17 @@
             ></blog-list>
         </div>
 
+        <!-- loading -->
+        <request-loading v-if="noData" />
+
+        <v-card class="pa-6 rounded-lg mb-10 grey--text" v-else>
+            没有更多数据啦
+        </v-card>
+
+
     </div>
 </template>
 <script>
-import DefaultFooter from '@/layouts/default/Footer'
-import DefaultHeader from '@/layouts/default/Header'
 import { getBlog } from '@/api/Home';
 import { formatTime } from '@/util/formatTime'
 import { cancelPraise, praise } from '@/api/Like';
@@ -43,7 +51,13 @@ export default {
             keyword: '',
             bottomSheetvalue: false,
             offsetTop: '',
-            preRouteName: ''
+            preRouteName: '',
+            scrolOffsetTop: '',
+
+            currentPage: 1,
+            pageCount: 20,
+            requestLoading: false,
+            noData: false
         }
     },
 
@@ -51,9 +65,13 @@ export default {
         await this.fetch()
     },
 
-    components: {
-        DefaultFooter,
-        DefaultHeader
+    mounted() {
+        this.$nextTick(() => {
+            document.getElementById('app').addEventListener('scroll', function(){
+                let dom = document.getElementById('app')
+                console.log(dom)
+            })
+        })
     },
 
     // Get the name of the previous route
@@ -84,12 +102,20 @@ export default {
 
         // Get work data
         async fetch(){
+            if(this.requestLoading || this.noData) return;
+            this.requestLoading = true;
             this.$nextTick(() => {
                 this.$refs.inputVal.blur();
             })
-            let res = await getBlog({keyword: this.keyword})
+            let res = await getBlog({keywords: this.keyword, current_page: this.currentPage, page_count: this.pageCount})
+            this.requestLoading = false;
             if(res.code == 200){
-                this.blogList = res.data || []
+                this.currentPage++;
+                let arr = res.data || []
+                if(arr.length < this.pageCount){
+                    this.noData = true;
+                }
+                this.blogList.push(...arr)
             }
             this.loading = false;
         },
@@ -109,7 +135,16 @@ export default {
             this.$router.push({
                 path: `/workinfo/${data._id }`
             })
-        }
+        },
+
+        // rolling monitoring
+        onScroll(e) {
+            this.scrolOffsetTop = e.target.scrollTop + e.target.offsetHeight
+            if(e.target.scrollHeight - this.scrolOffsetTop < 500){
+                // Trigger interface
+                this.fetch()
+            }
+        },
     }
 }
 </script>
@@ -127,6 +162,10 @@ input{
 
 .touch_action_none {
     touch-action: none !important;
+}
+
+.hidden_scrollbar::-webkit-scrollbar {
+    display:none
 }
 
 </style>

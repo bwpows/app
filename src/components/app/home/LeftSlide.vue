@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { cancelTask, completeTask, deleteTask, recoveryTask } from '../../api/Task'
+import { cancelTask, completeTask, deleteTask, recoveryTask } from '@/api/Task'
 
 export default {
     name: "RightSlideCard",

@@ -46,13 +46,7 @@ export default {
     if(this.usreInfo){
       this.getUnreadNum()
 
-
-      // socketChat.emit('connection', this.usreInfo.userId,(res) =>{
-      //   console.log(res)
-      // })
-      // socketChat.on('connect', res => {
-      //   console.log(res)
-      // })
+      // 聊天的 socket
       socketChat.on('sendChat', (res) => {
           console.log(res)
       })
@@ -60,26 +54,18 @@ export default {
         socketChat.connect();
       });
 
-
-
-      // socketAlert.emit('connection', this.usreInfo.userId, (res) => {
-      //   console.log(res)
-      // })
-      // socketAlert.on('connect', res => {
-      //   console.log(res, 'alert connect')
-      // })
+      // 提示的 socket
       socketAlert.on("disconnect", () => {
         socketAlert.connect();
       });
       socketAlert.on('alert', (res) => {
         if(window.plus){
           // plus.device.beep();
-          plus.device.vibrate(500);
+          plus.device.vibrate(300);
         }
         getUnreadAlert(this.usreInfo.userId).then(res => {
           if(res.code == 200){
             this.$store.commit('app/updateUnreadNum', res.data.num)
-            console.log(this.$store.state.app.unreadNum)
           }
         })
       })
@@ -90,10 +76,9 @@ export default {
   methods: {
     async getUnreadNum(){
       let res = await getUnreadAlert(this.usreInfo.userId)
-      console.log(res)
       if(res.code == 200){
         this.$store.commit('app/updateUnreadNum', res.data.num)
-        console.log(this.$store.state.app.unreadNum)
+        // console.log(this.$store.state.app.unreadNum)
       }
     }
   },

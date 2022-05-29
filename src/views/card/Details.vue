@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <!-- Search condition -->
-        <div class="d-flex justify-space-between">
-            <v-select color v-model="selectedType" :items="typeList" solo flat class="rounded-md" style="max-width: 100px;" @change="fetch()"></v-select>
-            <v-text-field style="max-width: 100px;" class="rounded-md text-center" flat readonly v-model="selectedMonth" solo @click="openMonthDialog()"></v-text-field>
-        </div>
+    <div v-scroll.self="onScroll" class="overflow-y-auto hidden_scrollbar" style="height: calc( 100vh - 60px );">
+
+        <bank-card />
 
         <!-- Loading animation  -->
         <template v-for="item in 5">
@@ -13,6 +10,12 @@
                 <v-skeleton-loader type="text" class="mt-6"></v-skeleton-loader>
             </v-card>
         </template>
+
+        <!-- Search condition -->
+        <div class="d-flex justify-space-between mb-5 mt-6" v-if="!loading">
+            <v-select color v-model="selectedType" :items="typeList" solo flat class="rounded-md" hide-details style="max-width: 100px;" @change="fetch()"></v-select>
+            <v-text-field style="max-width: 100px;" class="rounded-md text-center" hide-details flat readonly v-model="selectedMonth" solo @click="openMonthDialog()"></v-text-field>
+        </div>
 
         <!-- Displayed when there is no consumption data -->
         <v-card class="pa-5 mb-5 rounded-lg grey--text" v-if="!loading && detailsData.length == 0">
@@ -30,6 +33,14 @@
             </div>
         </v-card>
 
+
+        <!-- loading -->
+        <request-loading v-if="!noData" />
+
+        <v-card class="pa-6 rounded-lg mb-10 grey--text" v-else="noData">
+            没有更多数据啦
+        </v-card>
+
         <!-- Month picker dialog -->
         <base-dialog :value="selectMonthDialog.value" title="选择日期" @close="selectMonthDialog = {}">
             <v-date-picker
@@ -44,8 +55,9 @@
     </div>
 </template>
 <script>
-import { getCardDetails } from '../../api/Card'
+import { getCardByUser, getCardDetails } from '../../api/Card'
 import { formatTime, getStartAndEndDate } from '../../util/formatTime'
+import { calCurrentTime } from '@/util/formatTime';
 
 export default{
     data() {
@@ -61,8 +73,15 @@ export default{
             selectedMonth: formatTime(new Date(), 'YYYY-MM'),
             selectMonthDialog: {},
 
+
+
             selectedDate: {},
-            loading: true
+            loading: true,
+
+            currentPage: 1,
+            pageCount: 20,
+            requestLoading: false,
+            noData: false
         }
     },
 
@@ -71,6 +90,10 @@ export default{
     },
 
     methods: {
+
+        calCurrentTime,
+
+
         /**
          * @description Format date function
          */
@@ -97,16 +120,37 @@ export default{
          * @description Get data by condition
          */
         async fetch(){
+            if(this.requestLoading || this.noData) return;
             this.loading = true;
             this.detailsData = [];
             this.selectedDate = getStartAndEndDate(this.selectedMonth)
             let obj = { user_id: this.userInfo.userId }
             obj = Object.assign(obj, this.selectedDate)
             if(this.selectedType) obj.type = (this.selectedType).toString()
+            obj.current_page = this.currentPage
+            obj.page_count = this.pageCount
             let res = await getCardDetails(obj)
+            this.requestLoading = false;
             this.loading = false;
             if(res.code == 200){
-                this.detailsData = res.data || []
+                this.currentPage++;
+                let arr = res.data || []
+                if(arr.length < this.pageCount){
+                    this.noData = true;
+                }
+                this.detailsData.push(...arr)
+            }
+        },
+
+
+        // rolling monitoring
+        onScroll(e) {
+            this.scrolOffsetTop = e.target.scrollTop + e.target.offsetHeight
+            if(e.target.scrollHeight - this.scrolOffsetTop < 500){
+                // Trigger interface
+                if(this.requestLoading || this.noData) return;
+                this.requestLoading = true;
+                this.fetch()
             }
         },
 
@@ -116,3 +160,9 @@ export default{
 }
 
 </script>
+<style>
+
+.hidden_scrollbar::-webkit-scrollbar {
+    display:none
+}
+</style>

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.26.0",
+    "compression-webpack-plugin": "6.1.1",
     "socket.io-client": "^4.4.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

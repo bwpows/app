@@ -34,7 +34,7 @@ export default {
             }
         },
 
-        // 打开发布按钮
+        // 打开发布弹窗
         openAddDialog(){
             if(window.plus){
                 let that = this;

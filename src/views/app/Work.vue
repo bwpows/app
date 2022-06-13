@@ -5,12 +5,11 @@
             <img :src="searchSvg" height="30" width="30" @click="fetch()" style="position: absolute; right: 20px; top: 18px;" />
         </v-card>
 
-        <!-- <div style="position: fixed; top: 100px; right: 0; z-index: 200;">{{scrolOffsetTop}}</div> -->
-
         <work-list-loading v-if="loading" />
 
         <div v-else>
-            <blog-list
+            <worksss-list v-for="item in blogList" :key="item._id" :item="item" />
+            <!-- <blog-list
                 v-for="item in blogList"
                 :key="item._id"
                 :_id="item._id"
@@ -22,11 +21,13 @@
                 :views="item.views"
                 @praise="praise($event, item._id)"
                 @click.native="goWorkInfo(item)"
-            ></blog-list>
+            ></blog-list> -->
         </div>
 
+        <!-- {{ noData }} -->
         <!-- loading -->
-        <request-loading v-if="noData" />
+        <request-loading v-if="!noData" />
+
 
         <v-card class="pa-6 rounded-lg mb-10 grey--text" v-else>
             没有更多数据啦
@@ -52,7 +53,6 @@ export default {
             bottomSheetvalue: false,
             offsetTop: '',
             preRouteName: '',
-            scrolOffsetTop: '',
 
             currentPage: 1,
             pageCount: 20,
@@ -66,12 +66,11 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
-            document.getElementById('app').addEventListener('scroll', function(){
-                let dom = document.getElementById('app')
-                console.log(dom)
-            })
-        })
+        this.addEventListener()
+    },
+
+    beforeDestroy() {
+        this.removeEventListener()
     },
 
     // Get the name of the previous route
@@ -83,6 +82,7 @@ export default {
 
     // Get the current page sliding position,
     beforeRouteLeave (to, from, next) {
+        this.removeEventListener()
         this.offsetTop = document.getElementById('app').scrollTop || document.body.scrollTop || window.pageYOffset;
         localStorage.setItem('offsetTop', this.offsetTop)
         next()
@@ -101,8 +101,7 @@ export default {
         formatTime,
 
         // Get work data
-        async fetch(){
-            if(this.requestLoading || this.noData) return;
+        async fetch(type){
             this.requestLoading = true;
             this.$nextTick(() => {
                 this.$refs.inputVal.blur();
@@ -110,12 +109,15 @@ export default {
             let res = await getBlog({keywords: this.keyword, current_page: this.currentPage, page_count: this.pageCount})
             this.requestLoading = false;
             if(res.code == 200){
-                this.currentPage++;
                 let arr = res.data || []
                 if(arr.length < this.pageCount){
                     this.noData = true;
                 }
-                this.blogList.push(...arr)
+                if(type){
+                    this.blogList.push(...arr)
+                }else{
+                    this.blogList = arr
+                }
             }
             this.loading = false;
         },
@@ -137,14 +139,28 @@ export default {
             })
         },
 
-        // rolling monitoring
-        onScroll(e) {
-            this.scrolOffsetTop = e.target.scrollTop + e.target.offsetHeight
-            if(e.target.scrollHeight - this.scrolOffsetTop < 500){
-                // Trigger interface
-                this.fetch()
-            }
+        // 移除监听事件
+        removeEventListener(){
+            window.removeEventListener('scroll', this.isBottom)
         },
+
+        // 添加监听事件
+        addEventListener(){
+            window.addEventListener('scroll', this.isBottom)
+        },
+
+        async isBottom(){
+            if(document.documentElement.offsetHeight - document.documentElement.clientHeight - document.documentElement.scrollTop < 500){
+                // console.log('出发')
+                // document.documentElement.scrollTop      滚动的高度
+                // document.documentElement.clientHeight   页面的可视高度
+                // document.documentElement.offsetHeight   页面的总高度
+                if(this.requestLoading || this.noData) return;
+                await this.fetch(1)
+                this.currentPage++;
+            }
+        }
+
     }
 }
 </script>

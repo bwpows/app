@@ -1,12 +1,9 @@
 <template>
-    <v-footer app fixed class="rounded-lg ma-4 mb-6 mx-5 confirmDialog">
+    <v-footer app fixed class="rounded-lg ma-4 mb-6 mx-6 confirmDialog">
         <div style="width: 100%;" class="d-flex align-center text-center py-3">
             <div class="footList">
                 <v-img :src="path=='/'?homeSelectedSvg:homeSvg" height="30" contain @click="goRouter('/')"></v-img>
             </div>
-            <!-- <div class="footList">
-                <v-img :src="path=='/card'?cardSelectedSvg:cardSvg" height="30" contain @click="goRouter('/card')"></v-img>
-            </div> -->
             <div class="footList">
                 <v-img :src="logoSvg" :class="path=='/work'?'':'selected'" height="28" contain @click="goRouter('/work')"></v-img>
             </div>

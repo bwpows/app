@@ -1,75 +1,76 @@
 <template>
-<div>
-    <v-card class="pa-4 d-flex justify-space-between align-center rounded-lg" @click="$router.push('/account/info')">
-        <div class="d-flex">
-            <div class="mr-3">
-                <v-img :src="userInfo.pictrue?(baseURL+userInfo.pictrue):userSvg" class="rounded" width="50" height="50" alt="alt"></v-img>
-            </div>
-            <div>
-                <div class="display-1 font-weight-regular">Hello, {{ userInfo.nicename || userInfo.username }}</div>
-                <div class="body-2 grey--text text--darken-1 mt-1">昵称、头像与隐私</div>
-            </div>
-        </div>
-        <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
-    </v-card>
-
-    <v-card class="pa-4 mt-8 mb-5 rounded-lg">
-        <div class="d-flex align-center">
-            <v-img :src="phoneSvg" height="34" width="34" class="mr-3" contain></v-img>
-            <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
-                <span>手机号</span>
-                <div class="d-flex align-center">
-                    <span class="grey--text body-2 mr-2">{{ formatPhoneNumber(userInfo.phone) }}</span>
-                    <v-img src="../../assets/icon/leftArrow.svg" width="20" height="20"></v-img>
+    <div>
+        <v-card class="pa-4 d-flex justify-space-between align-center rounded-lg" @click="$router.push('/account/info')">
+            <div class="d-flex">
+                <div class="mr-3">
+                    <v-img :src="userInfo.pictrue?(baseURL+userInfo.pictrue):userSvg" class="rounded" width="50" height="50" alt="alt"></v-img>
                 </div>
-            </div>
-        </div>
-
-        <v-divider class="ml-12 my-3 mr-2"></v-divider>
-        <div class="d-flex align-center">
-            <v-img :src="settingSvg" height="34" width="34" class="mr-3" contain></v-img>
-            <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/settings')">
-                <span>通用设置</span>
-                <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
-            </div>
-        </div>
-    </v-card>
-    <v-card class="pa-4 my-5 rounded-lg">
-        <template v-for="(item,index) in list">
-            <div>
-                <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="index">
-                    <div class="d-flex align-center">
-                        <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
-                        <span>{{ item.text }}</span>
-                    </div>
-                    <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
+                <div>
+                    <div class="display-1 font-weight-regular">Hello, {{ userInfo.nicename || userInfo.username }}</div>
+                    <div class="body-2 grey--text text--darken-1 mt-1">昵称、头像与隐私</div>
                 </div>
-                <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"  :key="item.path"></v-divider>
-            </div>
-        </template>
-        <v-divider class="ml-12 my-3 mr-2" v-if="showPrivacy"></v-divider>
-        <div class="d-flex justify-space-between" @click="$router.push('/account/privacy')" v-if="showPrivacy">
-            <div class="d-flex align-center">
-                <v-img :src="privacySvg" height="35" width="35" class="mr-3" contain></v-img>
-                隐私作品
             </div>
             <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
-        </div>
-    </v-card>
+        </v-card>
 
-    <v-card class="pa-1 mt-10 text-center rounded-lg">
-        <v-btn color="error" class="body-1" width="100%" text @click="openLogoutDialog()">退出登录</v-btn>
-    </v-card>
+        <v-card class="pa-4 mt-8 mb-5 rounded-lg">
+            <div class="d-flex align-center">
+                <v-img :src="phoneSvg" height="34" width="34" class="mr-3" contain></v-img>
+                <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/phone')">
+                    <span>手机号</span>
+                    <div class="d-flex align-center">
+                        <span class="grey--text body-2 mr-2">{{ formatPhoneNumber(userInfo.phone) }}</span>
+                        <v-img src="../../assets/icon/leftArrow.svg" width="20" height="20"></v-img>
+                    </div>
+                </div>
+            </div>
 
-    <confirm-dialog
-        :title="confirm.title"
-        :value="confirm.value"
-        :content="confirm.content"
-        @close="confirm.value = false"
-        @confirm="logout()"
-    />
+            <v-divider class="ml-12 my-3 mr-2"></v-divider>
+            <div class="d-flex align-center">
+                <v-img :src="settingSvg" height="34" width="34" class="mr-3" contain></v-img>
+                <div style="width: 100%; height: 100%;" class="d-flex justify-space-between align-center" @click="$router.push('/account/settings')">
+                    <span>通用设置</span>
+                    <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
+                </div>
+            </div>
+        </v-card>
 
-</div>
+        <v-card class="pa-4 my-5 rounded-lg">
+            <template v-for="(item,index) in list">
+                <div>
+                    <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="index">
+                        <div class="d-flex align-center">
+                            <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
+                            <span>{{ item.text }}</span>
+                        </div>
+                        <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
+                    </div>
+                    <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"  :key="item.path"></v-divider>
+                </div>
+            </template>
+            <v-divider class="ml-12 my-3 mr-2" v-if="showPrivacy"></v-divider>
+            <div class="d-flex justify-space-between" @click="$router.push('/account/privacy')" v-if="showPrivacy">
+                <div class="d-flex align-center">
+                    <v-img :src="privacySvg" height="35" width="35" class="mr-3" contain></v-img>
+                    隐私作品
+                </div>
+                <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
+            </div>
+        </v-card>
+
+        <v-card class="pa-1 mt-10 text-center rounded-lg">
+            <v-btn color="error" class="body-1" width="100%" text @click="openLogoutDialog()">退出登录</v-btn>
+        </v-card>
+
+        <confirm-dialog
+            :title="confirm.title"
+            :value="confirm.value"
+            :content="confirm.content"
+            @close="confirm.value = false"
+            @confirm="logout()"
+        />
+
+    </div>
 </template>
 <script>
 import userSvg from '@/assets/user.svg'
@@ -98,7 +99,7 @@ export default {
             list:[
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
-                { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
+                // { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
                 { icon: cardDetailsSvg, text: '收支明细', path: '/card/details' }
             ],
 

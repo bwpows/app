@@ -7,19 +7,8 @@
             您还没有点赞的作品哦！看样子您的品味很高哦。
         </v-card>
 
-        <blog-list
-            v-for="item,index in workData"
-            :item="item"
-            :key="index"
-            :title="item.title"
-            :description="item.description"
-            :createdTime="item.created_time"
-            :url="item.url.length!==0?(item.url): null"
-            :love="item.likes"
-            :views="item.views"
-            @praise="praise($event ,item._id)"
-            @click.native="goWorkInfo(item)"
-        ></blog-list>
+
+        <worksss-list v-for="item in workData" :key="item._id" :item="item" @refresh="fetch" @click.native="goWorkInfo(item)" />
 
     </div>
 </template>

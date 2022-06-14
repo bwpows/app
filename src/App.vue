@@ -59,10 +59,8 @@ export default {
         socketAlert.connect();
       });
       socketAlert.on('alert', (res) => {
-        if(window.plus){
-          // plus.device.beep();
-          plus.device.vibrate(300);
-        }
+        plus.push.setAutoNotification( false )
+        plus.push.createMessage('您有一条新消息')
         getUnreadAlert(this.usreInfo.userId).then(res => {
           if(res.code == 200){
             this.$store.commit('app/updateUnreadNum', res.data.num)
@@ -78,7 +76,6 @@ export default {
       let res = await getUnreadAlert(this.usreInfo.userId)
       if(res.code == 200){
         this.$store.commit('app/updateUnreadNum', res.data.num)
-        // console.log(this.$store.state.app.unreadNum)
       }
     }
   },

@@ -8,27 +8,13 @@
         <work-list-loading v-if="loading" />
 
         <div v-else>
-            <worksss-list v-for="item in blogList" :key="item._id" :item="item" />
-            <!-- <blog-list
-                v-for="item in blogList"
-                :key="item._id"
-                :_id="item._id"
-                :title="item.title"
-                :description="item.description"
-                :createdTime="item.created_time"
-                :url="item.url.length!==0?(item.url): null"
-                :love="item.likes"
-                :views="item.views"
-                @praise="praise($event, item._id)"
-                @click.native="goWorkInfo(item)"
-            ></blog-list> -->
+            <worksss-list v-for="item in blogList" :key="item._id" :item="item" @refresh="fetch" @click.native="goWorkInfo(item)" />
         </div>
 
-        <!-- {{ noData }} -->
         <!-- loading -->
         <request-loading v-if="!noData" />
 
-
+        <!-- {{ noData }} -->
         <v-card class="pa-6 rounded-lg mb-10 grey--text" v-else>
             没有更多数据啦
         </v-card>

@@ -9,21 +9,10 @@
             <v-btn color="primary" depressed class="mt-4" small @click="$router.replace('/publish')">点击分享您的喜悦！</v-btn>
         </v-card>
 
-        <blog-list
-            v-for="item in worksData"
-            :key="item._id"
-            :_id="item._id"
-            :title="item.title"
-            :description="item.description"
-            :createdTime="item.created_time"
-            :url="item.url.length!==0?(item.url): null"
-            :love="item.likes"
-            :views="item.views"
-            :deleteBtn="true"
-            @praise="praise($event ,item._id)"
-            @click.native="goWorkInfo(item)"
-            @delWork="fetch()"
-        ></blog-list>
+
+
+        <worksss-list v-for="item in worksData" :key="item._id" :item="item" @refresh="fetch" @click.native="goWorkInfo(item)" />
+
 
     </div>
 </template>

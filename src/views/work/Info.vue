@@ -168,14 +168,12 @@ export default {
             this.getComment()
             this.submitBtnLoading = false;
             if(data.code == 200){
-                this.$snackbar('发表成功')
+                // this.$snackbar('发表成功')
             }else{
                 this.$snackbar('发表失败')
             }
 
-        },
-
-        // 删除作品
+        }
 
 
     },

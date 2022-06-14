@@ -48,6 +48,7 @@ import userSvg from '@/assets/user.svg'
 import { getUserInfo, uploadHeadImg } from '../../api/Account';
 import { baseURL } from '../../api/Server';
 import { editUsername } from '../../api/User';
+import { viewWork } from '../../api/View';
 export default {
     data() {
         return {
@@ -63,6 +64,8 @@ export default {
     },
 
     methods: {
+
+        // 获取用户信息
         async getInfo(id){
             let res = await getUserInfo(id)
             if(res.code == 200){

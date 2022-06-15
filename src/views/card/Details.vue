@@ -32,12 +32,12 @@
         <!-- loading -->
         <request-loading v-if="!noData" />
 
-        <v-card class="pa-5 rounded-lg grey--text" v-else="noData">
+        <v-card class="pa-5 rounded-lg grey--text  animate__animated animate__fadeIn" v-else="noData">
             没有更多数据啦
         </v-card>
 
         <!-- Month picker dialog -->
-        <base-dialog :value="selectMonthDialog.value" title="选择日期" @close="selectMonthDialog = {}">
+        <v-dialog v-model="selectMonthDialog.value" width="300" overlay-opacity="0.9">
             <v-date-picker
                 width="100%"
                 class="rounded-lg"
@@ -46,7 +46,7 @@
                 color="primary"
                 @change="changeMonth()"
             ></v-date-picker>
-        </base-dialog>
+        </v-dialog>
     </div>
 </template>
 <script>

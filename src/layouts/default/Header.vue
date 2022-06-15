@@ -1,9 +1,7 @@
 <template>
     <v-app-bar app fixed elevation="0" class="headerBG">
         <div class="d-flex align-center justify-space-between" style="width: 100vw; height: 100%;" @click="backToTop">
-            <v-btn color="primary" icon x-large>
-                <v-icon>mdi-format-list-bulleted</v-icon>
-            </v-btn>
+            <v-img src="@/assets/icon/menu.svg" height="30" maxWidth="30" contain></v-img>
             <v-img src="@/assets/icon/add.svg" height="24" maxWidth="24" contain @click.stop="openAddDialog()"></v-img>
         </div>
     </v-app-bar>

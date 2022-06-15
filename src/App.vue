@@ -59,7 +59,6 @@ export default {
         socketAlert.connect();
       });
       socketAlert.on('alert', (res) => {
-        plus.push.setAutoNotification( false )
         plus.push.createMessage('您有一条新消息')
         getUnreadAlert(this.usreInfo.userId).then(res => {
           if(res.code == 200){

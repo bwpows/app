@@ -1,7 +1,10 @@
 <template>
     <div>
-
+        <!-- bank card -->
         <bank-card />
+
+        <!-- chart -->
+        <card-chart />
 
         <!-- Loading animation  -->
         <template v-for="item in 5">
@@ -42,17 +45,19 @@
                 width="100%"
                 class="rounded-lg"
                 v-model="selectedMonth"
+                :allowed-dates="allowedMonths"
                 type="month"
                 color="primary"
                 @change="changeMonth()"
             ></v-date-picker>
         </v-dialog>
+
     </div>
 </template>
 <script>
-import { getCardByUser, getCardDetails } from '../../api/Card'
+import { statisticsByMonth, getCardDetails } from '../../api/Card'
 import { formatTime, getStartAndEndDate } from '../../util/formatTime'
-import { calCurrentTime } from '@/util/formatTime';
+import { calCurrentTime, getMonthListByYear } from '@/util/formatTime';
 
 export default{
     data() {
@@ -67,6 +72,10 @@ export default{
             selectedType: 0,
             selectedMonth: formatTime(new Date(), 'YYYY-MM'),
             selectMonthDialog: {},
+
+
+            // chartXData: getMonthListByYear(new Date().getFullYear()),
+            // chartYData: [],
 
 
 
@@ -128,7 +137,6 @@ export default{
             obj.current_page = this.currentPage
             obj.page_count = this.pageCount
 
-            console.log(obj)
             let res = await getCardDetails(obj)
             this.requestLoading = false;
             this.loading = false;
@@ -155,6 +163,7 @@ export default{
             window.addEventListener('scroll', this.isBottom)
         },
 
+        // 刷新页面
         async isBottom(){
             if(document.documentElement.offsetHeight - document.documentElement.clientHeight - document.documentElement.scrollTop < 500){
                 // console.log('出发')
@@ -167,7 +176,10 @@ export default{
                 this.requestLoading = true;
                 await this.fetch(1)
             }
-        }
+        },
+
+        allowedMonths: val => new Date(val) < new Date(),
+
 
 
 

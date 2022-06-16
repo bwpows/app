@@ -46,3 +46,13 @@ export function getStartAndEndDate(time){
 }
 
 
+// 传入年份，获取整年的月份数组
+export function getMonthListByYear(year){
+    let arr = []
+    for (let i = 1; i <= 12; i++) {
+        arr.push(year + '-'+ isLessThenTen(i))
+    }
+    return arr;
+}
+
+

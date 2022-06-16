@@ -32,3 +32,11 @@ export function getCardDetails(data){
         data
     })
 }
+
+// 月消费统计
+export function statisticsByMonth(data){
+    return Service({
+        url: '/consumption/statisticsByUser',
+        data
+    })
+}

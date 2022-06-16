@@ -9,8 +9,6 @@
             <v-btn color="primary" depressed class="mt-4" small @click="$router.replace('/publish')">点击分享您的喜悦！</v-btn>
         </v-card>
 
-
-
         <worksss-list v-for="item in worksData" :key="item._id" :item="item" @refresh="fetch" @click.native="goWorkInfo(item)" />
 
 

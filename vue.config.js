@@ -7,6 +7,10 @@ module.exports = {
   ],
   publicPath: './',
 
+  devServer: {
+    https: true
+  },
+
   configureWebpack: {
     externals: {
        'vue': 'Vue',

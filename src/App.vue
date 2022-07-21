@@ -73,10 +73,11 @@ export default {
   methods: {
     async getUnreadNum(){
       let res = await getUnreadAlert(this.usreInfo.userId)
-      if(res.code == 200){
+      if(res.code === 200){
         this.$store.commit('app/updateUnreadNum', res.data.num)
       }
-    }
+    },
+
   },
 
 

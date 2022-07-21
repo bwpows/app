@@ -13,7 +13,9 @@
         </div>
         <div class="body-2">
             <div>
-                {{ notice.sender[0].username }}{{ notice.type == 1?'喜欢了':'评论了' }}您的作品
+                <span v-if="notice.sender[0]">{{ notice.sender[0].username || '-' }}</span>
+                <span v-else>匿名用户</span>
+                {{ notice.type == 1?'喜欢了':'评论了' }}您的作品
             </div>
             <div class="my-1">
                 {{ notice.message || notice.work[0].title || notice.work[0].description }}

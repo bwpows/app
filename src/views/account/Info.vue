@@ -68,8 +68,9 @@ export default {
         // 获取用户信息
         async getInfo(id){
             let res = await getUserInfo(id)
-            if(res.code == 200){
+            if(res.code === 200){
                 this.userInfo = res.data || {};
+                localStorage.setItem('user', JSON.stringify(res.data))
             }
         },
 
@@ -79,7 +80,7 @@ export default {
             formData.append('headImg', file);
             formData.append('_id', this.userInfo._id);
             await uploadHeadImg(formData)
-            this.getInfo(this.userInfo._id)
+            await this.getInfo(this.userInfo._id)
         },
 
         // 打开修改名称弹窗
@@ -93,9 +94,9 @@ export default {
                 username: this.userInfo.username
             }
             let data = await editUsername(this.userInfo._id, obj)
-            if(data.code == 200){
+            if(data.code === 200){
                 this.editUsernameDialog = false
-                this.getInfo(this.userInfo._id)
+                await this.getInfo(this.userInfo._id)
             }
 
         },

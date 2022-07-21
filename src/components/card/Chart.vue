@@ -6,9 +6,9 @@
     >
         <v-card-text>
             <div class="text-h4 mb-4">
-                2022年消费统计图
+                2022年收入统计图
             </div>
-            <v-sheet color="rgba(0, 0, 0, .12)" class="rounded-lg">
+            <v-sheet color="rgba(0, 0, 0, .12)" class="rounded-lg mb-1  animate__animated animate__fadeIn">
                 <v-sparkline
                     :labels="chartXData"
                     :value="chartYData"

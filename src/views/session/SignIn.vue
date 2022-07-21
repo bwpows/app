@@ -13,11 +13,11 @@
                         {{seconds == 60?'获取验证码':seconds+'s '+'后再次获取'}}
                     </v-btn>
                 </div>
-    
+
                 <div class="body-2 primary--text cursor_pointer mb-3">
                     <span @click="changeSignInType()">{{ signInType == 'code'?'使用密码登录':'使用验证码 登录/注册' }}</span>
                 </div>
-    
+
                 <div class="body-2 d-flex align-center" style="position: absolute; bottom: 20px;">
                     <v-checkbox v-model="agreement" dense>
                         <template v-slot:label>
@@ -28,7 +28,7 @@
                         </template>
                     </v-checkbox>
                 </div>
-    
+
                 <v-btn color="primary mt-6" style="width:100%;" depressed x-large @click="signIn()" :loading="submitLoading">登录 / 注册</v-btn>
             </div>
 
@@ -56,7 +56,8 @@
 </template>
 <script>
 
-import { passwordLogin, getUserInfo, getSMSCode, SMSCodeLogin, setNewPassword } from '@/api/Session'
+import { passwordLogin, getUserInfo as getProfile, getSMSCode, SMSCodeLogin, setNewPassword } from '@/api/Session'
+import {getUserInfo} from "@/api/Account";
 export default {
     data(){
         return{
@@ -91,10 +92,19 @@ export default {
     methods:{
 
         async dealLoginRequestResult(res){
+            // 存储token
             localStorage.setItem('token', res.data.token)
-            let user = await getUserInfo()
+
+            // 存储jwt的用户信息
+            let user = await getProfile()
             localStorage.setItem('userInfo', JSON.stringify(user))
-            this.$router.replace('/')
+
+            // 存储个人信息
+            let resUser = await getUserInfo(user.userId)
+            localStorage.setItem('user', JSON.stringify(resUser.data))
+
+
+            await this.$router.replace('/')
         },
 
         // 登录接口
@@ -148,18 +158,18 @@ export default {
             let res = await getSMSCode({phone: this.phone})
             if(res.code == 200){
                 this.$snackbar('发送验证码成功')
+                this.interval = setInterval(() => {
+                    this.seconds--;
+                    if(this.seconds < 1){
+                        clearInterval(this.interval)
+                        this.seconds = 60
+                    }
+                }, 1000);
             }else{
                 clearInterval(this.interval)
                 this.seconds = 60
                 this.$snackbar('发送验证码失败')
             }
-            this.interval = setInterval(() => {
-                this.seconds--;
-                if(this.seconds < 1){
-                    clearInterval(this.interval)
-                    this.seconds = 60
-                }
-            }, 1000);
         },
 
         // 确定密码事件

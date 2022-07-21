@@ -1,7 +1,8 @@
 import axios from 'axios'
 // const configBaseURL =  process.env.NODE_ENV == 'development'?'http://192.168.3.38:3000/':'http://159.75.79.247:3000';
 // const configBaseURL = 'http://159.75.79.247:3000/';
-const configBaseURL = process.env.NODE_ENV == 'production'?'http://159.75.79.247:3000/':'http://localhost:3000/'
+const configBaseURL = process.env.NODE_ENV == 'production'?'https://app.bwpow.com:3000/':'https://localhost:3000/'
+// const configBaseURL = 'https://app.bwpow.com:3000/'
 // const configBaseURL = 'http://192.168.3.38:3000/';
 import store from '../store'
 import router from '../router';
@@ -39,3 +40,4 @@ Service.interceptors.response.use(res => {
     }
     return Promise.reject(err)
 })
+

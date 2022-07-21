@@ -32,13 +32,6 @@ const routes = [
           index: 1, title: '作品', keepAlive: true
         }
       },{
-        path: '/card',
-        name: 'Card',
-        component: () => import('../views/app/Card.vue'),
-        meta: {
-          index: 1, title: '银行卡'
-        }
-      },{
         path: '/account',
         name: 'Account',
         component: () => import('../views/app/Account.vue'),
@@ -163,6 +156,13 @@ const routes = [
         component: () => import('../views/card/Details.vue'),
         meta: {
           index: 2, title: '消费'
+        }
+      },{
+        path: '/card/card',
+        name: 'CardCard',
+        component: () => import('../views/card/Card.vue'),
+        meta: {
+          index: 2, title: '银行卡'
         }
       }
     ]

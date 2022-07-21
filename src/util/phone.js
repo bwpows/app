@@ -9,5 +9,5 @@ export function formatPhoneNumber(tel){
         return tel;
     }
 
-    return tel.substring(0, 3)+"****"+tel.substr(tel.length-4)
+    return tel.substring(0, 3)+"****"+tel.substring(tel.length-4)
 }

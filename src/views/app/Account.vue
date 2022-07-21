@@ -37,16 +37,14 @@
 
         <v-card class="pa-4 my-5 rounded-lg">
             <template v-for="(item,index) in list">
-                <div>
-                    <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="index">
-                        <div class="d-flex align-center">
-                            <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
-                            <span>{{ item.text }}</span>
-                        </div>
-                        <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
+                <div class="d-flex align-center justify-space-between" @click="goOtherPage(item)" :key="index">
+                    <div class="d-flex align-center">
+                        <v-img :src="item.icon" height="35" width="35" class="mr-3" contain></v-img>
+                        <span>{{ item.text }}</span>
                     </div>
-                    <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"  :key="item.path"></v-divider>
+                    <v-img src="../../assets/icon/leftArrow.svg" max-width="20" height="20" contain></v-img>
                 </div>
+                <v-divider class="ml-12 my-3 mr-2" v-if="index !== list.length-1"  :key="item.path"></v-divider>
             </template>
             <v-divider class="ml-12 my-3 mr-2" v-if="showPrivacy"></v-divider>
             <div class="d-flex justify-space-between" @click="$router.push('/account/privacy')" v-if="showPrivacy">
@@ -84,6 +82,7 @@ import cardDetailsSvg from '@/assets/icon/cardDetails.svg'
 import { formatPhoneNumber } from '@/util/phone'
 import { baseURL } from '../../api/Server'
 import { getUserInfo } from '../../api/Account';
+
 export default {
     data() {
         return {
@@ -100,7 +99,7 @@ export default {
                 { icon: worksSvg, text: '我的作品', path: '/account/works' },
                 { icon: likeSvg, text: '我的点赞', path: '/account/likes' },
                 // { icon: collecteSvg, text: '我的关注', path: '/account/collectes' },
-                { icon: cardDetailsSvg, text: '收支明细', path: '/card/details' }
+                { icon: cardDetailsSvg, text: '收支明细', path: '/card/card' }
             ],
 
             // 确定框
@@ -119,12 +118,10 @@ export default {
             this.$router.push(item.path)
         },
 
-
-
         async getInfo(id){
             let res = await getUserInfo(id)
             if(res.code === 200){
-                this.userInfo = res.data
+                this.userInfo = res.data;
             }else{
                 this.$snackbar("身份验证失败")
                 await this.$router.replace('signin')

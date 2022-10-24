@@ -29,8 +29,6 @@
 </template>
 
 <script>
-// import socket from "../../plugins/socket"
-// import
 
 import { getAlert, modityRead } from '../../api/Message'
 import { getUnreadAlert } from '../../api/Message'

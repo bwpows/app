@@ -96,14 +96,13 @@ export default {
             localStorage.setItem('token', res.data.token)
 
             // 存储jwt的用户信息
-            let user = await getProfile()
-            localStorage.setItem('userInfo', JSON.stringify(user))
+            let {data: userInfo } = await getProfile()
+            localStorage.setItem('userInfo', JSON.stringify(userInfo))
+            console.log(userInfo, "101")
 
             // 存储个人信息
-            let resUser = await getUserInfo(user.userId)
+            let resUser = await getUserInfo(userInfo.userId)
             localStorage.setItem('user', JSON.stringify(resUser.data))
-
-
             await this.$router.replace('/')
         },
 
@@ -120,16 +119,17 @@ export default {
                 this.submitLoading = true
                 let res = await SMSCodeLogin({phone: this.phone, code: this.code})
                 this.submitLoading = false
+                console.log(res)
                 if(res.code !== 200){
                     this.$snackbar(res.message || '用户或验证码错误')
                     return false;
                 }
-                if(res.type == 2){
+                if(res.data.type == 2){
                     clearInterval(this.interval)
                     this.$snackbar("注册成功")
                     this.setPasswordDialog = true
                 }else{
-                    await this.dealLoginRequestResult(res)
+                    await this.dealLoginRequestResult(res.data)
                 }
             }else{
                 if(this.phone == ''){
@@ -178,9 +178,10 @@ export default {
             this.setDialogLoading = true
             let data = await setNewPassword({phone: this.phone, password: this.newPassword})
             this.setDialogLoading = false
+            console.log(data)
             if(data.code == 200){
                 this.$snackbar("设置密码成功")
-                this.dealLoginRequestResult(data)
+                this.dealLoginRequestResult(data.data)
             }else{
                 this.$snackbar(data.message || '设置新密码失败')
             }
